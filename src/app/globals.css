@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f6f7fa;
+
+  --color-card: #ffffff;
+
+  --color-card-foreground: #0f1b33;
+
+  --color-popover: #ffffff;
+
+  --color-popover-foreground: #0f1b33;
+
+  --color-surface: #ffffff;
+
+  --color-surface-muted: #f8fafc;
+
+  --color-surface-strong: #eef2f7;
+
+  --color-foreground: #0f1b33;
+
+  --color-muted-foreground: #687492;
+
+  --color-subtle-foreground: #94a3b8;
+
+  --color-inverse-foreground: #ffffff;
+
+  --color-brand: #0f1b33;
+
+  --color-brand-emphasis: #19305d;
+
+  --color-brand-hover: #14284d;
+
+  --color-brand-foreground: #ffffff;
+
+  --color-primary: #ea5a10;
+
+  --color-primary-hover: #cf4706;
+
+  --color-primary-active: #ad3904;
+
+  --color-primary-foreground: #ffffff;
+
+  --color-primary-soft: #fff0e7;
+
+  --color-primary-soft-foreground: #d94b08;
+
+  --color-secondary: #eef2f7;
+
+  --color-secondary-hover: #e4e9f0;
+
+  --color-secondary-foreground: #0f1b33;
+
+  --color-muted: #edf1f6;
+
+  --color-border: #dde5ef;
+
+  --color-border-strong: #c8d2df;
+
+  --color-input: #edf1f6;
+
+  --color-ring: #ea5a10;
+
+  --color-info: #1a56db;
+  --color-info-soft: #eaf0ff;
+  --color-info-foreground: #ffffff;
+
+  --color-success: #16845b;
+  --color-success-soft: #e9f8ee;
+  --color-success-foreground: #ffffff;
+
+  --color-warning: #f59e0b;
+  --color-warning-soft: #fff7df;
+  --color-warning-foreground: #0f1b33;
+
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --color-danger-foreground: #ffffff;
+
+  --color-football: #ea5a10;
+  --color-football-soft: #fff0e7;
+  --color-football-foreground: #d94b08;
+
+  --color-politics: #1a56db;
+  --color-politics-soft: #eaf0ff;
+  --color-politics-foreground: #1e40af;
+
+  --color-economy: #16845b;
+  --color-economy-soft: #e9f8ee;
+  --color-economy-foreground: #166534;
+
+  --color-chart-1: #f9a70d;
+  --color-chart-2: #34b0ea;
+  --color-chart-3: #22c75e;
+  --color-chart-4: #f87084;
+  --color-chart-5: #9f76f2;
+
+  --shadow-card:
+    0 2px 8px rgb(15 27 51 / 0.03),
+    0 16px 40px rgb(15 27 51 / 0.08);
+
+  --shadow-card-hover:
+    0 4px 12px rgb(15 27 51 / 0.05),
+    0 22px 50px rgb(15 27 51 / 0.12);
+
+  --shadow-header: 0 1px 0 rgb(15 27 51 / 0.06);
+
+  --shadow-floating:
+    0 10px 30px rgb(15 27 51 / 0.12);
+
+  --radius-card: 1.5rem;
+  --radius-card-small: 1.125rem;
+  --radius-control: 1rem;
+  --radius-button: 0.875rem;
+  --radius-pill: 9999px;
+
+  --font-sans:
+    var(--font-inter),
+    "Inter",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-background);
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary-soft-foreground);
+  }
+}
+
+@layer components {
+  .page-container {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .page-container {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-container {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .news-card {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .news-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .interactive-control {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface);
+    color: var(--color-foreground);
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .interactive-control:hover {
+    border-color: var(--color-border-strong);
+    background-color: var(--color-surface-muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
