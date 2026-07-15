@@ -7,9 +7,9 @@ import {
 } from "@/components";
 
 import {
-  CountriesGrid,
   CountryLatestNews,
   ExploreCountriesHeader,
+  CountriesGrid,
 } from "./components";
 
 import {

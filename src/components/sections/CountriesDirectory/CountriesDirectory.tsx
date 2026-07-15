@@ -7,10 +7,28 @@ import {
 
 import {
   Box,
+} from "@/components/Box";
+
+import {
   ContinentSelector,
-  ExploreCountries,
+  getContinentOption,
+} from "@/components/ContinentSelector";
+
+import {
+  MotionReveal,
+} from "@/components/effects/MotionReveal";
+
+import {
+  Spotlight,
+} from "@/components/effects/Spotlight";
+
+import {
   Text,
-} from "@/components";
+} from "@/components/Text";
+
+import {
+  WorldImageRing,
+} from "@/components/WorldImageRing";
 
 import {
   filterCountriesByContinent,
@@ -25,8 +43,8 @@ import type {
 } from "@/domain/news/news.types";
 
 import {
-  getContinentOption,
-} from "@/components/ContinentSelector";
+  ExploreCountries,
+} from "../ExploreCountries";
 
 export type CountriesDirectoryProps = {
   countries:
@@ -74,59 +92,74 @@ export function CountriesDirectory({
       <Box
         as="section"
         aria-labelledby="countries-page-title"
-        className="w-full"
+        position="relative"
+        overflow="hidden"
+        background="card"
+        border="default"
+        radius="card"
+        className="w-full p-6 sm:p-8"
       >
+        <Spotlight />
+
         <Box
-          display="flex"
-          direction="column"
-          gap="lg"
+          position="relative"
           className="
-            lg:flex-row
-            lg:items-start
-            lg:justify-between
+            z-10 grid items-center gap-8
+            lg:grid-cols-[minmax(0,1fr)_24rem]
           "
         >
-          <Box
-            preset="stack"
-            gap="xs"
-            className="min-w-0"
-          >
-            <Text
-              id="countries-page-title"
-              preset="pageTitle"
-              wrap="balance"
+          <MotionReveal>
+            <Box
+              preset="stack"
+              gap="xs"
+              className="min-w-0"
             >
-              Notícias por país
-            </Text>
+              <Text
+                id="countries-page-title"
+                preset="pageTitle"
+                wrap="balance"
+              >
+                Notícias por país
+              </Text>
 
-            <Text
-              preset="bodyLarge"
-              tone="muted"
-              wrap="pretty"
-              className="max-w-3xl"
-            >
-              Escolha uma região e selecione um país para acompanhar suas principais notícias.
-            </Text>
+              <Text
+                preset="bodyLarge"
+                tone="muted"
+                wrap="pretty"
+                className="max-w-3xl"
+              >
+                Escolha uma região e
+                selecione um país para
+                acompanhar suas principais
+                notícias.
+              </Text>
 
-            <Text
-              preset="bodySmall"
-              tone="subtle"
-            >
-              {visibleCountries.length}{" "}
-              {visibleCountries.length === 1
-                ? "país disponível"
-                : "países disponíveis"}
-            </Text>
-          </Box>
+              <Text
+                preset="bodySmall"
+                tone="subtle"
+              >
+                {visibleCountries.length}{" "}
+                {visibleCountries.length === 1
+                  ? "país disponível"
+                  : "países disponíveis"}
+              </Text>
 
-          <ContinentSelector
-            value={
-              selectedContinent
-            }
-            onValueChange={
-              setSelectedContinent
-            }
-            showArrows
+              <Box className="mt-5">
+                <ContinentSelector
+                  value={
+                    selectedContinent
+                  }
+                  onValueChange={
+                    setSelectedContinent
+                  }
+                  showArrows
+                />
+              </Box>
+            </Box>
+          </MotionReveal>
+
+          <WorldImageRing
+            countries={visibleCountries}
           />
         </Box>
       </Box>
@@ -174,7 +207,9 @@ function EmptyCountriesState({
         tone="muted"
         className="mt-2"
       >
-        Ainda não existem países cadastrados para {continentLabel}.
+        Ainda não existem países
+        cadastrados para{" "}
+        {continentLabel}.
       </Text>
     </Box>
   );

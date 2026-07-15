@@ -1,6 +1,4 @@
-import { Country } from "./ExploreCountriesTypes";
-
-
+import { Country } from "./exploreCountriesTypes";
 
 export const countries: Country[] = [
   {

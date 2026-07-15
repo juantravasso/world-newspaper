@@ -33,6 +33,7 @@ export function CountryCard({
   return (
     <Box
       as="li"
+      data-motion-item
       className="min-w-0"
     >
       <Box
@@ -57,6 +58,7 @@ export function CountryCard({
           "h-16 min-w-0 text-left",
           "outline-none",
           "transition-all duration-200",
+          "[transform-style:preserve-3d]",
           "focus-visible:ring-2",
           "focus-visible:ring-ring",
           "focus-visible:ring-offset-2",
@@ -68,7 +70,7 @@ export function CountryCard({
               ].join(" ")
             : [
                 "bg-card",
-                "hover:-translate-y-0.5",
+                "hover:[transform:perspective(800px)_rotateX(2deg)_rotateY(-2deg)_translateY(-2px)]",
                 "hover:bg-surface-muted",
                 "hover:shadow-card",
               ].join(" "),

@@ -1,9 +1,28 @@
 import Link from "next/link";
 
-import { Box } from "@/components/Box";
-import { Text } from "@/components/Text";
-import type { NewsWithCountry } from "@/domain/news/news.helpers";
-import { CategoryBadge } from "../CategoryBadge";
+import {
+  Box,
+} from "@/components/Box";
+
+import {
+  EditorialImage,
+} from "@/components/EditorialImage";
+
+import {
+  BorderBeam,
+} from "@/components/effects/BorderBeam";
+
+import {
+  Text,
+} from "@/components/Text";
+
+import type {
+  NewsWithCountry,
+} from "@/domain/news/news.helpers";
+
+import {
+  CategoryBadge,
+} from "../CategoryBadge";
 
 export type FeaturedNewsCardProps = {
   news: NewsWithCountry;
@@ -15,33 +34,58 @@ export function FeaturedNewsCard({
   return (
     <Link
       href={news.href}
-      className="block"
+      className="
+        block rounded-card outline-none
+        focus-visible:ring-2
+        focus-visible:ring-ring
+        focus-visible:ring-offset-2
+      "
       aria-label={`Ler notícia: ${news.title}`}
     >
       <Box
         as="article"
         preset="card"
+        position="relative"
         className="group"
       >
-        <Box
-          position="relative"
-          overflow="hidden"
+        <BorderBeam />
+
+        <EditorialImage
+          src={news.imageUrl}
+          alt={news.title}
+          priority
+          sizes="
+            (max-width: 1023px) 100vw,
+            65vw
+          "
           className="
-            flex min-h-64 items-end
-            bg-gradient-to-br
-            from-brand-emphasis
-            via-brand
-            to-[#07152d]
-            p-5
+            min-h-64
             sm:min-h-80
             lg:min-h-[22rem]
           "
+          imageClassName="
+            group-hover:scale-105
+          "
+          fallback={
+            <div
+              className="
+                absolute inset-0
+                bg-gradient-to-br
+                from-brand-emphasis
+                via-brand
+                to-[#07152d]
+              "
+            />
+          }
         >
           <Box
             display="flex"
             align="center"
             gap="xs"
-            className="absolute left-5 top-5 z-10"
+            className="
+              absolute left-5 top-5 z-10
+              flex-wrap
+            "
           >
             <Box
               display="flex"
@@ -51,6 +95,10 @@ export function FeaturedNewsCard({
               radius="pill"
               paddingX="sm"
               paddingY="xs"
+              className="
+                shadow-card
+                backdrop-blur-md
+              "
             >
               <Text
                 as="span"
@@ -69,11 +117,13 @@ export function FeaturedNewsCard({
               </Text>
             </Box>
 
-            <CategoryBadge category={news.category}>
+            <CategoryBadge
+              category={news.category}
+            >
               {news.categoryLabel}
             </CategoryBadge>
           </Box>
-        </Box>
+        </EditorialImage>
 
         <Box padding="lg">
           <Text
@@ -99,7 +149,8 @@ export function FeaturedNewsCard({
             tone="muted"
             className="mt-2 block"
           >
-            {news.source} • {news.publishedAt}
+            {news.source} •{" "}
+            {news.publishedAt}
           </Text>
         </Box>
       </Box>

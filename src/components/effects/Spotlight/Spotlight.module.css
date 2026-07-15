@@ -1,0 +1,38 @@
+.primary {
+  animation: spotlight-enter 1000ms ease-out 80ms both;
+}
+
+.secondary {
+  animation: spotlight-enter-secondary 1200ms ease-out 180ms both;
+}
+
+@keyframes spotlight-enter {
+  from {
+    opacity: 0;
+    transform: translate(-18%, -14%) scale(0.72);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes spotlight-enter-secondary {
+  from {
+    opacity: 0;
+    transform: translate(16%, -8%) scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary,
+  .secondary {
+    animation: none;
+  }
+}

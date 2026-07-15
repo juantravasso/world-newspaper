@@ -2,6 +2,10 @@ import {
   Box,
 } from "@/components/Box";
 
+import {
+  MotionReveal,
+} from "@/components/effects/MotionReveal";
+
 import type {
   CountryCode,
   CountryWithLatestNews,
@@ -28,30 +32,40 @@ export function CountriesGrid({
   selectedCountryCode,
   onCountrySelect,
 }: CountriesGridProps) {
+  const animationKey =
+    countries
+      .map((country) => country.code)
+      .join("-");
+
   return (
-    <Box
-      as="ul"
-      aria-label="Países disponíveis"
-      className="
-        mt-5 grid
-        grid-cols-2 gap-3
-        md:grid-cols-3
-        lg:grid-cols-6
-      "
+    <MotionReveal
+      key={animationKey}
+      staggerItems
     >
-      {countries.map((country) => (
-        <CountryCard
-          key={country.code}
-          country={country}
-          isSelected={
-            country.code ===
-            selectedCountryCode
-          }
-          onSelect={
-            onCountrySelect
-          }
-        />
-      ))}
-    </Box>
+      <Box
+        as="ul"
+        aria-label="Países disponíveis"
+        className="
+          mt-5 grid
+          grid-cols-2 gap-3
+          md:grid-cols-3
+          lg:grid-cols-6
+        "
+      >
+        {countries.map((country) => (
+          <CountryCard
+            key={country.code}
+            country={country}
+            isSelected={
+              country.code ===
+              selectedCountryCode
+            }
+            onSelect={
+              onCountrySelect
+            }
+          />
+        ))}
+      </Box>
+    </MotionReveal>
   );
 }
