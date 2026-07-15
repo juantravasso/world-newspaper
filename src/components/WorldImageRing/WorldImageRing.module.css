@@ -1,10 +1,10 @@
 .scene {
-  --ring-radius: 84px;
+  --ring-radius: 104px;
 
-  display: flex;
+  display: none;
 
   width: 100%;
-  min-height: 12rem;
+  min-height: 14rem;
 
   align-items: center;
   justify-content: center;
@@ -25,9 +25,11 @@
 
   animation:
     world-ring-rotate
-    28s
+    16s
     linear
     infinite;
+
+  animation-play-state: running;
 
   will-change: transform;
 }
@@ -48,10 +50,6 @@
   backface-visibility: hidden;
 }
 
-.scene:hover .ring {
-  animation-play-state: paused;
-}
-
 @keyframes world-ring-rotate {
   from {
     transform:
@@ -66,10 +64,12 @@
   }
 }
 
-@media (min-width: 640px) {
+/*
+ * O anel começa a aparecer somente em tablets.
+ */
+@media (min-width: 768px) {
   .scene {
-    --ring-radius: 106px;
-    min-height: 14rem;
+    display: flex;
   }
 }
 
@@ -82,15 +82,5 @@
   .ring {
     width: 8rem;
     height: 4rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ring {
-    animation: none;
-
-    transform:
-      rotateX(-5deg)
-      rotateY(18deg);
   }
 }
