@@ -10,11 +10,27 @@ export type NewsCategory =
 export type CountryCode =
   // América
   | "AR"
+  | "BO"
   | "BR"
+  | "BZ"
   | "CA"
+  | "CL"
   | "CO"
+  | "CR"
+  | "EC"
+  | "GT"
+  | "GY"
+  | "HN"
   | "MX"
+  | "NI"
+  | "PA"
+  | "PE"
+  | "PY"
+  | "SR"
+  | "SV"
   | "US"
+  | "UY"
+  | "VE"
 
   // Europa
   | "DE"
@@ -71,19 +87,11 @@ export type CountryWithLatestNews = {
   name: string;
   slug: string;
 
-  /**
-   * Pode ser mantida enquanto seus componentes
-   * ainda utilizarem emojis.
-   */
   flag: string;
 
   language: string;
   active: boolean;
 
-  /**
-   * Permite que um país apareça
-   * em mais de uma região.
-   */
   regions: CountryRegionId[];
 
   news: CountryNewsCard[];

@@ -3,11 +3,17 @@ import {
   NewsByContinent,
 } from "@/components";
 
-import { buildMockCountriesWithNews } from "@/mocks/news.mock";
+import {
+  buildAmericaCountriesWithNews,
+} from "@/server/news/build-america-countries";
 
-export default function FootballPage() {
+export const revalidate = 900;
+
+export default async function FootballPage() {
   const countries =
-    buildMockCountriesWithNews();
+    await buildAmericaCountriesWithNews(
+      "football",
+    );
 
   return (
     <Box
@@ -22,10 +28,10 @@ export default function FootballPage() {
         <NewsByContinent
           countries={countries}
           category="football"
-          title="O futebol mundial em um só lugar."
-          description="Campeonatos, seleções, clubes e os principais acontecimentos do futebol em cada continente."
+          title="O futebol das Américas em um só lugar."
+          description="Campeonatos, seleções, clubes e os principais acontecimentos do futebol americano."
           exploreTitle="Futebol por país"
-          defaultContinent="world"
+          defaultContinent="america"
         />
       </Box>
     </Box>

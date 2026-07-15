@@ -1,0 +1,229 @@
+import Parser from "rss-parser";
+
+import type {
+  NewsFeedConfig,
+  NewsSourceConfig,
+} from "../news-source.types";
+
+type MediaNode = {
+  $?: {
+    url?: string;
+  };
+
+  url?: string;
+};
+
+type CustomItem = {
+  mediaContent?:
+    | MediaNode
+    | MediaNode[];
+
+  mediaThumbnail?:
+    | MediaNode
+    | MediaNode[];
+
+  contentEncoded?: string;
+
+  enclosure?: {
+    url?: string;
+    type?: string;
+  };
+};
+
+const MAX_FEED_BYTES =
+  2_000_000;
+
+const parser =
+  new Parser<
+    Record<string, never>,
+    CustomItem
+  >({
+    customFields: {
+      item: [
+        [
+          "media:content",
+          "mediaContent",
+          {
+            keepArray: true,
+          },
+        ],
+
+        [
+          "media:thumbnail",
+          "mediaThumbnail",
+          {
+            keepArray: true,
+          },
+        ],
+
+        [
+          "content:encoded",
+          "contentEncoded",
+        ],
+      ],
+    },
+  });
+
+export type ParsedSourceItem = {
+  source:
+    NewsSourceConfig;
+
+  feed:
+    NewsFeedConfig;
+
+  item:
+    Awaited<
+      ReturnType<
+        typeof parser.parseString
+      >
+    >["items"][number];
+};
+
+export async function parseSourceFeed(
+  source: NewsSourceConfig,
+  feed:
+    NewsFeedConfig,
+): Promise<ParsedSourceItem[]> {
+  const response =
+    await fetch(feed.url, {
+      headers: {
+        Accept:
+          "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5",
+
+        "User-Agent":
+          "WorldNewspaper/0.1 RSS Aggregator",
+      },
+
+      next: {
+        revalidate: 900,
+      },
+
+      signal:
+        AbortSignal.timeout(
+          8_000,
+        ),
+    });
+
+  if (!response.ok) {
+    throw new Error(
+      `Feed ${source.id} returned ${response.status}`,
+    );
+  }
+
+  const contentLength =
+    Number(
+      response.headers.get(
+        "content-length",
+      ) ?? 0,
+    );
+
+  if (
+    contentLength >
+    MAX_FEED_BYTES
+  ) {
+    throw new Error(
+      `Feed ${source.id} is too large`,
+    );
+  }
+
+  const xml =
+    await response.text();
+
+  if (
+    Buffer.byteLength(
+      xml,
+      "utf8",
+    ) >
+    MAX_FEED_BYTES
+  ) {
+    throw new Error(
+      `Feed ${source.id} is too large`,
+    );
+  }
+
+  const parsed =
+    await parser.parseString(xml);
+
+  return parsed.items.map(
+    (item) => ({
+      source,
+      feed,
+      item,
+    }),
+  );
+}
+
+export function extractItemImage(
+  item:
+    ParsedSourceItem["item"],
+): string | undefined {
+  const mediaContent =
+    toMediaArray(
+      item.mediaContent,
+    );
+
+  const mediaThumbnail =
+    toMediaArray(
+      item.mediaThumbnail,
+    );
+
+  const mediaUrl =
+    [
+      ...mediaContent,
+      ...mediaThumbnail,
+    ]
+      .map(
+        (media) =>
+          media.$?.url ??
+          media.url,
+      )
+      .find(Boolean);
+
+  if (mediaUrl) {
+    return mediaUrl;
+  }
+
+  if (
+    item.enclosure?.url &&
+    item.enclosure.type?.startsWith(
+      "image/",
+    )
+  ) {
+    return item.enclosure.url;
+  }
+
+  const html =
+    item.contentEncoded ??
+    item.content ??
+    "";
+
+  return extractImageFromHtml(
+    html,
+  );
+}
+
+function toMediaArray(
+  value:
+    | MediaNode
+    | MediaNode[]
+    | undefined,
+): MediaNode[] {
+  if (!value) {
+    return [];
+  }
+
+  return Array.isArray(value)
+    ? value
+    : [value];
+}
+
+function extractImageFromHtml(
+  html: string,
+): string | undefined {
+  const match =
+    html.match(
+      /<img[^>]+src=["']([^"']+)["']/i,
+    );
+
+  return match?.[1];
+}

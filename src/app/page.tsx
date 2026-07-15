@@ -4,12 +4,14 @@ import {
 } from "@/components";
 
 import {
-  buildMockCountriesWithNews,
-} from "@/mocks/news.mock";
+  buildAmericaCountriesWithNews,
+} from "@/server/news/build-america-countries";
 
-export default function Home() {
+export const revalidate = 900;
+
+export default async function Home() {
   const countries =
-    buildMockCountriesWithNews();
+    await buildAmericaCountriesWithNews();
 
   return (
     <Box
@@ -23,10 +25,10 @@ export default function Home() {
       >
         <NewsByContinent
           countries={countries}
-          title="O mundo em um só lugar."
-          description="Notícias locais, fontes verificadas e contexto internacional."
+          title="As Américas em um só lugar."
+          description="Notícias locais, fontes verificadas e os principais acontecimentos dos países americanos."
           exploreTitle="Explore por país"
-          defaultContinent="world"
+          defaultContinent="america"
         />
       </Box>
     </Box>

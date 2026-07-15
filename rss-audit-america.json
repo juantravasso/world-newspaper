@@ -1,0 +1,936 @@
+{
+  "generatedAt": "2026-07-15T20:03:36.171Z",
+  "results": [
+    {
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "sourceId": "ca-the-tyee",
+      "sourceName": "The Tyee",
+      "websiteUrl": "https://thetyee.ca/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "sourceId": "ca-cbc",
+      "sourceName": "Canadian Broadcasting Corporation (CBC)",
+      "websiteUrl": "https://www.cbc.ca/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "sourceId": "ca-national-post",
+      "sourceName": "The National Post",
+      "websiteUrl": "https://nationalpost.com/",
+      "feeds": [
+        {
+          "url": "https://nationalpost.com/feed",
+          "title": "National Post",
+          "items": 10
+        },
+        {
+          "url": "https://nationalpost.com/feed/",
+          "title": "National Post",
+          "items": 10
+        },
+        {
+          "url": "https://nationalpost.com/rss",
+          "title": "National Post",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "sourceId": "us-the-nation",
+      "sourceName": "The Nation",
+      "websiteUrl": "https://www.thenation.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "sourceId": "us-ap",
+      "sourceName": "Associated Press (AP)",
+      "websiteUrl": "https://apnews.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "sourceId": "us-nyt",
+      "sourceName": "The New York Times",
+      "websiteUrl": "https://www.nytimes.com/",
+      "feeds": [
+        {
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+          "title": "NYT > Top Stories",
+          "items": 22
+        }
+      ]
+    },
+    {
+      "countryCode": "MX",
+      "countryName": "México",
+      "sourceId": "mx-la-jornada",
+      "sourceName": "La Jornada",
+      "websiteUrl": "https://www.jornada.com.mx/",
+      "feeds": []
+    },
+    {
+      "countryCode": "MX",
+      "countryName": "México",
+      "sourceId": "mx-el-universal",
+      "sourceName": "El Universal",
+      "websiteUrl": "https://www.eluniversal.com.mx/",
+      "feeds": []
+    },
+    {
+      "countryCode": "MX",
+      "countryName": "México",
+      "sourceId": "mx-reforma",
+      "sourceName": "Reforma",
+      "websiteUrl": "https://www.reforma.com/",
+      "feeds": [
+        {
+          "url": "https://www.reforma.com/rss/portada.xml",
+          "title": "Reforma",
+          "items": 10
+        },
+        {
+          "url": "https://www.reforma.com/libre/feeds/NewsAssistant/xml/newsassistant.xml",
+          "title": "Reforma Noticias",
+          "items": 1
+        }
+      ]
+    },
+    {
+      "countryCode": "BZ",
+      "countryName": "Belize",
+      "sourceId": "bz-amandala",
+      "sourceName": "Amandala",
+      "websiteUrl": "https://amandala.com.bz/",
+      "feeds": [
+        {
+          "url": "https://amandala.com.bz/news/feed/",
+          "title": "Amandala Newspaper",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "BZ",
+      "countryName": "Belize",
+      "sourceId": "bz-the-reporter",
+      "sourceName": "The Reporter",
+      "websiteUrl": "https://thereporter.bz/",
+      "feeds": [
+        {
+          "url": "https://www.thereporter.bz/blog-feed.xml",
+          "title": "The Reporter",
+          "items": 20
+        }
+      ]
+    },
+    {
+      "countryCode": "BZ",
+      "countryName": "Belize",
+      "sourceId": "bz-breaking-belize-news",
+      "sourceName": "Breaking Belize News",
+      "websiteUrl": "https://breakingbelizenews.com/",
+      "feeds": [
+        {
+          "url": "https://www.breakingbelizenews.com/feed/",
+          "title": "Belize News and Opinion on www.breakingbelizenews.com",
+          "items": 10
+        },
+        {
+          "url": "https://breakingbelizenews.com/feed",
+          "title": "Belize News and Opinion on www.breakingbelizenews.com",
+          "items": 10
+        },
+        {
+          "url": "https://breakingbelizenews.com/feed/",
+          "title": "Belize News and Opinion on www.breakingbelizenews.com",
+          "items": 10
+        },
+        {
+          "url": "https://breakingbelizenews.com/rss",
+          "title": "Belize News and Opinion on www.breakingbelizenews.com",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "CR",
+      "countryName": "Costa Rica",
+      "sourceId": "cr-semanario-universidad",
+      "sourceName": "Semanario Universidad",
+      "websiteUrl": "https://semanariouniversidad.com/",
+      "feeds": [
+        {
+          "url": "https://semanariouniversidad.com/feed",
+          "title": "Semanario Universidad",
+          "items": 10
+        },
+        {
+          "url": "https://semanariouniversidad.com/feed/",
+          "title": "Semanario Universidad",
+          "items": 10
+        },
+        {
+          "url": "https://semanariouniversidad.com/rss",
+          "title": "Semanario Universidad",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "CR",
+      "countryName": "Costa Rica",
+      "sourceId": "cr-la-nacion",
+      "sourceName": "La Nación",
+      "websiteUrl": "https://www.nacion.com/",
+      "feeds": [
+        {
+          "url": "https://www.nacion.com/rss",
+          "title": "La Nación",
+          "items": 100
+        }
+      ]
+    },
+    {
+      "countryCode": "CR",
+      "countryName": "Costa Rica",
+      "sourceId": "cr-crhoy",
+      "sourceName": "CRHoy.com",
+      "websiteUrl": "https://www.crhoy.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SV",
+      "countryName": "El Salvador",
+      "sourceId": "sv-el-faro",
+      "sourceName": "El Faro",
+      "websiteUrl": "https://elfaro.net/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SV",
+      "countryName": "El Salvador",
+      "sourceId": "sv-la-prensa-grafica",
+      "sourceName": "La Prensa Gráfica",
+      "websiteUrl": "https://www.laprensagrafica.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SV",
+      "countryName": "El Salvador",
+      "sourceId": "sv-el-diario-de-hoy",
+      "sourceName": "El Diario de Hoy",
+      "websiteUrl": "https://www.elsalvador.com/",
+      "feeds": [
+        {
+          "url": "https://www.elsalvador.com/feed",
+          "title": "Noticias de El Salvador – elsalvador.com",
+          "items": 16
+        },
+        {
+          "url": "https://www.elsalvador.com/feed/",
+          "title": "Noticias de El Salvador – elsalvador.com",
+          "items": 16
+        },
+        {
+          "url": "https://www.elsalvador.com/rss",
+          "title": "Noticias de El Salvador – elsalvador.com",
+          "items": 16
+        },
+        {
+          "url": "https://www.elsalvador.com/rss.xml",
+          "title": "Noticias de El Salvador",
+          "items": 50
+        }
+      ]
+    },
+    {
+      "countryCode": "GT",
+      "countryName": "Guatemala",
+      "sourceId": "gt-plaza-publica",
+      "sourceName": "Plaza Pública",
+      "websiteUrl": "https://www.plazapublica.com.gt/",
+      "feeds": [
+        {
+          "url": "https://plazapublica.com.gt/feed/",
+          "title": "Plaza Pública",
+          "items": 10
+        },
+        {
+          "url": "https://www.plazapublica.com.gt/feed",
+          "title": "Plaza Pública",
+          "items": 10
+        },
+        {
+          "url": "https://www.plazapublica.com.gt/feed/",
+          "title": "Plaza Pública",
+          "items": 10
+        },
+        {
+          "url": "https://www.plazapublica.com.gt/rss",
+          "title": "Plaza Pública",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "GT",
+      "countryName": "Guatemala",
+      "sourceId": "gt-prensa-libre",
+      "sourceName": "Prensa Libre",
+      "websiteUrl": "https://www.prensalibre.com/",
+      "feeds": [
+        {
+          "url": "https://www.prensalibre.com/comments/feed/",
+          "title": "Prensa Libre",
+          "items": 73
+        },
+        {
+          "url": "https://www.prensalibre.com/web-stories/feed/",
+          "title": "Historias Libres | Prensa Libre",
+          "items": 99
+        }
+      ]
+    },
+    {
+      "countryCode": "HN",
+      "countryName": "Honduras",
+      "sourceId": "hn-criterio",
+      "sourceName": "Criterio.hn",
+      "websiteUrl": "https://criterio.hn/",
+      "feeds": [
+        {
+          "url": "https://criterio.hn/feed/",
+          "title": "Criterio.hn",
+          "items": 5
+        },
+        {
+          "url": "https://criterio.hn/comments/feed/",
+          "title": "\n\tComentarios en Criterio.hn\t",
+          "items": 5
+        },
+        {
+          "url": "https://criterio.hn/feed",
+          "title": "Criterio.hn",
+          "items": 5
+        },
+        {
+          "url": "https://criterio.hn/rss",
+          "title": "Criterio.hn",
+          "items": 5
+        }
+      ]
+    },
+    {
+      "countryCode": "HN",
+      "countryName": "Honduras",
+      "sourceId": "hn-la-prensa",
+      "sourceName": "La Prensa",
+      "websiteUrl": "https://www.laprensa.hn/",
+      "feeds": []
+    },
+    {
+      "countryCode": "HN",
+      "countryName": "Honduras",
+      "sourceId": "hn-el-heraldo",
+      "sourceName": "El Heraldo",
+      "websiteUrl": "https://www.elheraldo.hn/",
+      "feeds": []
+    },
+    {
+      "countryCode": "NI",
+      "countryName": "Nicarágua",
+      "sourceId": "ni-despacho-505",
+      "sourceName": "Despacho 505",
+      "websiteUrl": "https://www.despacho505.com/",
+      "feeds": [
+        {
+          "url": "https://despacho505.com/feed/",
+          "title": "DESPACHO 505",
+          "items": 10
+        },
+        {
+          "url": "https://despacho505.com/comments/feed/",
+          "title": "\n\tComentarios en DESPACHO 505\t",
+          "items": 1
+        },
+        {
+          "url": "https://www.despacho505.com/feed",
+          "title": "DESPACHO 505",
+          "items": 10
+        },
+        {
+          "url": "https://www.despacho505.com/feed/",
+          "title": "DESPACHO 505",
+          "items": 10
+        },
+        {
+          "url": "https://www.despacho505.com/rss",
+          "title": "DESPACHO 505",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "NI",
+      "countryName": "Nicarágua",
+      "sourceId": "ni-la-prensa",
+      "sourceName": "La Prensa",
+      "websiteUrl": "https://www.laprensani.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "NI",
+      "countryName": "Nicarágua",
+      "sourceId": "ni-el-19-digital",
+      "sourceName": "El 19 Digital",
+      "websiteUrl": "https://www.el19digital.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PA",
+      "countryName": "Panamá",
+      "sourceId": "pa-la-estrella",
+      "sourceName": "La Estrella de Panamá",
+      "websiteUrl": "https://www.laestrella.com.pa/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PA",
+      "countryName": "Panamá",
+      "sourceId": "pa-telemetro",
+      "sourceName": "Telemetro",
+      "websiteUrl": "https://www.telemetro.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PA",
+      "countryName": "Panamá",
+      "sourceId": "pa-panama-america",
+      "sourceName": "Panamá América",
+      "websiteUrl": "https://www.panamaamerica.com.pa/",
+      "feeds": [
+        {
+          "url": "https://www.panamaamerica.com.pa/rss/recent/index.xml",
+          "title": "Panamá América",
+          "items": 32
+        },
+        {
+          "url": "https://www.panamaamerica.com.pa/rss.xml",
+          "title": "Panamá América",
+          "items": 5
+        }
+      ]
+    },
+    {
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "sourceId": "ar-pagina-12",
+      "sourceName": "Página/12",
+      "websiteUrl": "https://www.pagina12.com.ar/",
+      "feeds": []
+    },
+    {
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "sourceId": "ar-clarin",
+      "sourceName": "Clarín",
+      "websiteUrl": "https://www.clarin.com/",
+      "feeds": [
+        {
+          "url": "https://www.clarin.com/rss",
+          "title": "Clarin.com - Home - Lo último",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "sourceId": "ar-la-nacion",
+      "sourceName": "La Nación",
+      "websiteUrl": "https://www.lanacion.com.ar/",
+      "feeds": [
+        {
+          "url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/",
+          "title": "LA NACION",
+          "items": 97
+        }
+      ]
+    },
+    {
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "sourceId": "bo-la-razon",
+      "sourceName": "La Razón",
+      "websiteUrl": "https://www.la-razon.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "sourceId": "bo-los-tiempos",
+      "sourceName": "Los Tiempos",
+      "websiteUrl": "https://www.lostiempos.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "sourceId": "bo-el-deber",
+      "sourceName": "El Deber",
+      "websiteUrl": "https://eldeber.com.bo/",
+      "feeds": [
+        {
+          "url": "https://eldeber.com.bo/feed",
+          "title": " EL DEBER - Últimas noticias ",
+          "items": 25
+        },
+        {
+          "url": "https://eldeber.com.bo/feed/",
+          "title": " EL DEBER - Últimas noticias ",
+          "items": 25
+        }
+      ]
+    },
+    {
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "sourceId": "br-brasil-de-fato",
+      "sourceName": "Brasil de Fato",
+      "websiteUrl": "https://www.brasildefato.com.br/",
+      "feeds": [
+        {
+          "url": "https://www.brasildefato.com.br/feed/",
+          "title": "Brasil de Fato",
+          "items": 99
+        },
+        {
+          "url": "https://www.brasildefato.com.br/feed",
+          "title": "Brasil de Fato",
+          "items": 99
+        },
+        {
+          "url": "https://www.brasildefato.com.br/rss",
+          "title": "Brasil de Fato",
+          "items": 99
+        }
+      ]
+    },
+    {
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "sourceId": "br-g1",
+      "sourceName": "G1",
+      "websiteUrl": "https://g1.globo.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "sourceId": "br-opera-mundi",
+      "sourceName": "Opera Mundi",
+      "websiteUrl": "https://operamundi.uol.com.br/",
+      "feeds": [
+        {
+          "url": "https://operamundi.uol.com.br/feed",
+          "title": "Opera Mundi",
+          "items": 10
+        },
+        {
+          "url": "https://operamundi.uol.com.br/feed/",
+          "title": "Opera Mundi",
+          "items": 10
+        },
+        {
+          "url": "https://operamundi.uol.com.br/rss",
+          "title": "Opera Mundi",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "sourceId": "cl-the-clinic",
+      "sourceName": "The Clinic",
+      "websiteUrl": "https://www.theclinic.cl/",
+      "feeds": [
+        {
+          "url": "https://www.theclinic.cl/feed",
+          "title": "The Clinic",
+          "items": 10
+        },
+        {
+          "url": "https://www.theclinic.cl/feed/",
+          "title": "The Clinic",
+          "items": 10
+        },
+        {
+          "url": "https://www.theclinic.cl/rss",
+          "title": "The Clinic",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "sourceId": "cl-emol",
+      "sourceName": "Emol",
+      "websiteUrl": "https://www.emol.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "sourceId": "cl-el-mercurio",
+      "sourceName": "El Mercurio",
+      "websiteUrl": "https://www.elmercurio.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "sourceId": "co-el-espectador",
+      "sourceName": "El Espectador",
+      "websiteUrl": "https://www.elespectador.com/",
+      "feeds": [
+        {
+          "url": "https://www.elespectador.com/arc/outboundfeeds/discover/?outputType=xml",
+          "title": "El Espectador - Google Discover - ",
+          "items": 20
+        }
+      ]
+    },
+    {
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "sourceId": "co-el-tiempo",
+      "sourceName": "El Tiempo",
+      "websiteUrl": "https://www.eltiempo.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "sourceId": "co-semana",
+      "sourceName": "Semana",
+      "websiteUrl": "https://www.semana.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "sourceId": "ec-el-telegrafo",
+      "sourceName": "El Telégrafo",
+      "websiteUrl": "https://www.eltelegrafo.com.ec/",
+      "feeds": []
+    },
+    {
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "sourceId": "ec-el-comercio",
+      "sourceName": "El Comercio",
+      "websiteUrl": "https://www.elcomercio.com/",
+      "feeds": [
+        {
+          "url": "https://www.elcomercio.com/feed",
+          "title": "El Comercio",
+          "items": 20
+        },
+        {
+          "url": "https://www.elcomercio.com/feed/",
+          "title": "El Comercio",
+          "items": 20
+        }
+      ]
+    },
+    {
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "sourceId": "ec-el-universo",
+      "sourceName": "El Universo",
+      "websiteUrl": "https://www.eluniverso.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "GY",
+      "countryName": "Guiana",
+      "sourceId": "gy-stabroek-news",
+      "sourceName": "Stabroek News",
+      "websiteUrl": "https://www.stabroeknews.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "GY",
+      "countryName": "Guiana",
+      "sourceId": "gy-kaieteur-news",
+      "sourceName": "Kaieteur News",
+      "websiteUrl": "https://www.kaieteurnewsonline.com/",
+      "feeds": [
+        {
+          "url": "https://kaieteurnewsonline.com/feed/",
+          "title": "Kaieteur News",
+          "items": 25
+        },
+        {
+          "url": "https://kaieteurnewsonline.com/comments/feed/",
+          "title": "\n\tComments for Kaieteur News\t",
+          "items": 25
+        },
+        {
+          "url": "https://www.kaieteurnewsonline.com/feed",
+          "title": "Kaieteur News",
+          "items": 25
+        },
+        {
+          "url": "https://www.kaieteurnewsonline.com/feed/",
+          "title": "Kaieteur News",
+          "items": 25
+        },
+        {
+          "url": "https://www.kaieteurnewsonline.com/rss",
+          "title": "Kaieteur News",
+          "items": 25
+        }
+      ]
+    },
+    {
+      "countryCode": "GY",
+      "countryName": "Guiana",
+      "sourceId": "gy-guyana-times",
+      "sourceName": "Guyana Times",
+      "websiteUrl": "https://guyanatimesgy.com/",
+      "feeds": [
+        {
+          "url": "https://guyanatimesgy.com/feed/",
+          "title": "Guyana Times",
+          "items": 10
+        },
+        {
+          "url": "https://guyanatimesgy.com/feed",
+          "title": "Guyana Times",
+          "items": 10
+        },
+        {
+          "url": "https://guyanatimesgy.com/rss",
+          "title": "Guyana Times",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "PY",
+      "countryName": "Paraguai",
+      "sourceId": "py-ultima-hora",
+      "sourceName": "Última Hora",
+      "websiteUrl": "https://www.ultimahora.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PY",
+      "countryName": "Paraguai",
+      "sourceId": "py-abc-color",
+      "sourceName": "ABC Color",
+      "websiteUrl": "https://www.abc.com.py/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PY",
+      "countryName": "Paraguai",
+      "sourceId": "py-la-nacion",
+      "sourceName": "La Nación",
+      "websiteUrl": "https://www.lanacion.com.py/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "sourceId": "pe-la-republica",
+      "sourceName": "La República",
+      "websiteUrl": "https://larepublica.pe/",
+      "feeds": [
+        {
+          "url": "https://larepublica.pe/rss.xml",
+          "title": "La República: Últimas noticias de última hora del Perú y el mundo",
+          "items": 200
+        }
+      ]
+    },
+    {
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "sourceId": "pe-el-comercio",
+      "sourceName": "El Comercio",
+      "websiteUrl": "https://elcomercio.pe/",
+      "feeds": [
+        {
+          "url": "https://elcomercio.pe/arcio/rss/",
+          "title": "El Comercio",
+          "items": 100
+        }
+      ]
+    },
+    {
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "sourceId": "pe-peru-21",
+      "sourceName": "Perú21",
+      "websiteUrl": "https://peru21.pe/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SR",
+      "countryName": "Suriname",
+      "sourceId": "sr-de-ware-tijd",
+      "sourceName": "De Ware Tijd",
+      "websiteUrl": "https://dwtonline.com/",
+      "feeds": [
+        {
+          "url": "https://dwtonline.com/feed/",
+          "title": "de Ware Tijd",
+          "items": 10
+        },
+        {
+          "url": "https://dwtonline.com/feed",
+          "title": "de Ware Tijd",
+          "items": 10
+        },
+        {
+          "url": "https://dwtonline.com/rss",
+          "title": "de Ware Tijd",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "SR",
+      "countryName": "Suriname",
+      "sourceId": "sr-starnieuws",
+      "sourceName": "Starnieuws",
+      "websiteUrl": "https://www.starnieuws.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SR",
+      "countryName": "Suriname",
+      "sourceId": "sr-waterkant",
+      "sourceName": "Waterkant",
+      "websiteUrl": "https://www.waterkant.net/",
+      "feeds": [
+        {
+          "url": "https://www.waterkant.net/feed/",
+          "title": "Waterkant",
+          "items": 8
+        },
+        {
+          "url": "https://www.waterkant.net/feed",
+          "title": "Waterkant",
+          "items": 8
+        },
+        {
+          "url": "https://www.waterkant.net/rss",
+          "title": "Waterkant",
+          "items": 8
+        }
+      ]
+    },
+    {
+      "countryCode": "UY",
+      "countryName": "Uruguai",
+      "sourceId": "uy-la-diaria",
+      "sourceName": "La Diaria",
+      "websiteUrl": "https://ladiaria.com.uy/",
+      "feeds": [
+        {
+          "url": "https://ladiaria.com.uy/feeds/articulos/",
+          "title": "la diaria",
+          "items": 494
+        }
+      ]
+    },
+    {
+      "countryCode": "UY",
+      "countryName": "Uruguai",
+      "sourceId": "uy-el-pais",
+      "sourceName": "El País",
+      "websiteUrl": "https://www.elpais.com.uy/",
+      "feeds": []
+    },
+    {
+      "countryCode": "UY",
+      "countryName": "Uruguai",
+      "sourceId": "uy-el-observador",
+      "sourceName": "El Observador",
+      "websiteUrl": "https://www.elobservador.com.uy/",
+      "feeds": []
+    },
+    {
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "sourceId": "ve-ultimas-noticias",
+      "sourceName": "Últimas Noticias",
+      "websiteUrl": "https://ultimasnoticias.com.ve/",
+      "feeds": [
+        {
+          "url": "https://ultimasnoticias.com.ve/feed",
+          "title": "Últimas Noticias",
+          "items": 10
+        },
+        {
+          "url": "https://ultimasnoticias.com.ve/feed/",
+          "title": "Últimas Noticias",
+          "items": 10
+        },
+        {
+          "url": "https://ultimasnoticias.com.ve/rss",
+          "title": "Últimas Noticias",
+          "items": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "sourceId": "ve-el-nacional",
+      "sourceName": "El Nacional",
+      "websiteUrl": "https://www.elnacional.com/",
+      "feeds": [
+        {
+          "url": "https://www.elnacional.com/feed",
+          "title": "EL NACIONAL",
+          "items": 100
+        },
+        {
+          "url": "https://www.elnacional.com/feed/",
+          "title": "EL NACIONAL",
+          "items": 100
+        },
+        {
+          "url": "https://www.elnacional.com/rss",
+          "title": "EL NACIONAL",
+          "items": 100
+        }
+      ]
+    },
+    {
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "sourceId": "ve-el-universal",
+      "sourceName": "El Universal",
+      "websiteUrl": "https://www.eluniversal.com/",
+      "feeds": []
+    }
+  ]
+}

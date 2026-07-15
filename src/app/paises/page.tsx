@@ -4,12 +4,12 @@ import {
 } from "@/components";
 
 import {
-  buildMockCountriesWithNews,
-} from "@/mocks/news.mock";
+  buildAmericaCountriesWithNews,
+} from "@/server/news/build-america-countries";
 
-export default function CountriesPage() {
+export default async function CountriesPage() {
   const countries =
-    buildMockCountriesWithNews();
+    await buildAmericaCountriesWithNews();
 
   return (
     <Box
@@ -23,7 +23,7 @@ export default function CountriesPage() {
       >
         <CountriesDirectory
           countries={countries}
-          defaultContinent="world"
+          defaultContinent="america"
         />
       </Box>
     </Box>
