@@ -1,28 +1,13 @@
 import {
   Box,
-  ExploreCountries,
-  Hero,
+  NewsByContinent,
 } from "@/components";
 
-import { getNewsFromCountries } from "@/domain/news/news.helpers";
 import { buildMockCountriesWithNews } from "@/mocks/news.mock";
 
 export default function FootballPage() {
   const countries =
     buildMockCountriesWithNews();
-
-  const footballNews = getNewsFromCountries(
-    countries,
-    "football",
-  );
-
-  const featuredNews = footballNews[0];
-  const secondaryNews =
-    footballNews.slice(1, 3);
-
-  if (!featuredNews) {
-    return null;
-  }
 
   return (
     <Box
@@ -34,17 +19,13 @@ export default function FootballPage() {
         preset="container"
         paddingY="xl"
       >
-        <Hero
-          title="O futebol sul-americano em um só lugar."
-          description="Campeonatos, seleções, clubes e os principais acontecimentos do futebol da região."
-          featuredNews={featuredNews}
-          secondaryNews={secondaryNews}
-        />
-
-        <ExploreCountries
+        <NewsByContinent
           countries={countries}
           category="football"
-          title="Futebol por país"
+          title="O futebol mundial em um só lugar."
+          description="Campeonatos, seleções, clubes e os principais acontecimentos do futebol em cada continente."
+          exploreTitle="Futebol por país"
+          defaultContinent="world"
         />
       </Box>
     </Box>

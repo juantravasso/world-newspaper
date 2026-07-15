@@ -1,13 +1,13 @@
 import {
   Box,
-  NewsByContinent,
+  CountriesDirectory,
 } from "@/components";
 
 import {
   buildMockCountriesWithNews,
 } from "@/mocks/news.mock";
 
-export default function EconomyPage() {
+export default function CountriesPage() {
   const countries =
     buildMockCountriesWithNews();
 
@@ -21,12 +21,8 @@ export default function EconomyPage() {
         preset="container"
         paddingY="xl"
       >
-        <NewsByContinent
+        <CountriesDirectory
           countries={countries}
-          category="economy"
-          title="A economia mundial em destaque."
-          description="Mercados, empresas, indicadores e decisões econômicas dos países de cada continente."
-          exploreTitle="Economia por país"
           defaultContinent="world"
         />
       </Box>

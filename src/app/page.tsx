@@ -1,25 +1,15 @@
 import {
   Box,
-  ExploreCountries,
-  Hero,
+  NewsByContinent,
 } from "@/components";
 
-import { getNewsFromCountries } from "@/domain/news/news.helpers";
-import { buildMockCountriesWithNews } from "@/mocks/news.mock";
+import {
+  buildMockCountriesWithNews,
+} from "@/mocks/news.mock";
 
 export default function Home() {
   const countries =
     buildMockCountriesWithNews();
-
-  const news =
-    getNewsFromCountries(countries);
-
-  const featuredNews = news[0];
-  const secondaryNews = news.slice(1, 3);
-
-  if (!featuredNews) {
-    return null;
-  }
 
   return (
     <Box
@@ -31,15 +21,12 @@ export default function Home() {
         preset="container"
         paddingY="xl"
       >
-        <Hero
-          title="A América do Sul em um só lugar."
-          description="Notícias locais, fontes verificadas e contexto regional."
-          featuredNews={featuredNews}
-          secondaryNews={secondaryNews}
-        />
-
-        <ExploreCountries
+        <NewsByContinent
           countries={countries}
+          title="O mundo em um só lugar."
+          description="Notícias locais, fontes verificadas e contexto internacional."
+          exploreTitle="Explore por país"
+          defaultContinent="world"
         />
       </Box>
     </Box>

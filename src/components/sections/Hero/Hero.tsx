@@ -1,16 +1,20 @@
-import { ChevronDown, Globe2 } from "lucide-react";
+import { Box } from "@/components/Box";
+import { Text } from "@/components/Text";
 
-import { Box, Text} from "@/components";
+import {
+  FeaturedNewsCard,
+  SecondaryNewsCard,
+} from "./components";
 
 import type { HeroProps } from "./Hero.types";
-import { FeaturedNewsCard, SecondaryNewsCard } from "./components";
 
 export function Hero({
   title,
   description,
   featuredNews,
-  secondaryNews,
-  regionLabel = "América do Sul",
+  secondaryNews = [],
+  actions,
+  emptyMessage = "Nenhuma notícia encontrada para esta região.",
 }: HeroProps) {
   return (
     <Box
@@ -22,11 +26,16 @@ export function Hero({
         display="flex"
         direction="column"
         gap="lg"
-        className="lg:flex-row lg:items-start lg:justify-between"
+        className="
+          lg:flex-row
+          lg:items-start
+          lg:justify-between
+        "
       >
         <Box
           preset="stack"
           gap="xs"
+          className="min-w-0"
         >
           <Text
             id="hero-title"
@@ -41,69 +50,55 @@ export function Hero({
             preset="bodyLarge"
             tone="muted"
             wrap="pretty"
+            className="max-w-3xl"
           >
             {description}
           </Text>
         </Box>
 
-        <Box
-          as="button"
-          type="button"
-          display="flex"
-          align="center"
-          justify="between"
-          gap="md"
-          background="card"
-          border="default"
-          radius="pill"
-          paddingX="lg"
-          className="h-12 w-full transition-colors hover:bg-surface-muted sm:w-64"
-        >
-          <Box
-            display="flex"
-            align="center"
-            gap="sm"
-          >
-            <Globe2
-              className="size-5 text-primary"
-              aria-hidden="true"
-            />
-
-            <Text
-              as="span"
-              preset="label"
-            >
-              {regionLabel}
-            </Text>
+        {actions && (
+          <Box className="w-full shrink-0 sm:w-auto">
+            {actions}
           </Box>
-
-          <ChevronDown
-            className="size-4 text-muted-foreground"
-            aria-hidden="true"
-          />
-        </Box>
+        )}
       </Box>
 
-      <Box
-        className="
-          mt-8 grid grid-cols-1 gap-5
-          lg:grid-cols-[minmax(0,1.7fr)_minmax(21rem,0.9fr)]
-        "
-      >
-        <FeaturedNewsCard news={featuredNews} />
-
+      {featuredNews ? (
         <Box
-          preset="stack"
-          gap="md"
+          className="
+            mt-8 grid grid-cols-1 gap-5
+            lg:grid-cols-[minmax(0,1.7fr)_minmax(21rem,0.9fr)]
+          "
         >
-          {secondaryNews.map((news) => (
-            <SecondaryNewsCard
-              key={news.id}
-              news={news}
-            />
-          ))}
+          <FeaturedNewsCard
+            news={featuredNews}
+          />
+
+          <Box
+            preset="stack"
+            gap="md"
+          >
+            {secondaryNews.map((news) => (
+              <SecondaryNewsCard
+                key={news.id}
+                news={news}
+              />
+            ))}
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        <Box
+          background="surfaceMuted"
+          border="default"
+          radius="card"
+          padding="xl"
+          className="mt-8 text-center"
+        >
+          <Text tone="muted">
+            {emptyMessage}
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 }

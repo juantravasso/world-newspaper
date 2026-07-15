@@ -1,28 +1,15 @@
 import {
   Box,
-  ExploreCountries,
-  Hero,
+  NewsByContinent,
 } from "@/components";
 
-import { getNewsFromCountries } from "@/domain/news/news.helpers";
-import { buildMockCountriesWithNews } from "@/mocks/news.mock";
+import {
+  buildMockCountriesWithNews,
+} from "@/mocks/news.mock";
 
 export default function PoliticsPage() {
   const countries =
     buildMockCountriesWithNews();
-
-  const politicsNews = getNewsFromCountries(
-    countries,
-    "politics",
-  );
-
-  const featuredNews = politicsNews[0];
-  const secondaryNews =
-    politicsNews.slice(1, 3);
-
-  if (!featuredNews) {
-    return null;
-  }
 
   return (
     <Box
@@ -34,17 +21,13 @@ export default function PoliticsPage() {
         preset="container"
         paddingY="xl"
       >
-        <Hero
-          title="A política sul-americana em destaque."
-          description="Governos, congressos, eleições e decisões que movimentam os países da região."
-          featuredNews={featuredNews}
-          secondaryNews={secondaryNews}
-        />
-
-        <ExploreCountries
+        <NewsByContinent
           countries={countries}
           category="politics"
-          title="Política por país"
+          title="A política mundial em destaque."
+          description="Governos, congressos, eleições e decisões políticas que movimentam os países de cada continente."
+          exploreTitle="Política por país"
+          defaultContinent="world"
         />
       </Box>
     </Box>
