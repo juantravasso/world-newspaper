@@ -93,11 +93,14 @@ export function CountriesDirectory({
         as="section"
         aria-labelledby="countries-page-title"
         position="relative"
-        overflow="hidden"
         background="card"
         border="default"
         radius="card"
-        className="w-full p-6 sm:p-8"
+        className="
+          isolate w-full
+          overflow-visible
+          p-6 sm:p-8
+        "
       >
         <Spotlight />
 
@@ -105,6 +108,7 @@ export function CountriesDirectory({
           position="relative"
           className="
             z-10 grid items-center gap-8
+            md:grid-cols-[minmax(0,1fr)_18rem]
             lg:grid-cols-[minmax(0,1fr)_24rem]
           "
         >
@@ -159,7 +163,10 @@ export function CountriesDirectory({
           </MotionReveal>
 
           <WorldImageRing
-            countries={visibleCountries}
+            countries={
+              visibleCountries
+            }
+            maxItems={7}
           />
         </Box>
       </Box>

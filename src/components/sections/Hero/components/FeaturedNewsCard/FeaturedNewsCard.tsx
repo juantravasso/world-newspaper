@@ -21,6 +21,10 @@ import type {
 } from "@/domain/news/news.helpers";
 
 import {
+  getNewsImageUrl,
+} from "@/domain/news/news.images";
+
+import {
   CategoryBadge,
 } from "../CategoryBadge";
 
@@ -31,11 +35,18 @@ export type FeaturedNewsCardProps = {
 export function FeaturedNewsCard({
   news,
 }: FeaturedNewsCardProps) {
+  const imageUrl =
+    getNewsImageUrl(
+      news.category,
+      news.imageUrl,
+    );
+
   return (
     <Link
       href={news.href}
       className="
-        block rounded-card outline-none
+        block rounded-card
+        outline-none
         focus-visible:ring-2
         focus-visible:ring-ring
         focus-visible:ring-offset-2
@@ -46,12 +57,12 @@ export function FeaturedNewsCard({
         as="article"
         preset="card"
         position="relative"
-        className="group"
+        className="group isolate"
       >
         <BorderBeam />
 
         <EditorialImage
-          src={news.imageUrl}
+          src={imageUrl}
           alt={news.title}
           priority
           sizes="
@@ -83,7 +94,7 @@ export function FeaturedNewsCard({
             align="center"
             gap="xs"
             className="
-              absolute left-5 top-5 z-10
+              absolute left-5 top-5
               flex-wrap
             "
           >

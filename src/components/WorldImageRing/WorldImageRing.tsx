@@ -16,6 +16,11 @@ import type {
 
 import styles from "./WorldImageRing.module.css";
 
+type RingItemStyle =
+  CSSProperties & {
+    "--ring-angle": string;
+  };
+
 export type WorldImageRingProps = {
   countries:
     CountryWithLatestNews[];
@@ -25,7 +30,7 @@ export type WorldImageRingProps = {
 
 export function WorldImageRing({
   countries,
-  maxItems = 8,
+  maxItems = 7,
 }: WorldImageRingProps) {
   const ringCountries =
     countries.slice(0, maxItems);
@@ -48,23 +53,29 @@ export function WorldImageRing({
                 ringCountries.length
               ) * index;
 
-            const style: CSSProperties = {
-              transform:
-                `rotateY(${angle}deg) translateZ(148px)`,
-            };
+            const style:
+              RingItemStyle = {
+                "--ring-angle":
+                  `${angle}deg`,
+              };
 
             return (
               <div
                 key={country.code}
                 style={style}
-                className={styles.item}
+                className={
+                  styles.item
+                }
               >
                 <div
                   className="
-                    flex w-32 items-center gap-2
-                    rounded-control border border-border/80
-                    bg-card/90 px-3 py-2
-                    shadow-floating backdrop-blur-md
+                    flex w-28 items-center
+                    gap-2 rounded-control
+                    border border-border/80
+                    bg-card/[95%]
+                    px-3 py-2
+                    shadow-card
+                    backdrop-blur-md
                   "
                 >
                   <CountryFlag

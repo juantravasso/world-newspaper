@@ -10,7 +10,9 @@ import {
 
 import Image from "next/image";
 
-import { cn } from "@/components/lib/utils";
+import {
+  cn,
+} from "@/components/lib/utils";
 
 export type EditorialImageProps = {
   src?: string;
@@ -36,22 +38,54 @@ export function EditorialImage({
   imageClassName,
 }: EditorialImageProps) {
   const [
-    isLoaded,
-    setIsLoaded,
-  ] = useState(false);
+    loadedSrc,
+    setLoadedSrc,
+  ] = useState<string | null>(
+    null,
+  );
 
   const [
-    hasError,
-    setHasError,
-  ] = useState(false);
+    errorSrc,
+    setErrorSrc,
+  ] = useState<string | null>(
+    null,
+  );
+
+  const currentSrc =
+    src ?? null;
+
+  const isLoaded =
+    currentSrc !== null &&
+    loadedSrc === currentSrc;
+
+  const hasError =
+    currentSrc !== null &&
+    errorSrc === currentSrc;
 
   const showFallback =
-    !src || hasError;
+    currentSrc === null ||
+    hasError;
+
+  function handleLoad(): void {
+    if (!currentSrc) {
+      return;
+    }
+
+    setLoadedSrc(currentSrc);
+  }
+
+  function handleError(): void {
+    if (!currentSrc) {
+      return;
+    }
+
+    setErrorSrc(currentSrc);
+  }
 
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-surface-strong",
+        "relative isolate overflow-hidden bg-surface-strong",
         className,
       )}
     >
@@ -62,36 +96,36 @@ export function EditorialImage({
           <div
             aria-hidden="true"
             className={cn(
-              "absolute inset-0",
+              "absolute inset-0 z-0",
               "bg-[linear-gradient(110deg,var(--color-surface-strong)_25%,var(--color-card)_45%,var(--color-surface-strong)_65%)]",
               "bg-[length:200%_100%]",
               "animate-[image-shimmer_1.4s_ease-in-out_infinite]",
               "transition-opacity duration-300",
+
               isLoaded
-                ? "opacity-0"
+                ? "pointer-events-none opacity-0"
                 : "opacity-100",
             )}
           />
 
           <Image
-            src={src}
+            key={currentSrc}
+            src={currentSrc}
             alt={alt}
             fill
             sizes={sizes}
             priority={priority}
-            onLoad={() =>
-              setIsLoaded(true)
-            }
-            onError={() =>
-              setHasError(true)
-            }
+            onLoad={handleLoad}
+            onError={handleError}
             className={cn(
-              "object-cover",
+              "z-10 object-cover",
               "transition-[opacity,transform]",
               "duration-500 ease-out",
+
               isLoaded
                 ? "scale-100 opacity-100"
                 : "scale-[1.025] opacity-0",
+
               imageClassName,
             )}
           />
@@ -99,15 +133,20 @@ export function EditorialImage({
           <div
             aria-hidden="true"
             className="
-              pointer-events-none absolute inset-x-0 bottom-0
-              h-1/2
-              bg-gradient-to-t from-brand/30 to-transparent
+              pointer-events-none
+              absolute inset-x-0
+              bottom-0 z-20 h-1/2
+              bg-gradient-to-t
+              from-brand/[30%]
+              to-transparent
             "
           />
         </>
       )}
 
-      {children}
+      <div className="relative z-30">
+        {children}
+      </div>
     </div>
   );
 }

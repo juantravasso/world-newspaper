@@ -15,7 +15,9 @@ import {
   stagger,
 } from "animejs";
 
-import { cn } from "@/components/lib/utils";
+import {
+  cn,
+} from "@/components/lib/utils";
 
 export type MotionRevealProps = {
   children: ReactNode;
@@ -25,8 +27,8 @@ export type MotionRevealProps = {
   distance?: number;
 
   /**
-   * Anima os descendentes com data-motion-item
-   * em sequência.
+   * Anima os descendentes marcados
+   * com data-motion-item em sequência.
    */
   staggerItems?: boolean;
 
@@ -47,8 +49,18 @@ export function MotionReveal({
   const rootRef =
     useRef<HTMLDivElement>(null);
 
+  const scopeRef =
+    useRef<
+      ReturnType<typeof createScope>
+      | null
+    >(null);
+
+  const hasAnimatedRef =
+    useRef(false);
+
   useEffect(() => {
-    const root = rootRef.current;
+    const root =
+      rootRef.current;
 
     if (!root) {
       return;
@@ -59,13 +71,64 @@ export function MotionReveal({
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
-    if (prefersReducedMotion) {
+    if (
+      prefersReducedMotion ||
+      typeof IntersectionObserver ===
+        "undefined"
+    ) {
       return;
     }
 
-    let scope:
-      | ReturnType<typeof createScope>
-      | undefined;
+    const runAnimation = () => {
+      if (
+        once &&
+        hasAnimatedRef.current
+      ) {
+        return;
+      }
+
+      const targets =
+        staggerItems
+          ? Array.from(
+              root.querySelectorAll<HTMLElement>(
+                "[data-motion-item]",
+              ),
+            )
+          : [root];
+
+      if (targets.length === 0) {
+        return;
+      }
+
+      scopeRef.current?.revert();
+
+      scopeRef.current =
+        createScope({
+          root: rootRef,
+        }).add(() => {
+          animate(targets, {
+            opacity: [0, 1],
+
+            translateY: [
+              distance,
+              0,
+            ],
+
+            duration: 650,
+
+            delay:
+              staggerItems
+                ? stagger(70, {
+                    start: delay,
+                  })
+                : delay,
+
+            ease: "out(3)",
+          });
+        });
+
+      hasAnimatedRef.current = true;
+    };
 
     const observer =
       new IntersectionObserver(
@@ -74,49 +137,16 @@ export function MotionReveal({
             return;
           }
 
-          const targets =
-            staggerItems
-              ? root.querySelectorAll<HTMLElement>(
-                  "[data-motion-item]",
-                )
-              : [root];
-
-          if (targets.length === 0) {
-            return;
-          }
-
-          scope =
-            createScope({
-              root: rootRef,
-            }).add(() => {
-              animate(targets, {
-                opacity: {
-                  from: 0,
-                },
-
-                translateY: {
-                  from: distance,
-                },
-
-                duration: 650,
-
-                delay:
-                  staggerItems
-                    ? stagger(70, {
-                        start: delay,
-                      })
-                    : delay,
-
-                ease: "out(3)",
-              });
-            });
+          runAnimation();
 
           if (once) {
             observer.disconnect();
           }
         },
         {
-          threshold: 0.12,
+          threshold: 0.08,
+          rootMargin:
+            "0px 0px -5% 0px",
         },
       );
 
@@ -124,7 +154,8 @@ export function MotionReveal({
 
     return () => {
       observer.disconnect();
-      scope?.revert();
+      scopeRef.current?.revert();
+      scopeRef.current = null;
     };
   }, [
     delay,
@@ -136,9 +167,7 @@ export function MotionReveal({
   return (
     <div
       ref={rootRef}
-      className={cn(
-        className,
-      )}
+      className={cn(className)}
     >
       {children}
     </div>

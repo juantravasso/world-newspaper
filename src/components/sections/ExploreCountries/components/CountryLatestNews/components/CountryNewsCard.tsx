@@ -16,6 +16,10 @@ import {
   Text,
 } from "@/components/Text";
 
+import {
+  getNewsImageUrl,
+} from "@/domain/news/news.images";
+
 import type {
   CountryNewsCard as CountryNewsCardData,
   NewsCategory,
@@ -34,6 +38,12 @@ export type CountryNewsCardProps = {
 export function CountryNewsCard({
   news,
 }: CountryNewsCardProps) {
+  const imageUrl =
+    getNewsImageUrl(
+      news.category,
+      news.imageUrl,
+    );
+
   return (
     <Link
       href={news.href}
@@ -58,7 +68,7 @@ export function CountryNewsCard({
         "
       >
         <EditorialImage
-          src={news.imageUrl}
+          src={imageUrl}
           alt={news.title}
           sizes="
             (max-width: 767px) 100vw,

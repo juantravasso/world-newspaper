@@ -1,27 +1,51 @@
 .scene {
-  display: none;
-  min-height: 18rem;
+  --ring-radius: 84px;
+
+  display: flex;
+
+  width: 100%;
+  min-height: 12rem;
+
   align-items: center;
   justify-content: center;
-  perspective: 900px;
+
+  overflow: visible;
+
+  perspective: 1000px;
+  perspective-origin: center;
 }
 
 .ring {
   position: relative;
-  width: 8rem;
-  height: 4rem;
+
+  width: 7rem;
+  height: 3.5rem;
+
   transform-style: preserve-3d;
-  animation: world-ring-rotate 24s linear infinite;
+
+  animation:
+    world-ring-rotate
+    28s
+    linear
+    infinite;
+
+  will-change: transform;
 }
 
 .item {
   position: absolute;
   inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  backface-visibility: hidden;
+
+  transform:
+    rotateY(var(--ring-angle))
+    translateZ(var(--ring-radius));
+
   transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 .scene:hover .ring {
@@ -31,28 +55,42 @@
 @keyframes world-ring-rotate {
   from {
     transform:
-      rotateX(-8deg)
+      rotateX(-5deg)
       rotateY(0deg);
   }
 
   to {
     transform:
-      rotateX(-8deg)
+      rotateX(-5deg)
       rotateY(360deg);
+  }
+}
+
+@media (min-width: 640px) {
+  .scene {
+    --ring-radius: 106px;
+    min-height: 14rem;
   }
 }
 
 @media (min-width: 1024px) {
   .scene {
-    display: flex;
+    --ring-radius: 124px;
+    min-height: 16rem;
+  }
+
+  .ring {
+    width: 8rem;
+    height: 4rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ring {
     animation: none;
+
     transform:
-      rotateX(-8deg)
-      rotateY(20deg);
+      rotateX(-5deg)
+      rotateY(18deg);
   }
 }

@@ -1,4 +1,6 @@
-import { cn } from "@/components/lib/utils";
+import {
+  cn,
+} from "@/components/lib/utils";
 
 import styles from "./Spotlight.module.css";
 
@@ -13,7 +15,7 @@ export function Spotlight({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 overflow-hidden",
+        "pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]",
         className,
       )}
     >
@@ -21,7 +23,7 @@ export function Spotlight({
         className={cn(
           styles.primary,
           "absolute -left-28 -top-52 h-[34rem] w-[34rem]",
-          "rounded-full bg-primary/18 blur-3xl",
+          "rounded-full bg-primary/[18%] blur-3xl",
         )}
       />
 
@@ -29,7 +31,7 @@ export function Spotlight({
         className={cn(
           styles.secondary,
           "absolute -right-28 top-20 h-80 w-80",
-          "rounded-full bg-info/10 blur-3xl",
+          "rounded-full bg-info/[10%] blur-3xl",
         )}
       />
 
@@ -37,7 +39,9 @@ export function Spotlight({
         className="
           absolute inset-x-0 top-0 h-px
           bg-gradient-to-r
-          from-transparent via-primary/55 to-transparent
+          from-transparent
+          via-primary/[55%]
+          to-transparent
         "
       />
     </div>
