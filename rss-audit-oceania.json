@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-07-15T23:36:25.601Z",
+  "region": "oceania",
+  "results": [
+    {
+      "countryCode": "AU",
+      "countryName": "Austrália",
+      "sourceId": "au-the-australian",
+      "sourceName": "The Australian",
+      "websiteUrl": "https://www.theaustralian.com.au/",
+      "feeds": []
+    },
+    {
+      "countryCode": "AU",
+      "countryName": "Austrália",
+      "sourceId": "au-afr",
+      "sourceName": "Australian Financial Review",
+      "websiteUrl": "https://www.afr.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "AU",
+      "countryName": "Austrália",
+      "sourceId": "au-football-australia",
+      "sourceName": "Football Australia",
+      "websiteUrl": "https://www.footballaustralia.com.au/",
+      "feeds": [
+        {
+          "url": "https://www.footballaustralia.com.au/rss.xml",
+          "title": "Football Australia",
+          "items": 10,
+          "uniqueLinks": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "NZ",
+      "countryName": "Nova Zelândia",
+      "sourceId": "nz-herald",
+      "sourceName": "The New Zealand Herald",
+      "websiteUrl": "https://www.nzherald.co.nz/",
+      "feeds": []
+    },
+    {
+      "countryCode": "NZ",
+      "countryName": "Nova Zelândia",
+      "sourceId": "nz-businessdesk",
+      "sourceName": "BusinessDesk",
+      "websiteUrl": "https://businessdesk.co.nz/",
+      "feeds": []
+    },
+    {
+      "countryCode": "NZ",
+      "countryName": "Nova Zelândia",
+      "sourceId": "nz-football",
+      "sourceName": "NZ Football",
+      "websiteUrl": "https://www.nzfootball.co.nz/",
+      "feeds": []
+    },
+    {
+      "countryCode": "FJ",
+      "countryName": "Fiji",
+      "sourceId": "fj-times",
+      "sourceName": "Fiji Times",
+      "websiteUrl": "https://www.fijitimes.com.fj/",
+      "feeds": []
+    },
+    {
+      "countryCode": "FJ",
+      "countryName": "Fiji",
+      "sourceId": "fj-sun",
+      "sourceName": "Fiji Sun",
+      "websiteUrl": "https://fijisun.com.fj/",
+      "feeds": []
+    },
+    {
+      "countryCode": "FJ",
+      "countryName": "Fiji",
+      "sourceId": "fj-football",
+      "sourceName": "Fiji Football",
+      "websiteUrl": "https://www.fijifootball.com.fj/",
+      "feeds": []
+    }
+  ]
+}

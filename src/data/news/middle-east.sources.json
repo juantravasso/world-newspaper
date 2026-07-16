@@ -1,0 +1,226 @@
+{
+  "countries": [
+    {
+      "code": "AE",
+      "name": "Emirados Árabes Unidos",
+      "slug": "emirados-arabes-unidos",
+      "flag": "🇦🇪",
+      "language": "ar",
+      "regions": [
+        "asia",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "ae-the-national",
+          "name": "The National",
+          "websiteUrl": "https://www.thenationalnews.com/",
+          "feeds": []
+        },
+        {
+          "id": "ae-gulf-news",
+          "name": "Gulf News",
+          "websiteUrl": "https://gulfnews.com/",
+          "feeds": [
+            {
+              "url": "https://gulfnews.com/feed",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "ae-sport-360",
+          "name": "Sport 360",
+          "websiteUrl": "https://sport360.com/",
+          "feeds": [
+            {
+              "url": "https://sport360.com/feed",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "IL",
+      "name": "Israel",
+      "slug": "israel",
+      "flag": "🇮🇱",
+      "language": "he",
+      "regions": [
+        "asia",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "il-times-of-israel",
+          "name": "The Times of Israel",
+          "websiteUrl": "https://www.timesofisrael.com/",
+          "feeds": [
+            {
+              "url": "https://www.timesofisrael.com/feed/",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "il-globes",
+          "name": "Globes",
+          "websiteUrl": "https://en.globes.co.il/",
+          "feeds": [
+            {
+              "url": "https://en.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=1725",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "il-sport-5",
+          "name": "Sport 5",
+          "websiteUrl": "https://www.sport5.co.il/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "JO",
+      "name": "Jordânia",
+      "slug": "jordania",
+      "flag": "🇯🇴",
+      "language": "ar",
+      "regions": [
+        "asia",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "jo-jordan-times",
+          "name": "The Jordan Times",
+          "websiteUrl": "https://jordantimes.com/",
+          "feeds": []
+        },
+        {
+          "id": "jo-ammon-news",
+          "name": "Ammon News",
+          "websiteUrl": "https://en.ammonnews.net/",
+          "feeds": []
+        },
+        {
+          "id": "jo-football",
+          "name": "Jordan Football",
+          "websiteUrl": "https://www.jfa.jo/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "QA",
+      "name": "Catar",
+      "slug": "catar",
+      "flag": "🇶🇦",
+      "language": "ar",
+      "regions": [
+        "asia",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "qa-peninsula",
+          "name": "The Peninsula Qatar",
+          "websiteUrl": "https://thepeninsulaqatar.com/",
+          "feeds": []
+        },
+        {
+          "id": "qa-gulf-times",
+          "name": "Gulf Times",
+          "websiteUrl": "https://www.gulf-times.com/",
+          "feeds": []
+        },
+        {
+          "id": "qa-qsl",
+          "name": "Qatar Stars League",
+          "websiteUrl": "https://www.qsl.qa/",
+          "feeds": [
+            {
+              "url": "https://www.qsl.qa/rss.xml",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "SA",
+      "name": "Arábia Saudita",
+      "slug": "arabia-saudita",
+      "flag": "🇸🇦",
+      "language": "ar",
+      "regions": [
+        "asia",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "sa-arab-news",
+          "name": "Arab News",
+          "websiteUrl": "https://www.arabnews.com/",
+          "feeds": []
+        },
+        {
+          "id": "sa-saudi-gazette",
+          "name": "Saudi Gazette",
+          "websiteUrl": "https://saudigazette.com.sa/",
+          "feeds": []
+        },
+        {
+          "id": "sa-arriyadiyah",
+          "name": "Arriyadiyah",
+          "websiteUrl": "https://arriyadiyah.com/",
+          "feeds": [
+            {
+              "url": "https://arriyadiyah.com/rss",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "TR",
+      "name": "Turquia",
+      "slug": "turquia",
+      "flag": "🇹🇷",
+      "language": "tr",
+      "regions": [
+        "europe",
+        "asia",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "tr-daily-sabah",
+          "name": "Daily Sabah",
+          "websiteUrl": "https://www.dailysabah.com/",
+          "feeds": []
+        },
+        {
+          "id": "tr-dunya",
+          "name": "Dünya",
+          "websiteUrl": "https://www.dunya.com/",
+          "feeds": [
+            {
+              "url": "https://www.dunya.com/rss",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "tr-fanatik",
+          "name": "Fanatik",
+          "websiteUrl": "https://www.fanatik.com.tr/",
+          "feeds": []
+        }
+      ]
+    }
+  ]
+}

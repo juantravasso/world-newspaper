@@ -4,14 +4,14 @@ import {
 } from "@/components";
 
 import {
-  buildAmericaCountriesWithNews,
-} from "@/server/news/build-america-countries";
+  buildWorldCountriesWithNews,
+} from "@/server/news/build-world-countries";
 
 export const revalidate = 900;
 
 export default async function FootballPage() {
   const countries =
-    await buildAmericaCountriesWithNews(
+    await buildWorldCountriesWithNews(
       "football",
     );
 
@@ -28,10 +28,10 @@ export default async function FootballPage() {
         <NewsByContinent
           countries={countries}
           category="football"
-          title="O futebol das Américas em um só lugar."
-          description="Campeonatos, seleções, clubes e os principais acontecimentos do futebol americano."
+          title="O futebol mundial em um só lugar."
+          description="Campeonatos, seleções, clubes e os principais acontecimentos do futebol em cada continente."
           exploreTitle="Futebol por país"
-          defaultContinent="america"
+          defaultContinent="world"
         />
       </Box>
     </Box>

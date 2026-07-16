@@ -1,0 +1,205 @@
+{
+  "generatedAt": "2026-07-15T23:36:57.897Z",
+  "region": "middle-east",
+  "results": [
+    {
+      "countryCode": "AE",
+      "countryName": "Emirados Árabes Unidos",
+      "sourceId": "ae-the-national",
+      "sourceName": "The National",
+      "websiteUrl": "https://www.thenationalnews.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "AE",
+      "countryName": "Emirados Árabes Unidos",
+      "sourceId": "ae-gulf-news",
+      "sourceName": "Gulf News",
+      "websiteUrl": "https://gulfnews.com/",
+      "feeds": [
+        {
+          "url": "https://gulfnews.com/feed",
+          "title": "gulfnews",
+          "items": 8,
+          "uniqueLinks": 8
+        }
+      ]
+    },
+    {
+      "countryCode": "AE",
+      "countryName": "Emirados Árabes Unidos",
+      "sourceId": "ae-sport-360",
+      "sourceName": "Sport 360",
+      "websiteUrl": "https://sport360.com/",
+      "feeds": [
+        {
+          "url": "https://sport360.com/feed",
+          "title": "Sport360 - Latest Sports News",
+          "items": 10,
+          "uniqueLinks": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "IL",
+      "countryName": "Israel",
+      "sourceId": "il-times-of-israel",
+      "sourceName": "The Times of Israel",
+      "websiteUrl": "https://www.timesofisrael.com/",
+      "feeds": [
+        {
+          "url": "https://www.timesofisrael.com/feed/",
+          "title": "The Times of Israel",
+          "items": 15,
+          "uniqueLinks": 15
+        }
+      ]
+    },
+    {
+      "countryCode": "IL",
+      "countryName": "Israel",
+      "sourceId": "il-globes",
+      "sourceName": "Globes",
+      "websiteUrl": "https://en.globes.co.il/",
+      "feeds": [
+        {
+          "url": "https://en.globes.co.il/WebService/Rss/RssFeeder.asmx/FeederNode?iID=942",
+          "title": "Front - Globes",
+          "items": 10,
+          "uniqueLinks": 10
+        },
+        {
+          "url": "https://en.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=1725",
+          "title": "News - Globes",
+          "items": 93,
+          "uniqueLinks": 93
+        }
+      ]
+    },
+    {
+      "countryCode": "IL",
+      "countryName": "Israel",
+      "sourceId": "il-sport-5",
+      "sourceName": "Sport 5",
+      "websiteUrl": "https://www.sport5.co.il/",
+      "feeds": []
+    },
+    {
+      "countryCode": "JO",
+      "countryName": "Jordânia",
+      "sourceId": "jo-jordan-times",
+      "sourceName": "The Jordan Times",
+      "websiteUrl": "https://jordantimes.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "JO",
+      "countryName": "Jordânia",
+      "sourceId": "jo-ammon-news",
+      "sourceName": "Ammon News",
+      "websiteUrl": "https://en.ammonnews.net/",
+      "feeds": []
+    },
+    {
+      "countryCode": "JO",
+      "countryName": "Jordânia",
+      "sourceId": "jo-football",
+      "sourceName": "Jordan Football",
+      "websiteUrl": "https://www.jfa.jo/",
+      "feeds": []
+    },
+    {
+      "countryCode": "QA",
+      "countryName": "Catar",
+      "sourceId": "qa-peninsula",
+      "sourceName": "The Peninsula Qatar",
+      "websiteUrl": "https://thepeninsulaqatar.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "QA",
+      "countryName": "Catar",
+      "sourceId": "qa-gulf-times",
+      "sourceName": "Gulf Times",
+      "websiteUrl": "https://www.gulf-times.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "QA",
+      "countryName": "Catar",
+      "sourceId": "qa-qsl",
+      "sourceName": "Qatar Stars League",
+      "websiteUrl": "https://www.qsl.qa/",
+      "feeds": [
+        {
+          "url": "https://www.qsl.qa/rss.xml",
+          "title": "QSL",
+          "items": 10,
+          "uniqueLinks": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "SA",
+      "countryName": "Arábia Saudita",
+      "sourceId": "sa-arab-news",
+      "sourceName": "Arab News",
+      "websiteUrl": "https://www.arabnews.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SA",
+      "countryName": "Arábia Saudita",
+      "sourceId": "sa-saudi-gazette",
+      "sourceName": "Saudi Gazette",
+      "websiteUrl": "https://saudigazette.com.sa/",
+      "feeds": []
+    },
+    {
+      "countryCode": "SA",
+      "countryName": "Arábia Saudita",
+      "sourceId": "sa-arriyadiyah",
+      "sourceName": "Arriyadiyah",
+      "websiteUrl": "https://arriyadiyah.com/",
+      "feeds": [
+        {
+          "url": "https://arriyadiyah.com/rss",
+          "title": "صحيفة الرياضية",
+          "items": 30,
+          "uniqueLinks": 30
+        }
+      ]
+    },
+    {
+      "countryCode": "TR",
+      "countryName": "Turquia",
+      "sourceId": "tr-daily-sabah",
+      "sourceName": "Daily Sabah",
+      "websiteUrl": "https://www.dailysabah.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "TR",
+      "countryName": "Turquia",
+      "sourceId": "tr-dunya",
+      "sourceName": "Dünya",
+      "websiteUrl": "https://www.dunya.com/",
+      "feeds": [
+        {
+          "url": "https://www.dunya.com/rss",
+          "title": "Dünya Gazetesi",
+          "items": 25,
+          "uniqueLinks": 25
+        }
+      ]
+    },
+    {
+      "countryCode": "TR",
+      "countryName": "Turquia",
+      "sourceId": "tr-fanatik",
+      "sourceName": "Fanatik",
+      "websiteUrl": "https://www.fanatik.com.tr/",
+      "feeds": []
+    }
+  ]
+}

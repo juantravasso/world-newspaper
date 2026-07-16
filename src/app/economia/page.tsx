@@ -4,14 +4,14 @@ import {
 } from "@/components";
 
 import {
-  buildAmericaCountriesWithNews,
-} from "@/server/news/build-america-countries";
+  buildWorldCountriesWithNews,
+} from "@/server/news/build-world-countries";
 
 export const revalidate = 900;
 
 export default async function EconomyPage() {
   const countries =
-    await buildAmericaCountriesWithNews(
+    await buildWorldCountriesWithNews(
       "economy",
     );
 
@@ -28,10 +28,10 @@ export default async function EconomyPage() {
         <NewsByContinent
           countries={countries}
           category="economy"
-          title="A economia das Américas em destaque."
-          description="Mercados, empresas, indicadores e decisões econômicas dos países americanos."
+          title="A economia mundial em destaque."
+          description="Mercados, empresas, indicadores e decisões econômicas dos países de cada continente."
           exploreTitle="Economia por país"
-          defaultContinent="america"
+          defaultContinent="world"
         />
       </Box>
     </Box>

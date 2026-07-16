@@ -100,7 +100,7 @@ export async function parseSourceFeed(
 
       signal:
         AbortSignal.timeout(
-          8_000,
+          15_000,
         ),
     });
 
@@ -226,4 +226,116 @@ function extractImageFromHtml(
     );
 
   return match?.[1];
+}
+
+export function extractItemLink(
+  item:
+    ParsedSourceItem["item"],
+
+  websiteUrl: string,
+): string | undefined {
+  const candidates = [
+    item.link,
+    item.guid,
+
+    extractFirstLinkFromHtml(
+      item.contentEncoded,
+    ),
+
+    extractFirstLinkFromHtml(
+      item.content,
+    ),
+  ];
+
+  for (const candidate of candidates) {
+    if (
+      typeof candidate !==
+      "string"
+    ) {
+      continue;
+    }
+
+    try {
+      const url =
+        new URL(
+          candidate.trim(),
+          websiteUrl,
+        );
+
+      if (
+        isLikelyArticleUrl(
+          url,
+          websiteUrl,
+        )
+      ) {
+        return url.toString();
+      }
+    } catch {
+      // Tenta o próximo candidato.
+    }
+  }
+
+  return undefined;
+}
+
+function extractFirstLinkFromHtml(
+  html?: string,
+): string | undefined {
+  if (!html) {
+    return undefined;
+  }
+
+  return html.match(
+    /<a[^>]+href=["']([^"']+)["']/i,
+  )?.[1];
+}
+
+function isLikelyArticleUrl(
+  url: URL,
+  websiteUrl: string,
+): boolean {
+  const website =
+    new URL(websiteUrl);
+
+  const urlHostname =
+    url.hostname.replace(
+      /^www\./,
+      "",
+    );
+
+  const websiteHostname =
+    website.hostname.replace(
+      /^www\./,
+      "",
+    );
+
+  if (
+    urlHostname !==
+    websiteHostname
+  ) {
+    return false;
+  }
+
+  const pathParts =
+    url.pathname
+      .split("/")
+      .filter(Boolean);
+
+  if (
+    pathParts.length < 2
+  ) {
+    return false;
+  }
+
+  const invalidPaths = [
+    "/feed",
+    "/rss",
+    "/g/seccion/articulo/",
+  ];
+
+  return !invalidPaths.some(
+    (invalidPath) =>
+      url.pathname ===
+      invalidPath,
+  );
 }

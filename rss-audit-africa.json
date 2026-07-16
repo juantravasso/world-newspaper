@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-07-15T23:43:27.061Z",
+  "region": "africa",
+  "results": [
+    {
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "sourceId": "za-mail-guardian",
+      "sourceName": "Mail & Guardian",
+      "websiteUrl": "https://mg.co.za/",
+      "feeds": [
+        {
+          "url": "https://mg.co.za/atom/",
+          "title": "The Mail & Guardian | Africa's Better Future",
+          "items": 50,
+          "uniqueLinks": 50
+        }
+      ]
+    },
+    {
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "sourceId": "za-business-day",
+      "sourceName": "Business Day",
+      "websiteUrl": "https://www.businessday.co.za/",
+      "feeds": []
+    },
+    {
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "sourceId": "za-kick-off",
+      "sourceName": "Kick Off",
+      "websiteUrl": "https://www.kickoff.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "NG",
+      "countryName": "Nigéria",
+      "sourceId": "ng-guardian",
+      "sourceName": "The Guardian Nigeria",
+      "websiteUrl": "https://guardian.ng/",
+      "feeds": []
+    },
+    {
+      "countryCode": "NG",
+      "countryName": "Nigéria",
+      "sourceId": "ng-businessday",
+      "sourceName": "BusinessDay Nigeria",
+      "websiteUrl": "https://businessday.ng/",
+      "feeds": [
+        {
+          "url": "https://businessday.ng/feed",
+          "title": "Businessday NG",
+          "items": 5,
+          "uniqueLinks": 5
+        }
+      ]
+    },
+    {
+      "countryCode": "NG",
+      "countryName": "Nigéria",
+      "sourceId": "ng-complete-sports",
+      "sourceName": "Complete Sports",
+      "websiteUrl": "https://www.completesports.com/",
+      "feeds": [
+        {
+          "url": "https://www.completesports.com/feed/",
+          "title": "Complete Sports",
+          "items": 20,
+          "uniqueLinks": 20
+        }
+      ]
+    },
+    {
+      "countryCode": "KE",
+      "countryName": "Quênia",
+      "sourceId": "ke-daily-nation",
+      "sourceName": "Daily Nation",
+      "websiteUrl": "https://nation.africa/",
+      "feeds": []
+    },
+    {
+      "countryCode": "KE",
+      "countryName": "Quênia",
+      "sourceId": "ke-business-daily",
+      "sourceName": "Business Daily Africa",
+      "websiteUrl": "https://www.businessdailyafrica.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "KE",
+      "countryName": "Quênia",
+      "sourceId": "ke-goal",
+      "sourceName": "Goal Kenya",
+      "websiteUrl": "https://www.goal.com/en-ke",
+      "feeds": []
+    },
+    {
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "sourceId": "ma-morocco-world-news",
+      "sourceName": "Morocco World News",
+      "websiteUrl": "https://www.moroccoworldnews.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "sourceId": "ma-le-matin",
+      "sourceName": "Le Matin",
+      "websiteUrl": "https://lematin.ma/",
+      "feeds": []
+    },
+    {
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "sourceId": "ma-hespress",
+      "sourceName": "Hespress",
+      "websiteUrl": "https://www.hespress.com/",
+      "feeds": [
+        {
+          "url": "https://www.hespress.com/feed",
+          "title": "Hespress – هسبريس جريدة إلكترونية مغربية",
+          "items": 12,
+          "uniqueLinks": 12
+        }
+      ]
+    },
+    {
+      "countryCode": "EG",
+      "countryName": "Egito",
+      "sourceId": "eg-al-ahram",
+      "sourceName": "Al-Ahram",
+      "websiteUrl": "https://english.ahram.org.eg/",
+      "feeds": []
+    },
+    {
+      "countryCode": "EG",
+      "countryName": "Egito",
+      "sourceId": "eg-daily-news-egypt",
+      "sourceName": "Daily News Egypt",
+      "websiteUrl": "https://www.dailynewsegypt.com/",
+      "feeds": [
+        {
+          "url": "https://www.dailynewsegypt.com/feed/",
+          "title": "Dailynewsegypt",
+          "items": 10,
+          "uniqueLinks": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "EG",
+      "countryName": "Egito",
+      "sourceId": "eg-kingfut",
+      "sourceName": "KingFut",
+      "websiteUrl": "https://www.kingfut.com/",
+      "feeds": []
+    }
+  ]
+}

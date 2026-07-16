@@ -87,7 +87,7 @@
           "websiteUrl": "https://www.reforma.com/",
           "feeds": [
             {
-              "url": "https://www.reforma.com/libre/feeds/NewsAssistant/xml/newsassistant.xml"
+              "url": "https://www.reforma.com/rss/portada.xml"
             }
           ]
         }
@@ -212,16 +212,6 @@
           "feeds": [
             {
               "url": "https://plazapublica.com.gt/feed/"
-            }
-          ]
-        },
-        {
-          "id": "gt-prensa-libre",
-          "name": "Prensa Libre",
-          "websiteUrl": "https://www.prensalibre.com/",
-          "feeds": [
-            {
-              "url": "https://www.prensalibre.com/web-stories/feed/"
             }
           ]
         }

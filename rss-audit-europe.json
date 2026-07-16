@@ -1,0 +1,225 @@
+{
+  "generatedAt": "2026-07-15T23:33:42.866Z",
+  "region": "europe",
+  "results": [
+    {
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "sourceId": "de-dw",
+      "sourceName": "Deutsche Welle",
+      "websiteUrl": "https://www.dw.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "sourceId": "de-handelsblatt",
+      "sourceName": "Handelsblatt",
+      "websiteUrl": "https://www.handelsblatt.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "sourceId": "de-kicker",
+      "sourceName": "Kicker",
+      "websiteUrl": "https://www.kicker.de/",
+      "feeds": []
+    },
+    {
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "sourceId": "es-el-pais",
+      "sourceName": "El País",
+      "websiteUrl": "https://elpais.com/",
+      "feeds": [
+        {
+          "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada",
+          "title": "EL PAÍS Edición América: el periódico global",
+          "items": 106,
+          "uniqueLinks": 106
+        }
+      ]
+    },
+    {
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "sourceId": "es-expansion",
+      "sourceName": "Expansión",
+      "websiteUrl": "https://www.expansion.com/",
+      "feeds": [
+        {
+          "url": "https://e01-expansion.uecdn.es/rss/portada.xml",
+          "title": "Portada // expansion",
+          "items": 72,
+          "uniqueLinks": 72
+        },
+        {
+          "url": "https://www.expansion.com/rss/googlenews/portada.xml",
+          "title": "Expansión - Diario Económico e información de mercados",
+          "items": 72,
+          "uniqueLinks": 72
+        }
+      ]
+    },
+    {
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "sourceId": "es-marca",
+      "sourceName": "Marca",
+      "websiteUrl": "https://www.marca.com/",
+      "feeds": [
+        {
+          "url": "https://www.marca.com/rss/googlenews/portada.xml",
+          "title": " Marca - Diario online líder en información deportiva ",
+          "items": 64,
+          "uniqueLinks": 64
+        }
+      ]
+    },
+    {
+      "countryCode": "FR",
+      "countryName": "França",
+      "sourceId": "fr-le-monde",
+      "sourceName": "Le Monde",
+      "websiteUrl": "https://www.lemonde.fr/",
+      "feeds": [
+        {
+          "url": "https://www.lemonde.fr/rss/une.xml",
+          "title": "Le Monde.fr - Actualités et Infos en France et dans le monde",
+          "items": 16,
+          "uniqueLinks": 16
+        }
+      ]
+    },
+    {
+      "countryCode": "FR",
+      "countryName": "França",
+      "sourceId": "fr-les-echos",
+      "sourceName": "Les Échos",
+      "websiteUrl": "https://www.lesechos.fr/",
+      "feeds": []
+    },
+    {
+      "countryCode": "FR",
+      "countryName": "França",
+      "sourceId": "fr-lequipe",
+      "sourceName": "L'Équipe",
+      "websiteUrl": "https://www.lequipe.fr/",
+      "feeds": []
+    },
+    {
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "sourceId": "gb-guardian",
+      "sourceName": "The Guardian",
+      "websiteUrl": "https://www.theguardian.com/",
+      "feeds": [
+        {
+          "url": "https://www.theguardian.com/international/rss",
+          "title": "The Guardian",
+          "items": 114,
+          "uniqueLinks": 114
+        },
+        {
+          "url": "https://www.theguardian.com/rss",
+          "title": "The Guardian",
+          "items": 142,
+          "uniqueLinks": 142
+        }
+      ]
+    },
+    {
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "sourceId": "gb-financial-times",
+      "sourceName": "Financial Times",
+      "websiteUrl": "https://www.ft.com/",
+      "feeds": [
+        {
+          "url": "https://www.ft.com/rss/",
+          "title": "International homepage",
+          "items": 10,
+          "uniqueLinks": 10
+        }
+      ]
+    },
+    {
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "sourceId": "gb-bbc-sport",
+      "sourceName": "BBC Sport",
+      "websiteUrl": "https://www.bbc.com/sport/football",
+      "feeds": [
+        {
+          "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+          "title": "BBC Sport",
+          "items": 87,
+          "uniqueLinks": 81
+        }
+      ]
+    },
+    {
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "sourceId": "it-corriere",
+      "sourceName": "Corriere della Sera",
+      "websiteUrl": "https://www.corriere.it/",
+      "feeds": []
+    },
+    {
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "sourceId": "it-il-sole-24-ore",
+      "sourceName": "Il Sole 24 Ore",
+      "websiteUrl": "https://www.ilsole24ore.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "sourceId": "it-gazzetta",
+      "sourceName": "La Gazzetta dello Sport",
+      "websiteUrl": "https://www.gazzetta.it/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "sourceId": "pt-publico",
+      "sourceName": "Público",
+      "websiteUrl": "https://www.publico.pt/",
+      "feeds": []
+    },
+    {
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "sourceId": "pt-jornal-negocios",
+      "sourceName": "Jornal de Negócios",
+      "websiteUrl": "https://www.jornaldenegocios.pt/",
+      "feeds": [
+        {
+          "url": "https://www.jornaldenegocios.pt/rss",
+          "title": "Jornal de Negocios",
+          "items": 20,
+          "uniqueLinks": 20
+        }
+      ]
+    },
+    {
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "sourceId": "pt-a-bola",
+      "sourceName": "A Bola",
+      "websiteUrl": "https://www.abola.pt/",
+      "feeds": [
+        {
+          "url": "https://www.abola.pt/rss-articles.xml",
+          "title": "Notícias da A Bola",
+          "items": 359,
+          "uniqueLinks": 359
+        }
+      ]
+    }
+  ]
+}

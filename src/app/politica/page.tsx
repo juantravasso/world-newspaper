@@ -4,14 +4,14 @@ import {
 } from "@/components";
 
 import {
-  buildAmericaCountriesWithNews,
-} from "@/server/news/build-america-countries";
+  buildWorldCountriesWithNews,
+} from "@/server/news/build-world-countries";
 
 export const revalidate = 900;
 
 export default async function PoliticsPage() {
   const countries =
-    await buildAmericaCountriesWithNews(
+    await buildWorldCountriesWithNews(
       "politics",
     );
 
@@ -28,10 +28,10 @@ export default async function PoliticsPage() {
         <NewsByContinent
           countries={countries}
           category="politics"
-          title="A política das Américas em destaque."
-          description="Governos, congressos, eleições e decisões políticas dos países americanos."
+          title="A política mundial em destaque."
+          description="Governos, congressos, eleições e decisões políticas analisadas por diferentes fontes ao redor do mundo."
           exploreTitle="Política por país"
-          defaultContinent="america"
+          defaultContinent="world"
         />
       </Box>
     </Box>

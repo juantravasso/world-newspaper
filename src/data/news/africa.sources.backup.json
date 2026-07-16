@@ -1,0 +1,155 @@
+{
+  "countries": [
+    {
+      "code": "ZA",
+      "name": "África do Sul",
+      "slug": "africa-do-sul",
+      "flag": "🇿🇦",
+      "language": "en",
+      "regions": [
+        "africa"
+      ],
+      "sources": [
+        {
+          "id": "za-mail-guardian",
+          "name": "Mail & Guardian",
+          "websiteUrl": "https://mg.co.za/",
+          "feeds": []
+        },
+        {
+          "id": "za-business-day",
+          "name": "Business Day",
+          "websiteUrl": "https://www.businessday.co.za/",
+          "feeds": []
+        },
+        {
+          "id": "za-kick-off",
+          "name": "Kick Off",
+          "websiteUrl": "https://www.kickoff.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "NG",
+      "name": "Nigéria",
+      "slug": "nigeria",
+      "flag": "🇳🇬",
+      "language": "en",
+      "regions": [
+        "africa"
+      ],
+      "sources": [
+        {
+          "id": "ng-guardian",
+          "name": "The Guardian Nigeria",
+          "websiteUrl": "https://guardian.ng/",
+          "feeds": []
+        },
+        {
+          "id": "ng-businessday",
+          "name": "BusinessDay Nigeria",
+          "websiteUrl": "https://businessday.ng/",
+          "feeds": []
+        },
+        {
+          "id": "ng-complete-sports",
+          "name": "Complete Sports",
+          "websiteUrl": "https://www.completesports.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "KE",
+      "name": "Quênia",
+      "slug": "quenia",
+      "flag": "🇰🇪",
+      "language": "en",
+      "regions": [
+        "africa"
+      ],
+      "sources": [
+        {
+          "id": "ke-daily-nation",
+          "name": "Daily Nation",
+          "websiteUrl": "https://nation.africa/",
+          "feeds": []
+        },
+        {
+          "id": "ke-business-daily",
+          "name": "Business Daily Africa",
+          "websiteUrl": "https://www.businessdailyafrica.com/",
+          "feeds": []
+        },
+        {
+          "id": "ke-goal",
+          "name": "Goal Kenya",
+          "websiteUrl": "https://www.goal.com/en-ke",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "MA",
+      "name": "Marrocos",
+      "slug": "marrocos",
+      "flag": "🇲🇦",
+      "language": "ar",
+      "regions": [
+        "africa"
+      ],
+      "sources": [
+        {
+          "id": "ma-morocco-world-news",
+          "name": "Morocco World News",
+          "websiteUrl": "https://www.moroccoworldnews.com/",
+          "feeds": []
+        },
+        {
+          "id": "ma-le-matin",
+          "name": "Le Matin",
+          "websiteUrl": "https://lematin.ma/",
+          "feeds": []
+        },
+        {
+          "id": "ma-hespress",
+          "name": "Hespress",
+          "websiteUrl": "https://www.hespress.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "EG",
+      "name": "Egito",
+      "slug": "egito",
+      "flag": "🇪🇬",
+      "language": "ar",
+      "regions": [
+        "africa",
+        "oriente-medio"
+      ],
+      "sources": [
+        {
+          "id": "eg-al-ahram",
+          "name": "Al-Ahram",
+          "websiteUrl": "https://english.ahram.org.eg/",
+          "feeds": []
+        },
+        {
+          "id": "eg-daily-news-egypt",
+          "name": "Daily News Egypt",
+          "websiteUrl": "https://www.dailynewsegypt.com/",
+          "feeds": []
+        },
+        {
+          "id": "eg-kingfut",
+          "name": "KingFut",
+          "websiteUrl": "https://www.kingfut.com/",
+          "feeds": []
+        }
+      ]
+    }
+  ]
+}

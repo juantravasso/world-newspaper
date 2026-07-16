@@ -1,0 +1,154 @@
+{
+  "countries": [
+    {
+      "code": "CN",
+      "name": "China",
+      "slug": "china",
+      "flag": "🇨🇳",
+      "language": "zh",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "cn-scmp",
+          "name": "South China Morning Post",
+          "websiteUrl": "https://www.scmp.com/",
+          "feeds": []
+        },
+        {
+          "id": "cn-china-daily",
+          "name": "China Daily",
+          "websiteUrl": "https://www.chinadaily.com.cn/",
+          "feeds": []
+        },
+        {
+          "id": "cn-xinhua-sports",
+          "name": "Xinhua Sports",
+          "websiteUrl": "https://english.news.cn/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "IN",
+      "name": "Índia",
+      "slug": "india",
+      "flag": "🇮🇳",
+      "language": "en",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "in-the-hindu",
+          "name": "The Hindu",
+          "websiteUrl": "https://www.thehindu.com/",
+          "feeds": []
+        },
+        {
+          "id": "in-economic-times",
+          "name": "The Economic Times",
+          "websiteUrl": "https://economictimes.indiatimes.com/",
+          "feeds": []
+        },
+        {
+          "id": "in-sportstar",
+          "name": "Sportsstar",
+          "websiteUrl": "https://sportstar.thehindu.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "ID",
+      "name": "Indonésia",
+      "slug": "indonesia",
+      "flag": "🇮🇩",
+      "language": "id",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "id-jakarta-post",
+          "name": "The Jakarta Post",
+          "websiteUrl": "https://www.thejakartapost.com/",
+          "feeds": []
+        },
+        {
+          "id": "id-bisnis",
+          "name": "Bisnis Indonesia",
+          "websiteUrl": "https://www.bisnis.com/",
+          "feeds": []
+        },
+        {
+          "id": "id-bola",
+          "name": "Bola",
+          "websiteUrl": "https://www.bola.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "JP",
+      "name": "Japão",
+      "slug": "japao",
+      "flag": "🇯🇵",
+      "language": "ja",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "jp-japan-times",
+          "name": "The Japan Times",
+          "websiteUrl": "https://www.japantimes.co.jp/",
+          "feeds": []
+        },
+        {
+          "id": "jp-nikkei-asia",
+          "name": "Nikkei Asia",
+          "websiteUrl": "https://asia.nikkei.com/",
+          "feeds": []
+        },
+        {
+          "id": "jp-soccer-digest",
+          "name": "Soccer Digest",
+          "websiteUrl": "https://www.soccerdigestweb.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "KR",
+      "name": "Coreia do Sul",
+      "slug": "coreia-do-sul",
+      "flag": "🇰🇷",
+      "language": "ko",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "kr-korea-herald",
+          "name": "The Korea Herald",
+          "websiteUrl": "https://www.koreaherald.com/",
+          "feeds": []
+        },
+        {
+          "id": "kr-ked-global",
+          "name": "Korea Economic Daily",
+          "websiteUrl": "https://www.kedglobal.com/",
+          "feeds": []
+        },
+        {
+          "id": "kr-k-league-united",
+          "name": "K League United",
+          "websiteUrl": "https://www.kleagueunited.com/",
+          "feeds": []
+        }
+      ]
+    }
+  ]
+}

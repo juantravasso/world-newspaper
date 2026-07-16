@@ -157,24 +157,52 @@ async function auditSource(
         );
 
       const parsed =
-        await parser.parseString(
-          xml,
-        );
+  await parser.parseString(
+    xml,
+  );
 
-      if (
-        parsed.items.length > 0
-      ) {
-        validFeeds.push({
-          url: candidate,
+if (
+  isRejectedFeed(
+    candidate,
+    parsed.title ?? "",
+  )
+) {
+  continue;
+}
 
-          title:
-            parsed.title ??
-            null,
+const articleLinks =
+  parsed.items
+    .map((item) =>
+      typeof item.link ===
+      "string"
+        ? item.link.trim()
+        : "",
+    )
+    .filter(Boolean);
 
-          items:
-            parsed.items.length,
-        });
-      }
+const uniqueArticleLinks =
+  new Set(articleLinks);
+
+if (
+  parsed.items.length < 3 ||
+  uniqueArticleLinks.size < 3
+) {
+  continue;
+}
+
+validFeeds.push({
+  url: candidate,
+
+  title:
+    parsed.title ??
+    null,
+
+  items:
+    parsed.items.length,
+
+  uniqueLinks:
+    uniqueArticleLinks.size,
+});
     } catch {
       // Candidato inválido.
     }
@@ -367,4 +395,27 @@ async function mapWithConcurrency(
   );
 
   return results;
+}
+
+const REJECTED_FEED_PATTERNS = [
+  /comments?/i,
+  /web-stories/i,
+  /\/author\//i,
+  /\/tag\//i,
+  /\/search\//i,
+  /podcast/i,
+  /newsletter/i,
+];
+
+function isRejectedFeed(
+  feedUrl,
+  feedTitle = "",
+) {
+  const value =
+    `${feedUrl} ${feedTitle}`;
+
+  return REJECTED_FEED_PATTERNS.some(
+    (pattern) =>
+      pattern.test(value),
+  );
 }

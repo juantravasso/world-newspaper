@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-07-15T23:34:29.111Z",
+  "region": "asia",
+  "results": [
+    {
+      "countryCode": "CN",
+      "countryName": "China",
+      "sourceId": "cn-scmp",
+      "sourceName": "South China Morning Post",
+      "websiteUrl": "https://www.scmp.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CN",
+      "countryName": "China",
+      "sourceId": "cn-china-daily",
+      "sourceName": "China Daily",
+      "websiteUrl": "https://www.chinadaily.com.cn/",
+      "feeds": []
+    },
+    {
+      "countryCode": "CN",
+      "countryName": "China",
+      "sourceId": "cn-xinhua-sports",
+      "sourceName": "Xinhua Sports",
+      "websiteUrl": "https://english.news.cn/",
+      "feeds": []
+    },
+    {
+      "countryCode": "IN",
+      "countryName": "Índia",
+      "sourceId": "in-the-hindu",
+      "sourceName": "The Hindu",
+      "websiteUrl": "https://www.thehindu.com/",
+      "feeds": [
+        {
+          "url": "https://www.thehindu.com/feeder/default.rss",
+          "title": "The Hindu: Latest News today from India and the World, Breaking news, Top Headlines and Trending News Videos.",
+          "items": 60,
+          "uniqueLinks": 60
+        }
+      ]
+    },
+    {
+      "countryCode": "IN",
+      "countryName": "Índia",
+      "sourceId": "in-economic-times",
+      "sourceName": "The Economic Times",
+      "websiteUrl": "https://economictimes.indiatimes.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "IN",
+      "countryName": "Índia",
+      "sourceId": "in-sportstar",
+      "sourceName": "Sportsstar",
+      "websiteUrl": "https://sportstar.thehindu.com/",
+      "feeds": [
+        {
+          "url": "https://sportstar.thehindu.com/feeder/default.rss",
+          "title": "Sports News Today, Latest Updates & Headlines",
+          "items": 71,
+          "uniqueLinks": 71
+        }
+      ]
+    },
+    {
+      "countryCode": "ID",
+      "countryName": "Indonésia",
+      "sourceId": "id-jakarta-post",
+      "sourceName": "The Jakarta Post",
+      "websiteUrl": "https://www.thejakartapost.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "ID",
+      "countryName": "Indonésia",
+      "sourceId": "id-bisnis",
+      "sourceName": "Bisnis Indonesia",
+      "websiteUrl": "https://www.bisnis.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "ID",
+      "countryName": "Indonésia",
+      "sourceId": "id-bola",
+      "sourceName": "Bola",
+      "websiteUrl": "https://www.bola.com/",
+      "feeds": [
+        {
+          "url": "https://feed.bola.com/rss/indonesia",
+          "title": "Bola.com BRI Super League",
+          "items": 50,
+          "uniqueLinks": 50
+        },
+        {
+          "url": "https://feed.bola.com/rss/piala-dunia",
+          "title": "Bola.com Piala Dunia",
+          "items": 50,
+          "uniqueLinks": 50
+        },
+        {
+          "url": "https://feed.bola.com/rss/inggris",
+          "title": "Bola.com Inggris",
+          "items": 50,
+          "uniqueLinks": 50
+        },
+        {
+          "url": "https://feed.bola.com/rss/dunia",
+          "title": "Bola.com Dunia",
+          "items": 50,
+          "uniqueLinks": 50
+        },
+        {
+          "url": "https://feed.bola.com/rss/spanyol",
+          "title": "Bola.com Spanyol",
+          "items": 50,
+          "uniqueLinks": 50
+        },
+        {
+          "url": "https://feed.bola.com/rss/moto-gp",
+          "title": "Bola.com MotoGP",
+          "items": 50,
+          "uniqueLinks": 50
+        },
+        {
+          "url": "https://feed.bola.com/rss/ragam",
+          "title": "Bola.com Ragam",
+          "items": 50,
+          "uniqueLinks": 50
+        }
+      ]
+    },
+    {
+      "countryCode": "JP",
+      "countryName": "Japão",
+      "sourceId": "jp-japan-times",
+      "sourceName": "The Japan Times",
+      "websiteUrl": "https://www.japantimes.co.jp/",
+      "feeds": [
+        {
+          "url": "https://www.japantimes.co.jp/feed/",
+          "title": "Latest articles - The Japan Times",
+          "items": 30,
+          "uniqueLinks": 30
+        }
+      ]
+    },
+    {
+      "countryCode": "JP",
+      "countryName": "Japão",
+      "sourceId": "jp-nikkei-asia",
+      "sourceName": "Nikkei Asia",
+      "websiteUrl": "https://asia.nikkei.com/",
+      "feeds": []
+    },
+    {
+      "countryCode": "JP",
+      "countryName": "Japão",
+      "sourceId": "jp-soccer-digest",
+      "sourceName": "Soccer Digest",
+      "websiteUrl": "https://www.soccerdigestweb.com/",
+      "feeds": [
+        {
+          "url": "https://www.soccerdigestweb.com/RSS.rdf",
+          "title": "サッカーダイジェストWeb",
+          "items": 50,
+          "uniqueLinks": 50
+        }
+      ]
+    },
+    {
+      "countryCode": "KR",
+      "countryName": "Coreia do Sul",
+      "sourceId": "kr-korea-herald",
+      "sourceName": "The Korea Herald",
+      "websiteUrl": "https://www.koreaherald.com/",
+      "feeds": [
+        {
+          "url": "https://www.koreaherald.com/rss/newsAll",
+          "title": "The korea Herald News Rss",
+          "items": 50,
+          "uniqueLinks": 50
+        }
+      ]
+    },
+    {
+      "countryCode": "KR",
+      "countryName": "Coreia do Sul",
+      "sourceId": "kr-ked-global",
+      "sourceName": "Korea Economic Daily",
+      "websiteUrl": "https://www.kedglobal.com/",
+      "feeds": [
+        {
+          "url": "https://www.kedglobal.com/rss",
+          "title": "The Korea Economic Daily Global",
+          "items": 20,
+          "uniqueLinks": 20
+        }
+      ]
+    },
+    {
+      "countryCode": "KR",
+      "countryName": "Coreia do Sul",
+      "sourceId": "kr-k-league-united",
+      "sourceName": "K League United",
+      "websiteUrl": "https://www.kleagueunited.com/",
+      "feeds": [
+        {
+          "url": "https://www.kleagueunited.com/feeds/posts/default",
+          "title": "K League United | South Korean football news, opinions, match previews and score predictions",
+          "items": 25,
+          "uniqueLinks": 25
+        }
+      ]
+    }
+  ]
+}

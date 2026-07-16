@@ -4,12 +4,14 @@ import {
 } from "@/components";
 
 import {
-  buildAmericaCountriesWithNews,
-} from "@/server/news/build-america-countries";
+  buildWorldCountriesWithNews,
+} from "@/server/news/build-world-countries";
+
+export const revalidate = 900;
 
 export default async function CountriesPage() {
   const countries =
-    await buildAmericaCountriesWithNews();
+    await buildWorldCountriesWithNews();
 
   return (
     <Box
@@ -23,7 +25,7 @@ export default async function CountriesPage() {
       >
         <CountriesDirectory
           countries={countries}
-          defaultContinent="america"
+          defaultContinent="world"
         />
       </Box>
     </Box>

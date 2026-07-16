@@ -1,0 +1,229 @@
+{
+  "countries": [
+    {
+      "code": "DE",
+      "name": "Alemanha",
+      "slug": "alemanha",
+      "flag": "🇩🇪",
+      "language": "de",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "de-dw",
+          "name": "Deutsche Welle",
+          "websiteUrl": "https://www.dw.com/",
+          "feeds": []
+        },
+        {
+          "id": "de-handelsblatt",
+          "name": "Handelsblatt",
+          "websiteUrl": "https://www.handelsblatt.com/",
+          "feeds": []
+        },
+        {
+          "id": "de-kicker",
+          "name": "Kicker",
+          "websiteUrl": "https://www.kicker.de/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "ES",
+      "name": "Espanha",
+      "slug": "espanha",
+      "flag": "🇪🇸",
+      "language": "es",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "es-el-pais",
+          "name": "El País",
+          "websiteUrl": "https://elpais.com/",
+          "feeds": [
+            {
+              "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "es-expansion",
+          "name": "Expansión",
+          "websiteUrl": "https://www.expansion.com/",
+          "feeds": [
+            {
+              "url": "https://e01-expansion.uecdn.es/rss/portada.xml",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "es-marca",
+          "name": "Marca",
+          "websiteUrl": "https://www.marca.com/",
+          "feeds": [
+            {
+              "url": "https://www.marca.com/rss/googlenews/portada.xml",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "FR",
+      "name": "França",
+      "slug": "franca",
+      "flag": "🇫🇷",
+      "language": "fr",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "fr-le-monde",
+          "name": "Le Monde",
+          "websiteUrl": "https://www.lemonde.fr/",
+          "feeds": [
+            {
+              "url": "https://www.lemonde.fr/rss/une.xml",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "fr-les-echos",
+          "name": "Les Échos",
+          "websiteUrl": "https://www.lesechos.fr/",
+          "feeds": []
+        },
+        {
+          "id": "fr-lequipe",
+          "name": "L'Équipe",
+          "websiteUrl": "https://www.lequipe.fr/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "GB",
+      "name": "Reino Unido",
+      "slug": "reino-unido",
+      "flag": "🇬🇧",
+      "language": "en",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "gb-guardian",
+          "name": "The Guardian",
+          "websiteUrl": "https://www.theguardian.com/",
+          "feeds": [
+            {
+              "url": "https://www.theguardian.com/rss",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "gb-financial-times",
+          "name": "Financial Times",
+          "websiteUrl": "https://www.ft.com/",
+          "feeds": [
+            {
+              "url": "https://www.ft.com/rss/",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "gb-bbc-sport",
+          "name": "BBC Sport",
+          "websiteUrl": "https://www.bbc.com/sport/football",
+          "feeds": [
+            {
+              "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "IT",
+      "name": "Itália",
+      "slug": "italia",
+      "flag": "🇮🇹",
+      "language": "it",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "it-corriere",
+          "name": "Corriere della Sera",
+          "websiteUrl": "https://www.corriere.it/",
+          "feeds": []
+        },
+        {
+          "id": "it-il-sole-24-ore",
+          "name": "Il Sole 24 Ore",
+          "websiteUrl": "https://www.ilsole24ore.com/",
+          "feeds": []
+        },
+        {
+          "id": "it-gazzetta",
+          "name": "La Gazzetta dello Sport",
+          "websiteUrl": "https://www.gazzetta.it/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "slug": "portugal",
+      "flag": "🇵🇹",
+      "language": "pt-PT",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "pt-publico",
+          "name": "Público",
+          "websiteUrl": "https://www.publico.pt/",
+          "feeds": []
+        },
+        {
+          "id": "pt-jornal-negocios",
+          "name": "Jornal de Negócios",
+          "websiteUrl": "https://www.jornaldenegocios.pt/",
+          "feeds": [
+            {
+              "url": "https://www.jornaldenegocios.pt/rss",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "id": "pt-a-bola",
+          "name": "A Bola",
+          "websiteUrl": "https://www.abola.pt/",
+          "feeds": [
+            {
+              "url": "https://www.abola.pt/rss-articles.xml",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

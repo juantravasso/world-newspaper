@@ -23,6 +23,7 @@ import {
 
 import {
   getNewsFromCountries,
+  selectHeroNews,
 } from "@/domain/news/news.helpers";
 
 import type {
@@ -31,7 +32,8 @@ import type {
 } from "@/domain/news/news.types";
 
 export type NewsByContinentProps = {
-  countries: CountryWithLatestNews[];
+  countries:
+    CountryWithLatestNews[];
 
   title: string;
   description: string;
@@ -40,7 +42,8 @@ export type NewsByContinentProps = {
 
   exploreTitle?: string;
 
-  defaultContinent?: ContinentId;
+  defaultContinent?:
+    ContinentId;
 };
 
 export function NewsByContinent({
@@ -48,7 +51,8 @@ export function NewsByContinent({
   title,
   description,
   category,
-  exploreTitle = "Explore por país",
+  exploreTitle =
+    "Explore por país",
   defaultContinent = "world",
 }: NewsByContinentProps) {
   const [
@@ -58,47 +62,64 @@ export function NewsByContinent({
     defaultContinent,
   );
 
-  const visibleCountries = useMemo(
-    () =>
-      filterCountriesByContinent(
+  const visibleCountries =
+    useMemo(
+      () =>
+        filterCountriesByContinent(
+          countries,
+          selectedContinent,
+        ),
+      [
         countries,
         selectedContinent,
-      ),
-    [
-      countries,
-      selectedContinent,
-    ],
-  );
+      ],
+    );
 
-  const visibleNews = useMemo(
-    () =>
-      getNewsFromCountries(
+  const visibleNews =
+    useMemo(
+      () =>
+        getNewsFromCountries(
+          visibleCountries,
+          category,
+        ),
+      [
         visibleCountries,
         category,
+      ],
+    );
+
+  const {
+    featuredNews,
+    secondaryNews,
+  } = useMemo(
+    () =>
+      selectHeroNews(
+        visibleNews,
       ),
-    [
-      visibleCountries,
-      category,
-    ],
+    [visibleNews],
   );
-
-  const featuredNews =
-    visibleNews[0];
-
-  const secondaryNews =
-    visibleNews.slice(1, 3);
 
   return (
     <>
       <Hero
         title={title}
         description={description}
-        featuredNews={featuredNews}
-        secondaryNews={secondaryNews}
-        emptyMessage="Ainda não existem notícias cadastradas para esta região."
+        featuredNews={
+          featuredNews
+        }
+        secondaryNews={
+          secondaryNews
+        }
+        emptyMessage={
+          visibleNews.length > 0
+            ? "Existem notícias para esta região, mas nenhuma possui imagem extraída para o destaque."
+            : "Ainda não existem notícias cadastradas para esta região."
+        }
         actions={
           <ContinentSelector
-            value={selectedContinent}
+            value={
+              selectedContinent
+            }
             onValueChange={
               setSelectedContinent
             }
@@ -106,14 +127,13 @@ export function NewsByContinent({
         }
       />
 
-      {visibleCountries.length > 0 ? (
+      {visibleCountries.length >
+      0 ? (
         <ExploreCountries
-          /**
-           * Reinicia o país selecionado
-           * quando o continente muda.
-           */
           key={`${selectedContinent}-${category ?? "all"}`}
-          countries={visibleCountries}
+          countries={
+            visibleCountries
+          }
           category={category}
           title={exploreTitle}
         />
@@ -136,7 +156,8 @@ export function NewsByContinent({
             className="mt-2"
           >
             Ainda não existem países
-            cadastrados para esta região.
+            cadastrados para esta
+            região.
           </Text>
         </Box>
       )}
