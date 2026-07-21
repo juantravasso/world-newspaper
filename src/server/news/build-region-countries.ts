@@ -25,6 +25,7 @@ import type {
 
 import {
   extractItemImage,
+  extractItemLink,
   parseSourceFeed,
 } from "./rss/rss-parser";
 
@@ -291,31 +292,22 @@ function normalizeItem(
   } = entry;
 
   const title =
-    toSafeString(
-      item.title,
-    ).trim();
+  toSafeString(
+    item.title,
+  ).trim();
 
-  const rawHref =
-    toSafeString(
-      item.link,
-    ).trim();
+const href =
+  extractItemLink(
+    item,
+    source.websiteUrl,
+  );
 
-  if (
-    !title ||
-    !rawHref
-  ) {
-    return null;
-  }
-
-  const href =
-    resolveUrl(
-      rawHref,
-      source.websiteUrl,
-    );
-
-  if (!href) {
-    return null;
-  }
+if (
+  !title ||
+  !href
+) {
+  return null;
+}
 
   const excerpt =
     createExcerpt(item);
