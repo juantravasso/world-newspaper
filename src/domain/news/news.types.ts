@@ -1,6 +1,7 @@
 import type {
   CountryRegionId,
 } from "@/domain/geography";
+import { NewsStory } from "./story.types";
 
 export type NewsCategory =
   | "football"
@@ -92,13 +93,17 @@ export type CountryWithLatestNews = {
   slug: string;
 
   flag: string;
-
   language: string;
   active: boolean;
 
-  regions: CountryRegionId[];
+  regions:
+    CountryRegionId[];
 
-  news: CountryNewsCard[];
+  news:
+    CountryNewsCard[];
+
+  stories:
+    NewsStory[];
 };
 
 export type MockNewsSource = {

@@ -635,7 +635,10 @@ export function buildMockCountriesWithNews(
   now = new Date(),
 ): CountryWithLatestNews[] {
   return countrySeeds.map(
-    (country, countryIndex) => ({
+    (
+      country,
+      countryIndex,
+    ) => ({
       code: country.code,
       name: country.name,
       slug: country.slug,
@@ -647,17 +650,21 @@ export function buildMockCountriesWithNews(
       news: categories.map(
         (category) => {
           const sourceData =
-            country.sources[category];
+            country.sources[
+              category
+            ];
 
           /*
-           * O índice cria horários diferentes
-           * entre os países.
+           * O índice cria horários
+           * diferentes entre os países.
            */
           const countryDelay =
             countryIndex * 3;
 
           const articleAgeInMinutes =
-            minutesByCategory[category] +
+            minutesByCategory[
+              category
+            ] +
             countryDelay;
 
           const publishedDate =
@@ -667,11 +674,13 @@ export function buildMockCountriesWithNews(
                   60_000,
             );
 
-          const articleId = [
-            country.code.toLowerCase(),
-            category,
-            "001",
-          ].join("-");
+          const articleId =
+            [
+              country.code
+                .toLowerCase(),
+              category,
+              "001",
+            ].join("-");
 
           return {
             id: articleId,
@@ -679,7 +688,9 @@ export function buildMockCountriesWithNews(
             title:
               articleTemplates[
                 category
-              ].title(country.name),
+              ].title(
+                country.name,
+              ),
 
             excerpt:
               articleTemplates[
@@ -689,9 +700,15 @@ export function buildMockCountriesWithNews(
             category,
 
             categoryLabel:
-              categoryLabels[category],
+              categoryLabels[
+                category
+              ],
 
-            source: sourceData.name,
+            sourceId:
+              sourceData.id,
+
+            source:
+              sourceData.name,
 
             publishedAt:
               formatRelativeTime(
@@ -699,15 +716,22 @@ export function buildMockCountriesWithNews(
                 now,
               ),
 
-            href: [
-              "https://example.com",
-              country.slug,
-              category,
-              articleId,
-            ].join("/"),
+            publishedAtISO:
+              publishedDate
+                .toISOString(),
+
+            href:
+              [
+                "https://example.com",
+                country.slug,
+                category,
+                articleId,
+              ].join("/"),
           };
         },
       ),
+
+      stories: [],
     }),
   );
 }

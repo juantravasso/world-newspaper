@@ -28,10 +28,12 @@ export const metadata: Metadata = {
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>;
 
 export default function RootLayout({
   children,
+  modal,
 }: RootLayoutProps) {
   return (
     <html
@@ -42,6 +44,7 @@ export default function RootLayout({
         <Header />
 
         {children}
+        {modal}
       </body>
     </html>
   );

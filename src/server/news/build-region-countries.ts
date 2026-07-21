@@ -28,6 +28,7 @@ import {
   extractItemLink,
   parseSourceFeed,
 } from "./rss/rss-parser";
+import { NewsStory } from "@/domain/news/story.types";
 
 const MAX_NEWS_PER_COUNTRY =
   18;
@@ -101,11 +102,12 @@ export async function buildCountriesFromCatalog(
           ].join(" "),
         );
 
-        return createCountry(
-          country,
-          [],
-          defaultRegions,
-        );
+       return createCountry(
+        country,
+        [],
+        [],
+        defaultRegions,
+      );
       }
     },
   );
@@ -147,10 +149,11 @@ async function buildCountry(
     feedTasks.length === 0
   ) {
     return createCountry(
-      country,
-      [],
-      defaultRegions,
-    );
+  country,
+  [],
+  [],
+  defaultRegions,
+);
   }
 
   const feedResults =
@@ -201,10 +204,11 @@ async function buildCountry(
       );
 
   return createCountry(
-    country,
-    news,
-    defaultRegions,
-  );
+  country,
+  [],
+  [],
+  defaultRegions,
+);
 }
 
 async function loadFeedSafely(
@@ -619,6 +623,9 @@ function createCountry(
   news:
     CountryNewsCard[],
 
+  stories:
+    NewsStory[],
+
   defaultRegions:
     CountryRegionId[],
 ): CountryWithLatestNews {
@@ -645,6 +652,7 @@ function createCountry(
       defaultRegions,
 
     news,
+    stories,
   };
 }
 
