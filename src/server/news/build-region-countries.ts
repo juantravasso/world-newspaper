@@ -366,18 +366,18 @@ if (
         )
       : undefined;
 
-  return {
+    return {
     id,
 
     title,
     excerpt,
 
     category,
-
     categoryLabel:
-      categoryLabels[
-        category
-      ],
+      categoryLabels[category],
+
+    sourceId:
+      source.id,
 
     source:
       source.name,
@@ -392,7 +392,6 @@ if (
     publishedAtISO,
 
     href,
-
     imageUrl,
   };
 }
@@ -583,19 +582,20 @@ function compareNewsByDateDescending(
 }
 
 function toCountryNewsCard(
-  news:
-    NormalizedNews,
+  news: NormalizedNews,
 ): CountryNewsCard {
   return {
     id: news.id,
+
     title: news.title,
     excerpt: news.excerpt,
 
-    category:
-      news.category,
-
+    category: news.category,
     categoryLabel:
       news.categoryLabel,
+
+    sourceId:
+      news.sourceId,
 
     source:
       news.source,
@@ -603,9 +603,10 @@ function toCountryNewsCard(
     publishedAt:
       news.publishedAt,
 
-    href:
-      news.href,
+    publishedAtISO:
+      news.publishedAtISO,
 
+    href: news.href,
     imageUrl:
       news.imageUrl,
   };

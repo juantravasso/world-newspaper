@@ -69,14 +69,18 @@ export type CountryCode =
 
 export type CountryNewsCard = {
   id: string;
+
   title: string;
   excerpt: string;
 
   category: NewsCategory;
   categoryLabel: string;
 
+  sourceId: string;
   source: string;
+
   publishedAt: string;
+  publishedAtISO: string | null;
 
   href: string;
   imageUrl?: string;
