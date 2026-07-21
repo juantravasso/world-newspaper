@@ -3,10 +3,10 @@ import type {
 } from "@/domain/news/story.types";
 
 import {
-  mockStories,
-} from "./story.mock";
+  findAllStories,
+} from "./story.repository";
 
 export async function listStories():
   Promise<NewsStory[]> {
-  return mockStories;
+  return findAllStories();
 }

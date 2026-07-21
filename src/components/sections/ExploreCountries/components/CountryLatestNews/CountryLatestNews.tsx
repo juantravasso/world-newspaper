@@ -13,7 +13,7 @@ import type {
 
 import {
   CountryLatestNewsHeader,
-  CountryNewsCard,
+  CountryStoryCard,
   EmptyNewsState,
 } from "./components";
 
@@ -28,13 +28,14 @@ export function CountryLatestNews({
   country,
   category,
 }: CountryLatestNewsProps) {
-  const visibleNews = category
-    ? country.news.filter(
-        (news) =>
-          news.category ===
-          category,
-      )
-    : country.news;
+  const visibleStories =
+    category
+      ? country.stories.filter(
+          (story) =>
+            story.category ===
+            category,
+        )
+      : country.stories;
 
   const animationKey =
     `${country.code}-${category ?? "all"}`;
@@ -50,7 +51,7 @@ export function CountryLatestNews({
         category={category}
       />
 
-      {visibleNews.length > 0 ? (
+      {visibleStories.length > 0 ? (
         <MotionReveal
           key={animationKey}
           staggerItems
@@ -64,16 +65,16 @@ export function CountryLatestNews({
               xl:grid-cols-3
             "
           >
-            {visibleNews.map(
-              (news) => (
+            {visibleStories.map(
+              (story) => (
                 <Box
                   as="li"
                   data-motion-item
-                  key={news.id}
+                  key={story.id}
                   className="min-w-0"
                 >
-                  <CountryNewsCard
-                    news={news}
+                  <CountryStoryCard
+                    story={story}
                   />
                 </Box>
               ),
@@ -82,7 +83,9 @@ export function CountryLatestNews({
         </MotionReveal>
       ) : (
         <EmptyNewsState
-          countryName={country.name}
+          countryName={
+            country.name
+          }
           category={category}
         />
       )}
