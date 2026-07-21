@@ -1,7 +1,9 @@
 import type {
   CountryRegionId,
 } from "@/domain/geography";
-import { NewsStory } from "./story.types";
+import type {
+  NewsStory,
+} from "./story.types";
 
 export type NewsCategory =
   | "football"

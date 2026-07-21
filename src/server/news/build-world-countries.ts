@@ -158,11 +158,24 @@ function mergeCountries(
             ]),
           ],
 
-        news:
-          [
-            ...existing.news,
-            ...country.news,
-          ],
+        news: [
+  ...existing.news,
+  ...country.news,
+        ],
+
+        stories: [
+          ...new Map(
+            [
+              ...existing.stories,
+              ...country.stories,
+            ].map(
+              (story) => [
+                story.id,
+                story,
+              ],
+            ),
+          ).values(),
+        ],
       },
     );
   }

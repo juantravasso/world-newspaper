@@ -12,6 +12,15 @@ import type {
   NewsCategory,
 } from "@/domain/news/news.types";
 
+import type {
+  NewsArticle,
+  NewsStory,
+} from "@/domain/news/story.types";
+
+import {
+  clusterArticles,
+} from "@/server/stories/cluster-articles";
+
 import {
   classifyNews,
 } from "./classify-news";
@@ -28,7 +37,6 @@ import {
   extractItemLink,
   parseSourceFeed,
 } from "./rss/rss-parser";
-import { NewsStory } from "@/domain/news/story.types";
 
 const MAX_NEWS_PER_COUNTRY =
   18;
@@ -102,12 +110,12 @@ export async function buildCountriesFromCatalog(
           ].join(" "),
         );
 
-       return createCountry(
-        country,
-        [],
-        [],
-        defaultRegions,
-      );
+        return createCountry(
+          country,
+          [],
+          [],
+          defaultRegions,
+        );
       }
     },
   );
@@ -149,11 +157,11 @@ async function buildCountry(
     feedTasks.length === 0
   ) {
     return createCountry(
-  country,
-  [],
-  [],
-  defaultRegions,
-);
+      country,
+      [],
+      [],
+      defaultRegions,
+    );
   }
 
   const feedResults =
@@ -203,12 +211,96 @@ async function buildCountry(
         toCountryNewsCard,
       );
 
+  const articles:
+    NewsArticle[] =
+    news.map(
+      (newsItem) => ({
+        id:
+          newsItem.id,
+
+        sourceId:
+          newsItem.sourceId,
+
+        sourceName:
+          newsItem.source,
+
+        title:
+          newsItem.title,
+
+        excerpt:
+          newsItem.excerpt,
+
+        url:
+          newsItem.href,
+
+        imageUrl:
+          newsItem.imageUrl,
+
+        category:
+          newsItem.category,
+
+        countryCode:
+          country.code,
+
+        language:
+          country.language,
+
+        publishedAtISO:
+          newsItem.publishedAtISO,
+      }),
+    );
+
+  const stories:
+    NewsStory[] =
+    clusterArticles(
+      articles,
+    );
+
+  if (
+    process.env.NODE_ENV ===
+    "development"
+  ) {
+    const multiSourceStories =
+      stories.filter(
+        (story) =>
+          story.articles.length > 1,
+      );
+
+    console.info(
+      `[STORY CLUSTER] ${country.code}`,
+      {
+        articles:
+          articles.length,
+
+        stories:
+          stories.length,
+
+        multiSourceStories:
+          multiSourceStories.map(
+            (story) => ({
+              id:
+                story.id,
+
+              headline:
+                story.headline,
+
+              sources:
+                story.articles.map(
+                  (article) =>
+                    article.sourceName,
+                ),
+            }),
+          ),
+      },
+    );
+  }
+
   return createCountry(
-  country,
-  [],
-  [],
-  defaultRegions,
-);
+    country,
+    news,
+    stories,
+    defaultRegions,
+  );
 }
 
 async function loadFeedSafely(
@@ -296,22 +388,22 @@ function normalizeItem(
   } = entry;
 
   const title =
-  toSafeString(
-    item.title,
-  ).trim();
+    toSafeString(
+      item.title,
+    ).trim();
 
-const href =
-  extractItemLink(
-    item,
-    source.websiteUrl,
-  );
+  const href =
+    extractItemLink(
+      item,
+      source.websiteUrl,
+    );
 
-if (
-  !title ||
-  !href
-) {
-  return null;
-}
+  if (
+    !title ||
+    !href
+  ) {
+    return null;
+  }
 
   const excerpt =
     createExcerpt(item);
@@ -355,7 +447,6 @@ if (
         source.id,
 
       identifier,
-
       title,
     });
 
@@ -370,7 +461,7 @@ if (
         )
       : undefined;
 
-    return {
+  return {
     id,
 
     title,
@@ -586,15 +677,22 @@ function compareNewsByDateDescending(
 }
 
 function toCountryNewsCard(
-  news: NormalizedNews,
+  news:
+    NormalizedNews,
 ): CountryNewsCard {
   return {
-    id: news.id,
+    id:
+      news.id,
 
-    title: news.title,
-    excerpt: news.excerpt,
+    title:
+      news.title,
 
-    category: news.category,
+    excerpt:
+      news.excerpt,
+
+    category:
+      news.category,
+
     categoryLabel:
       news.categoryLabel,
 
@@ -610,7 +708,9 @@ function toCountryNewsCard(
     publishedAtISO:
       news.publishedAtISO,
 
-    href: news.href,
+    href:
+      news.href,
+
     imageUrl:
       news.imageUrl,
   };
