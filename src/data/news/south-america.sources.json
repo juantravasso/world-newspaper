@@ -269,7 +269,8 @@
           "websiteUrl": "https://larepublica.pe/",
           "feeds": [
             {
-              "url": "https://larepublica.pe/rss.xml"
+              "url": "https://larepublica.pe/rss.xml",
+              "enabled": false
             }
           ]
         },
