@@ -383,7 +383,7 @@ function createStoryId(
       .digest("hex")
       .slice(0, 20);
 
-  return `story:${hash}`;
+  return `story-${hash}`;
 }
 
 function compareArticlesByDateDescending(

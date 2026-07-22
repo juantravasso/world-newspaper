@@ -10,9 +10,9 @@ import {
 } from "@/components/Box";
 
 import {
-  ContinentSelector,
-  getContinentOption,
-} from "@/components/ContinentSelector";
+  RegionSelector,
+  getRegionOption,
+} from "@/components/RegionSelector";
 
 import {
   MotionReveal,
@@ -31,11 +31,11 @@ import {
 } from "@/components/WorldImageRing";
 
 import {
-  filterCountriesByContinent,
+  filterCountriesByRegion,
 } from "@/domain/geography";
 
 import type {
-  ContinentId,
+  RegionId,
 } from "@/domain/geography";
 
 import type {
@@ -50,40 +50,40 @@ export type CountriesDirectoryProps = {
   countries:
     CountryWithLatestNews[];
 
-  defaultContinent?: ContinentId;
+  defaultRegion?: RegionId;
 };
 
 export function CountriesDirectory({
   countries,
-  defaultContinent = "world",
+  defaultRegion = "world",
 }: CountriesDirectoryProps) {
   const [
-    selectedContinent,
-    setSelectedContinent,
-  ] = useState<ContinentId>(
-    defaultContinent,
+    selectedRegion,
+    setSelectedRegion,
+  ] = useState<RegionId>(
+    defaultRegion,
   );
 
   const visibleCountries =
     useMemo(
       () =>
-        filterCountriesByContinent(
+        filterCountriesByRegion(
           countries,
-          selectedContinent,
+          selectedRegion,
         ),
       [
         countries,
-        selectedContinent,
+        selectedRegion,
       ],
     );
 
   const selectedOption =
-    getContinentOption(
-      selectedContinent,
+    getRegionOption(
+      selectedRegion,
     );
 
   const countriesTitle =
-    selectedContinent === "world"
+    selectedRegion === "world"
       ? "Todos os países"
       : `Países — ${selectedOption.label}`;
 
@@ -149,12 +149,12 @@ export function CountriesDirectory({
               </Text>
 
               <Box className="mt-5">
-                <ContinentSelector
+                <RegionSelector
                   value={
-                    selectedContinent
+                    selectedRegion
                   }
                   onValueChange={
-                    setSelectedContinent
+                    setSelectedRegion
                   }
                   showArrows
                 />
@@ -173,7 +173,7 @@ export function CountriesDirectory({
 
       {visibleCountries.length > 0 ? (
         <ExploreCountries
-          key={selectedContinent}
+          key={selectedRegion}
           countries={
             visibleCountries
           }
@@ -182,7 +182,7 @@ export function CountriesDirectory({
         />
       ) : (
         <EmptyCountriesState
-          continentLabel={
+          RegionLabel={
             selectedOption.label
           }
         />
@@ -192,11 +192,11 @@ export function CountriesDirectory({
 }
 
 type EmptyCountriesStateProps = {
-  continentLabel: string;
+  RegionLabel: string;
 };
 
 function EmptyCountriesState({
-  continentLabel,
+  RegionLabel,
 }: EmptyCountriesStateProps) {
   return (
     <Box
@@ -216,7 +216,7 @@ function EmptyCountriesState({
       >
         Ainda não existem países
         cadastrados para{" "}
-        {continentLabel}.
+        {RegionLabel}.
       </Text>
     </Box>
   );

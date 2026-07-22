@@ -1,9 +1,11 @@
 import africaSourcesJson from "@/data/news/africa.sources.json";
-import americaSourcesJson from "@/data/news/america.sources.json";
 import asiaSourcesJson from "@/data/news/asia.sources.json";
+import centralAmericaSourcesJson from "@/data/news/central-america.sources.json";
 import europeSourcesJson from "@/data/news/europe.sources.json";
 import middleEastSourcesJson from "@/data/news/middle-east.sources.json";
+import northAmericaSourcesJson from "@/data/news/north-america.sources.json";
 import oceaniaSourcesJson from "@/data/news/oceania.sources.json";
+import southAmericaSourcesJson from "@/data/news/south-america.sources.json";
 
 import type {
   CountryRegionId,
@@ -21,6 +23,7 @@ import {
 import type {
   NewsSourcesCatalog,
 } from "./news-source.types";
+import { cacheLife } from "next/cache";
 
 type CatalogEntry = {
   catalog:
@@ -33,14 +36,34 @@ type CatalogEntry = {
 const catalogEntries:
   CatalogEntry[] = [
     {
-      catalog:
-        americaSourcesJson as
-          NewsSourcesCatalog,
+  catalog:
+    northAmericaSourcesJson as
+      NewsSourcesCatalog,
 
-      defaultRegions: [
-        "america",
-      ],
-    },
+  defaultRegions: [
+    "north-america",
+  ],
+},
+
+{
+  catalog:
+    centralAmericaSourcesJson as
+      NewsSourcesCatalog,
+
+  defaultRegions: [
+    "central-america",
+  ],
+},
+
+{
+  catalog:
+    southAmericaSourcesJson as
+      NewsSourcesCatalog,
+
+  defaultRegions: [
+    "south-america",
+  ],
+},
 
     {
       catalog:
@@ -98,6 +121,14 @@ export async function buildWorldCountriesWithNews(
 ): Promise<
   CountryWithLatestNews[]
 > {
+  "use cache";
+
+  cacheLife({
+    stale: 900,
+    revalidate: 900,
+    expire: 3600,
+  });
+
   const catalogResults =
     await Promise.all(
       catalogEntries.map(

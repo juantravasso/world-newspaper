@@ -1,6 +1,8 @@
-export type ContinentId =
+export type RegionId =
   | "world"
-  | "america"
+  | "north-america"
+  | "central-america"
+  | "south-america"
   | "europe"
   | "africa"
   | "asia"
@@ -9,6 +11,6 @@ export type ContinentId =
 
 export type CountryRegionId =
   Exclude<
-    ContinentId,
+    RegionId,
     "world"
   >;

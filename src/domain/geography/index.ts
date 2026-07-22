@@ -1,8 +1,8 @@
 export type {
-  ContinentId,
+  RegionId,
   CountryRegionId,
 } from "./geography.types";
 
 export {
-  filterCountriesByContinent,
+  filterCountriesByRegion,
 } from "./geography.helpers";

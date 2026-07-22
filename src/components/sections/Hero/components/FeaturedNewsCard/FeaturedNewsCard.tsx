@@ -40,10 +40,15 @@ export function FeaturedNewsCard({
       news.category,
       news.imageUrl,
     );
+    const storyHref =
+  `/noticias/${encodeURIComponent(
+    news.storyId,
+  )}`;
 
   return (
     <Link
-      href={news.href}
+      href={storyHref}
+      prefetch={false}
       className="
         block rounded-card
         outline-none

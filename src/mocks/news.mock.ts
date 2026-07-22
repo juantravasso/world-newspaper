@@ -47,7 +47,7 @@ const countrySeeds = [
     slug: "argentina",
     flag: "🇦🇷",
     language: "es",
-    regions: ["america"],
+    regions: ["south-america"],
 
     sources: {
       politics: "La Nación",
@@ -62,7 +62,7 @@ const countrySeeds = [
     slug: "brasil",
     flag: "🇧🇷",
     language: "pt-BR",
-    regions: ["america"],
+    regions: ["south-america"],
 
     sources: {
       politics: "Folha de S.Paulo",
@@ -77,7 +77,7 @@ const countrySeeds = [
     slug: "canada",
     flag: "🇨🇦",
     language: "en",
-    regions: ["america"],
+    regions: ["north-america"],
 
     sources: {
       politics: "The Globe and Mail",
@@ -92,7 +92,7 @@ const countrySeeds = [
     slug: "colombia",
     flag: "🇨🇴",
     language: "es",
-    regions: ["america"],
+    regions: ["south-america"],
 
     sources: {
       politics: "El Tiempo",
@@ -107,7 +107,7 @@ const countrySeeds = [
     slug: "mexico",
     flag: "🇲🇽",
     language: "es",
-    regions: ["america"],
+    regions: ["north-america"],
 
     sources: {
       politics: "El Universal",
@@ -122,7 +122,7 @@ const countrySeeds = [
     slug: "estados-unidos",
     flag: "🇺🇸",
     language: "en",
-    regions: ["america"],
+    regions: ["north-america"],
 
     sources: {
       politics: "The Washington Post",

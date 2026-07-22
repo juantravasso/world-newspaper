@@ -23,6 +23,10 @@ export type SecondaryNewsCardProps = {
 export function SecondaryNewsCard({
   news,
 }: SecondaryNewsCardProps) {
+  const storyHref =
+  `/noticias/${encodeURIComponent(
+    news.storyId,
+  )}`;
   return (
     <Link
       href={news.href}

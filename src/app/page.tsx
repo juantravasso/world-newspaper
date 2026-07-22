@@ -1,13 +1,11 @@
 import {
   Box,
-  NewsByContinent,
+  NewsByRegion,
 } from "@/components";
 
 import {
   buildWorldCountriesWithNews,
 } from "@/server/news/build-world-countries";
-
-export const revalidate = 900;
 
 export default async function Home() {
   const countries =
@@ -23,12 +21,12 @@ export default async function Home() {
         preset="container"
         paddingY="xl"
       >
-        <NewsByContinent
+        <NewsByRegion
           countries={countries}
           title="O mundo em um só lugar."
           description="Notícias locais, fontes verificadas e diferentes perspectivas sobre os principais acontecimentos mundiais."
           exploreTitle="Explore por país"
-          defaultContinent="world"
+          defaultRegion="world"
         />
       </Box>
     </Box>

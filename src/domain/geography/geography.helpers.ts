@@ -3,23 +3,33 @@ import type {
 } from "@/domain/news/news.types";
 
 import type {
-  ContinentId,
+  RegionId,
 } from "./geography.types";
 
-export function filterCountriesByContinent(
-  countries: CountryWithLatestNews[],
-  continent: ContinentId,
-): CountryWithLatestNews[] {
-  const activeCountries = countries.filter(
-    (country) => country.active,
-  );
+export function filterCountriesByRegion(
+  countries:
+    CountryWithLatestNews[],
 
-  if (continent === "world") {
+  region:
+    RegionId,
+): CountryWithLatestNews[] {
+  const activeCountries =
+    countries.filter(
+      (country) =>
+        country.active,
+    );
+
+  if (
+    region ===
+    "world"
+  ) {
     return activeCountries;
   }
 
   return activeCountries.filter(
     (country) =>
-      country.regions.includes(continent),
+      country.regions.includes(
+        region,
+      ),
   );
 }

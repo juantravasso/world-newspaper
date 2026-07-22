@@ -1,13 +1,11 @@
 import {
   Box,
-  NewsByContinent,
+  NewsByRegion,
 } from "@/components";
 
 import {
   buildWorldCountriesWithNews,
 } from "@/server/news/build-world-countries";
-
-export const revalidate = 900;
 
 export default async function EconomyPage() {
   const countries =
@@ -25,13 +23,13 @@ export default async function EconomyPage() {
         preset="container"
         paddingY="xl"
       >
-        <NewsByContinent
+        <NewsByRegion
           countries={countries}
           category="economy"
           title="A economia mundial em destaque."
-          description="Mercados, empresas, indicadores e decisões econômicas dos países de cada continente."
+          description="Mercados, empresas, indicadores e decisões econômicas dos países de cada região."
           exploreTitle="Economia por país"
-          defaultContinent="world"
+          defaultRegion="world"
         />
       </Box>
     </Box>
