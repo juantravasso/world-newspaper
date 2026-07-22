@@ -1,5 +1,5 @@
 export * from "./Box";
-export * from "./ContinentSelector";
+export * from "./RegionSelector";
 export * from "./CountryFlag";
 export * from "./EditorialImage";
 export * from "./effects";

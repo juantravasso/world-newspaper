@@ -1,0 +1,397 @@
+{
+  "countries": [
+    {
+      "code": "AR",
+      "name": "Argentina",
+      "slug": "argentina",
+      "flag": "🇦🇷",
+      "language": "es",
+      "sources": [
+        {
+          "id": "ar-pagina-12",
+          "name": "Página/12",
+          "websiteUrl": "https://www.pagina12.com.ar/",
+          "feeds": []
+        },
+        {
+          "id": "ar-clarin",
+          "name": "Clarín",
+          "websiteUrl": "https://www.clarin.com/",
+          "feeds": [
+            {
+              "url": "https://www.clarin.com/rss"
+            }
+          ]
+        },
+        {
+          "id": "ar-la-nacion",
+          "name": "La Nación",
+          "websiteUrl": "https://www.lanacion.com.ar/",
+          "feeds": [
+            {
+              "url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BO",
+      "name": "Bolívia",
+      "slug": "bolivia",
+      "flag": "🇧🇴",
+      "language": "es",
+      "sources": [
+        {
+          "id": "bo-la-razon",
+          "name": "La Razón",
+          "websiteUrl": "https://www.la-razon.com/",
+          "feeds": []
+        },
+        {
+          "id": "bo-los-tiempos",
+          "name": "Los Tiempos",
+          "websiteUrl": "https://www.lostiempos.com/",
+          "feeds": []
+        },
+        {
+          "id": "bo-el-deber",
+          "name": "El Deber",
+          "websiteUrl": "https://eldeber.com.bo/",
+          "feeds": [
+            {
+              "url": "https://eldeber.com.bo/feed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BR",
+      "name": "Brasil",
+      "slug": "brasil",
+      "flag": "🇧🇷",
+      "language": "pt-BR",
+      "sources": [
+        {
+          "id": "br-brasil-de-fato",
+          "name": "Brasil de Fato",
+          "websiteUrl": "https://www.brasildefato.com.br/",
+          "feeds": [
+            {
+              "url": "https://www.brasildefato.com.br/feed/"
+            }
+          ]
+        },
+        {
+          "id": "br-g1",
+          "name": "G1",
+          "websiteUrl": "https://g1.globo.com/",
+          "feeds": []
+        },
+        {
+          "id": "br-opera-mundi",
+          "name": "Opera Mundi",
+          "websiteUrl": "https://operamundi.uol.com.br/",
+          "feeds": [
+            {
+              "url": "https://operamundi.uol.com.br/feed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "CL",
+      "name": "Chile",
+      "slug": "chile",
+      "flag": "🇨🇱",
+      "language": "es",
+      "sources": [
+        {
+          "id": "cl-the-clinic",
+          "name": "The Clinic",
+          "websiteUrl": "https://www.theclinic.cl/",
+          "feeds": [
+            {
+              "url": "https://www.theclinic.cl/feed"
+            }
+          ]
+        },
+        {
+          "id": "cl-emol",
+          "name": "Emol",
+          "websiteUrl": "https://www.emol.com/",
+          "feeds": []
+        },
+        {
+          "id": "cl-el-mercurio",
+          "name": "El Mercurio",
+          "websiteUrl": "https://www.elmercurio.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "CO",
+      "name": "Colômbia",
+      "slug": "colombia",
+      "flag": "🇨🇴",
+      "language": "es",
+      "sources": [
+        {
+          "id": "co-el-espectador",
+          "name": "El Espectador",
+          "websiteUrl": "https://www.elespectador.com/",
+          "feeds": [
+            {
+              "url": "https://www.elespectador.com/arc/outboundfeeds/discover/?outputType=xml"
+            }
+          ]
+        },
+        {
+          "id": "co-el-tiempo",
+          "name": "El Tiempo",
+          "websiteUrl": "https://www.eltiempo.com/",
+          "feeds": []
+        },
+        {
+          "id": "co-semana",
+          "name": "Semana",
+          "websiteUrl": "https://www.semana.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "EC",
+      "name": "Equador",
+      "slug": "equador",
+      "flag": "🇪🇨",
+      "language": "es",
+      "sources": [
+        {
+          "id": "ec-el-telegrafo",
+          "name": "El Telégrafo",
+          "websiteUrl": "https://www.eltelegrafo.com.ec/",
+          "feeds": []
+        },
+        {
+          "id": "ec-el-comercio",
+          "name": "El Comercio",
+          "websiteUrl": "https://www.elcomercio.com/",
+          "feeds": [
+            {
+              "url": "https://www.elcomercio.com/feed"
+            }
+          ]
+        },
+        {
+          "id": "ec-el-universo",
+          "name": "El Universo",
+          "websiteUrl": "https://www.eluniverso.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "GY",
+      "name": "Guiana",
+      "slug": "guiana",
+      "flag": "🇬🇾",
+      "language": "en",
+      "sources": [
+        {
+          "id": "gy-stabroek-news",
+          "name": "Stabroek News",
+          "websiteUrl": "https://www.stabroeknews.com/",
+          "feeds": []
+        },
+        {
+          "id": "gy-kaieteur-news",
+          "name": "Kaieteur News",
+          "websiteUrl": "https://www.kaieteurnewsonline.com/",
+          "feeds": [
+            {
+              "url": "https://kaieteurnewsonline.com/feed/"
+            }
+          ]
+        },
+        {
+          "id": "gy-guyana-times",
+          "name": "Guyana Times",
+          "websiteUrl": "https://guyanatimesgy.com/",
+          "feeds": [
+            {
+              "url": "https://guyanatimesgy.com/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "PY",
+      "name": "Paraguai",
+      "slug": "paraguai",
+      "flag": "🇵🇾",
+      "language": "es",
+      "sources": [
+        {
+          "id": "py-ultima-hora",
+          "name": "Última Hora",
+          "websiteUrl": "https://www.ultimahora.com/",
+          "feeds": []
+        },
+        {
+          "id": "py-abc-color",
+          "name": "ABC Color",
+          "websiteUrl": "https://www.abc.com.py/",
+          "feeds": []
+        },
+        {
+          "id": "py-la-nacion",
+          "name": "La Nación",
+          "websiteUrl": "https://www.lanacion.com.py/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "PE",
+      "name": "Peru",
+      "slug": "peru",
+      "flag": "🇵🇪",
+      "language": "es",
+      "sources": [
+        {
+          "id": "pe-la-republica",
+          "name": "La República",
+          "websiteUrl": "https://larepublica.pe/",
+          "feeds": [
+            {
+              "url": "https://larepublica.pe/rss.xml",
+              "enabled": false
+            }
+          ]
+        },
+        {
+          "id": "pe-el-comercio",
+          "name": "El Comercio",
+          "websiteUrl": "https://elcomercio.pe/",
+          "feeds": [
+            {
+              "url": "https://elcomercio.pe/arcio/rss/"
+            }
+          ]
+        },
+        {
+          "id": "pe-peru-21",
+          "name": "Perú21",
+          "websiteUrl": "https://peru21.pe/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "SR",
+      "name": "Suriname",
+      "slug": "suriname",
+      "flag": "🇸🇷",
+      "language": "nl",
+      "sources": [
+        {
+          "id": "sr-de-ware-tijd",
+          "name": "De Ware Tijd",
+          "websiteUrl": "https://dwtonline.com/",
+          "feeds": [
+            {
+              "url": "https://dwtonline.com/feed/"
+            }
+          ]
+        },
+        {
+          "id": "sr-starnieuws",
+          "name": "Starnieuws",
+          "websiteUrl": "https://www.starnieuws.com/",
+          "feeds": []
+        },
+        {
+          "id": "sr-waterkant",
+          "name": "Waterkant",
+          "websiteUrl": "https://www.waterkant.net/",
+          "feeds": [
+            {
+              "url": "https://www.waterkant.net/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "UY",
+      "name": "Uruguai",
+      "slug": "uruguai",
+      "flag": "🇺🇾",
+      "language": "es",
+      "sources": [
+        {
+          "id": "uy-la-diaria",
+          "name": "La Diaria",
+          "websiteUrl": "https://ladiaria.com.uy/",
+          "feeds": [
+            {
+              "url": "https://ladiaria.com.uy/feeds/articulos/"
+            }
+          ]
+        },
+        {
+          "id": "uy-el-pais",
+          "name": "El País",
+          "websiteUrl": "https://www.elpais.com.uy/",
+          "feeds": []
+        },
+        {
+          "id": "uy-el-observador",
+          "name": "El Observador",
+          "websiteUrl": "https://www.elobservador.com.uy/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "VE",
+      "name": "Venezuela",
+      "slug": "venezuela",
+      "flag": "🇻🇪",
+      "language": "es",
+      "sources": [
+        {
+          "id": "ve-ultimas-noticias",
+          "name": "Últimas Noticias",
+          "websiteUrl": "https://ultimasnoticias.com.ve/",
+          "feeds": [
+            {
+              "url": "https://ultimasnoticias.com.ve/feed"
+            }
+          ]
+        },
+        {
+          "id": "ve-el-nacional",
+          "name": "El Nacional",
+          "websiteUrl": "https://www.elnacional.com/",
+          "feeds": [
+            {
+              "url": "https://www.elnacional.com/feed"
+            }
+          ]
+        },
+        {
+          "id": "ve-el-universal",
+          "name": "El Universal",
+          "websiteUrl": "https://www.eluniversal.com/",
+          "feeds": []
+        }
+      ]
+    }
+  ]
+}

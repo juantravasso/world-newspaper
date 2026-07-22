@@ -1,0 +1,221 @@
+{
+  "countries": [
+    {
+      "code": "BZ",
+      "name": "Belize",
+      "slug": "belize",
+      "flag": "🇧🇿",
+      "language": "en",
+      "sources": [
+        {
+          "id": "bz-amandala",
+          "name": "Amandala",
+          "websiteUrl": "https://amandala.com.bz/",
+          "feeds": [
+            {
+              "url": "https://amandala.com.bz/news/feed/"
+            }
+          ]
+        },
+        {
+          "id": "bz-the-reporter",
+          "name": "The Reporter",
+          "websiteUrl": "https://thereporter.bz/",
+          "feeds": [
+            {
+              "url": "https://www.thereporter.bz/blog-feed.xml"
+            }
+          ]
+        },
+        {
+          "id": "bz-breaking-belize-news",
+          "name": "Breaking Belize News",
+          "websiteUrl": "https://breakingbelizenews.com/",
+          "feeds": [
+            {
+              "url": "https://www.breakingbelizenews.com/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "CR",
+      "name": "Costa Rica",
+      "slug": "costa-rica",
+      "flag": "🇨🇷",
+      "language": "es",
+      "sources": [
+        {
+          "id": "cr-semanario-universidad",
+          "name": "Semanario Universidad",
+          "websiteUrl": "https://semanariouniversidad.com/",
+          "feeds": [
+            {
+              "url": "https://semanariouniversidad.com/feed"
+            }
+          ]
+        },
+        {
+          "id": "cr-la-nacion",
+          "name": "La Nación",
+          "websiteUrl": "https://www.nacion.com/",
+          "feeds": [
+            {
+              "url": "https://www.nacion.com/rss"
+            }
+          ]
+        },
+        {
+          "id": "cr-crhoy",
+          "name": "CRHoy.com",
+          "websiteUrl": "https://www.crhoy.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "SV",
+      "name": "El Salvador",
+      "slug": "el-salvador",
+      "flag": "🇸🇻",
+      "language": "es",
+      "sources": [
+        {
+          "id": "sv-el-faro",
+          "name": "El Faro",
+          "websiteUrl": "https://elfaro.net/",
+          "feeds": []
+        },
+        {
+          "id": "sv-la-prensa-grafica",
+          "name": "La Prensa Gráfica",
+          "websiteUrl": "https://www.laprensagrafica.com/",
+          "feeds": []
+        },
+        {
+          "id": "sv-el-diario-de-hoy",
+          "name": "El Diario de Hoy",
+          "websiteUrl": "https://www.elsalvador.com/",
+          "feeds": [
+            {
+              "url": "https://www.elsalvador.com/rss.xml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "GT",
+      "name": "Guatemala",
+      "slug": "guatemala",
+      "flag": "🇬🇹",
+      "language": "es",
+      "sources": [
+        {
+          "id": "gt-plaza-publica",
+          "name": "Plaza Pública",
+          "websiteUrl": "https://www.plazapublica.com.gt/",
+          "feeds": [
+            {
+              "url": "https://plazapublica.com.gt/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "HN",
+      "name": "Honduras",
+      "slug": "honduras",
+      "flag": "🇭🇳",
+      "language": "es",
+      "sources": [
+        {
+          "id": "hn-criterio",
+          "name": "Criterio.hn",
+          "websiteUrl": "https://criterio.hn/",
+          "feeds": [
+            {
+              "url": "https://criterio.hn/feed/"
+            }
+          ]
+        },
+        {
+          "id": "hn-la-prensa",
+          "name": "La Prensa",
+          "websiteUrl": "https://www.laprensa.hn/",
+          "feeds": []
+        },
+        {
+          "id": "hn-el-heraldo",
+          "name": "El Heraldo",
+          "websiteUrl": "https://www.elheraldo.hn/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "NI",
+      "name": "Nicarágua",
+      "slug": "nicaragua",
+      "flag": "🇳🇮",
+      "language": "es",
+      "sources": [
+        {
+          "id": "ni-despacho-505",
+          "name": "Despacho 505",
+          "websiteUrl": "https://www.despacho505.com/",
+          "feeds": [
+            {
+              "url": "https://despacho505.com/feed/"
+            }
+          ]
+        },
+        {
+          "id": "ni-la-prensa",
+          "name": "La Prensa",
+          "websiteUrl": "https://www.laprensani.com/",
+          "feeds": []
+        },
+        {
+          "id": "ni-el-19-digital",
+          "name": "El 19 Digital",
+          "websiteUrl": "https://www.el19digital.com/",
+          "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "PA",
+      "name": "Panamá",
+      "slug": "panama",
+      "flag": "🇵🇦",
+      "language": "es",
+      "sources": [
+        {
+          "id": "pa-la-estrella",
+          "name": "La Estrella de Panamá",
+          "websiteUrl": "https://www.laestrella.com.pa/",
+          "feeds": []
+        },
+        {
+          "id": "pa-telemetro",
+          "name": "Telemetro",
+          "websiteUrl": "https://www.telemetro.com/",
+          "feeds": []
+        },
+        {
+          "id": "pa-panama-america",
+          "name": "Panamá América",
+          "websiteUrl": "https://www.panamaamerica.com.pa/",
+          "feeds": [
+            {
+              "url": "https://www.panamaamerica.com.pa/rss.xml"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

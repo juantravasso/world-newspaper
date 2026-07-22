@@ -47,7 +47,7 @@ const countrySeeds = [
     slug: "argentina",
     flag: "🇦🇷",
     language: "es",
-    regions: ["america"],
+    regions: ["south-america"],
 
     sources: {
       politics: "La Nación",
@@ -62,7 +62,7 @@ const countrySeeds = [
     slug: "brasil",
     flag: "🇧🇷",
     language: "pt-BR",
-    regions: ["america"],
+    regions: ["south-america"],
 
     sources: {
       politics: "Folha de S.Paulo",
@@ -77,7 +77,7 @@ const countrySeeds = [
     slug: "canada",
     flag: "🇨🇦",
     language: "en",
-    regions: ["america"],
+    regions: ["north-america"],
 
     sources: {
       politics: "The Globe and Mail",
@@ -92,7 +92,7 @@ const countrySeeds = [
     slug: "colombia",
     flag: "🇨🇴",
     language: "es",
-    regions: ["america"],
+    regions: ["south-america"],
 
     sources: {
       politics: "El Tiempo",
@@ -107,7 +107,7 @@ const countrySeeds = [
     slug: "mexico",
     flag: "🇲🇽",
     language: "es",
-    regions: ["america"],
+    regions: ["north-america"],
 
     sources: {
       politics: "El Universal",
@@ -122,7 +122,7 @@ const countrySeeds = [
     slug: "estados-unidos",
     flag: "🇺🇸",
     language: "en",
-    regions: ["america"],
+    regions: ["north-america"],
 
     sources: {
       politics: "The Washington Post",
@@ -635,7 +635,10 @@ export function buildMockCountriesWithNews(
   now = new Date(),
 ): CountryWithLatestNews[] {
   return countrySeeds.map(
-    (country, countryIndex) => ({
+    (
+      country,
+      countryIndex,
+    ) => ({
       code: country.code,
       name: country.name,
       slug: country.slug,
@@ -647,17 +650,21 @@ export function buildMockCountriesWithNews(
       news: categories.map(
         (category) => {
           const sourceData =
-            country.sources[category];
+            country.sources[
+              category
+            ];
 
           /*
-           * O índice cria horários diferentes
-           * entre os países.
+           * O índice cria horários
+           * diferentes entre os países.
            */
           const countryDelay =
             countryIndex * 3;
 
           const articleAgeInMinutes =
-            minutesByCategory[category] +
+            minutesByCategory[
+              category
+            ] +
             countryDelay;
 
           const publishedDate =
@@ -667,11 +674,13 @@ export function buildMockCountriesWithNews(
                   60_000,
             );
 
-          const articleId = [
-            country.code.toLowerCase(),
-            category,
-            "001",
-          ].join("-");
+          const articleId =
+            [
+              country.code
+                .toLowerCase(),
+              category,
+              "001",
+            ].join("-");
 
           return {
             id: articleId,
@@ -679,7 +688,9 @@ export function buildMockCountriesWithNews(
             title:
               articleTemplates[
                 category
-              ].title(country.name),
+              ].title(
+                country.name,
+              ),
 
             excerpt:
               articleTemplates[
@@ -689,9 +700,15 @@ export function buildMockCountriesWithNews(
             category,
 
             categoryLabel:
-              categoryLabels[category],
+              categoryLabels[
+                category
+              ],
 
-            source: sourceData.name,
+            sourceId:
+              sourceData.id,
+
+            source:
+              sourceData.name,
 
             publishedAt:
               formatRelativeTime(
@@ -699,15 +716,22 @@ export function buildMockCountriesWithNews(
                 now,
               ),
 
-            href: [
-              "https://example.com",
-              country.slug,
-              category,
-              articleId,
-            ].join("/"),
+            publishedAtISO:
+              publishedDate
+                .toISOString(),
+
+            href:
+              [
+                "https://example.com",
+                country.slug,
+                category,
+                articleId,
+              ].join("/"),
           };
         },
       ),
+
+      stories: [],
     }),
   );
 }

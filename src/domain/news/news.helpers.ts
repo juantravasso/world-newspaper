@@ -6,6 +6,8 @@ import type {
 
 export type NewsWithCountry =
   CountryNewsCard & {
+    storyId: string;
+
     countryCode: string;
     countryName: string;
     countryFlag: string;
@@ -28,37 +30,113 @@ export function getNewsFromCountries(
   category?:
     NewsCategory,
 ): NewsWithCountry[] {
-  return countries
-    .flatMap(
-      (country) =>
-        country.news.map(
-          (news) => ({
-            ...news,
+  const newsWithStories =
+    countries.flatMap(
+      (country) => {
+        const storyIdByArticleId =
+          new Map<
+            string,
+            string
+          >();
 
-            countryCode:
-              country.code,
+        for (
+          const story of
+          country.stories
+        ) {
+          for (
+            const article of
+            story.articles
+          ) {
+            storyIdByArticleId.set(
+              article.id,
+              story.id,
+            );
+          }
+        }
 
-            countryName:
-              country.name,
+        return country.news.flatMap(
+          (news) => {
+            const storyId =
+              storyIdByArticleId.get(
+                news.id,
+              );
 
-            countryFlag:
-              country.flag,
+            /*
+             * Toda notícia deveria pertencer
+             * a uma story, pois os artigos
+             * são criados a partir de
+             * country.news.
+             */
+            if (!storyId) {
+              return [];
+            }
 
-            countrySlug:
-              country.slug,
-          }),
-        ),
+            return [
+              {
+                ...news,
+
+                storyId,
+
+                countryCode:
+                  country.code,
+
+                countryName:
+                  country.name,
+
+                countryFlag:
+                  country.flag,
+
+                countrySlug:
+                  country.slug,
+              },
+            ];
+          },
+        );
+      },
     )
-    .filter((news) => {
-      if (!category) {
-        return true;
-      }
+      .filter((news) => {
+        if (!category) {
+          return true;
+        }
 
-      return (
-        news.category ===
-        category
-      );
-    });
+        return (
+          news.category ===
+          category
+        );
+      });
+
+  /*
+   * Uma story pode possuir várias
+   * matérias. O Hero deve mostrar
+   * somente um card para cada story.
+   */
+  const uniqueNewsByStory =
+    new Map<
+      string,
+      NewsWithCountry
+    >();
+
+  for (
+    const news of
+    newsWithStories
+  ) {
+    if (
+      uniqueNewsByStory.has(
+        news.storyId,
+      )
+    ) {
+      continue;
+    }
+
+    uniqueNewsByStory.set(
+      news.storyId,
+      news,
+    );
+  }
+
+  return [
+    ...uniqueNewsByStory.values(),
+  ];
 }
 
 /**
@@ -84,7 +162,9 @@ export function hasExtractedImage(
 
   try {
     const url =
-      new URL(imageUrl);
+      new URL(
+        imageUrl,
+      );
 
     return (
       url.protocol === "https:" ||
@@ -115,10 +195,13 @@ export function selectHeroNews(
     news
       .filter(
         (item) =>
-          item.id !==
-          featuredNews?.id,
+          item.storyId !==
+          featuredNews?.storyId,
       )
-      .slice(0, 2);
+      .slice(
+        0,
+        2,
+      );
 
   return {
     featuredNews,

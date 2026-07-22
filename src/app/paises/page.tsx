@@ -7,8 +7,6 @@ import {
   buildWorldCountriesWithNews,
 } from "@/server/news/build-world-countries";
 
-export const revalidate = 900;
-
 export default async function CountriesPage() {
   const countries =
     await buildWorldCountriesWithNews();
@@ -25,7 +23,7 @@ export default async function CountriesPage() {
       >
         <CountriesDirectory
           countries={countries}
-          defaultContinent="world"
+          defaultRegion="world"
         />
       </Box>
     </Box>

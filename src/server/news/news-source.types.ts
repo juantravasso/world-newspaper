@@ -37,11 +37,11 @@ export type CountryNewsSourceConfig = {
   flag: string;
   language: string;
 
-  /**
-   * Opcional para preservar o catálogo
-   * americano já existente.
-   */
-  regions?: CountryRegionId[];
+ /**
+ * Permite associar um país a mais
+ * de uma região quando necessário.
+ */
+regions?: CountryRegionId[];
 
   sources:
     NewsSourceConfig[];
@@ -51,9 +51,3 @@ export type NewsSourcesCatalog = {
   countries:
     CountryNewsSourceConfig[];
 };
-
-/**
- * Compatibilidade com imports antigos.
- */
-export type AmericaSourcesCatalog =
-  NewsSourcesCatalog;

@@ -12,6 +12,15 @@ import type {
   NewsCategory,
 } from "@/domain/news/news.types";
 
+import type {
+  NewsArticle,
+  NewsStory,
+} from "@/domain/news/story.types";
+
+import {
+  clusterArticles,
+} from "@/server/stories/cluster-articles";
+
 import {
   classifyNews,
 } from "./classify-news";
@@ -25,6 +34,7 @@ import type {
 
 import {
   extractItemImage,
+  extractItemLink,
   parseSourceFeed,
 } from "./rss/rss-parser";
 
@@ -103,6 +113,7 @@ export async function buildCountriesFromCatalog(
         return createCountry(
           country,
           [],
+          [],
           defaultRegions,
         );
       }
@@ -147,6 +158,7 @@ async function buildCountry(
   ) {
     return createCountry(
       country,
+      [],
       [],
       defaultRegions,
     );
@@ -199,9 +211,94 @@ async function buildCountry(
         toCountryNewsCard,
       );
 
+  const articles:
+    NewsArticle[] =
+    news.map(
+      (newsItem) => ({
+        id:
+          newsItem.id,
+
+        sourceId:
+          newsItem.sourceId,
+
+        sourceName:
+          newsItem.source,
+
+        title:
+          newsItem.title,
+
+        excerpt:
+          newsItem.excerpt,
+
+        url:
+          newsItem.href,
+
+        imageUrl:
+          newsItem.imageUrl,
+
+        category:
+          newsItem.category,
+
+        countryCode:
+          country.code,
+
+        language:
+          country.language,
+
+        publishedAtISO:
+          newsItem.publishedAtISO,
+      }),
+    );
+
+  const stories:
+    NewsStory[] =
+    clusterArticles(
+      articles,
+    );
+
+  if (
+    process.env.NODE_ENV ===
+    "development"
+  ) {
+    const multiSourceStories =
+      stories.filter(
+        (story) =>
+          story.articles.length > 1,
+      );
+
+    console.info(
+      `[STORY CLUSTER] ${country.code}`,
+      {
+        articles:
+          articles.length,
+
+        stories:
+          stories.length,
+
+        multiSourceStories:
+          multiSourceStories.map(
+            (story) => ({
+              id:
+                story.id,
+
+              headline:
+                story.headline,
+
+              sources:
+                story.articles.map(
+                  (article) =>
+                    article.sourceName,
+                ),
+            }),
+          ),
+      },
+    );
+  }
+
   return createCountry(
     country,
     news,
+    stories,
     defaultRegions,
   );
 }
@@ -295,25 +392,16 @@ function normalizeItem(
       item.title,
     ).trim();
 
-  const rawHref =
-    toSafeString(
-      item.link,
-    ).trim();
-
-  if (
-    !title ||
-    !rawHref
-  ) {
-    return null;
-  }
-
   const href =
-    resolveUrl(
-      rawHref,
+    extractItemLink(
+      item,
       source.websiteUrl,
     );
 
-  if (!href) {
+  if (
+    !title ||
+    !href
+  ) {
     return null;
   }
 
@@ -359,7 +447,6 @@ function normalizeItem(
         source.id,
 
       identifier,
-
       title,
     });
 
@@ -381,11 +468,11 @@ function normalizeItem(
     excerpt,
 
     category,
-
     categoryLabel:
-      categoryLabels[
-        category
-      ],
+      categoryLabels[category],
+
+    sourceId:
+      source.id,
 
     source:
       source.name,
@@ -400,7 +487,6 @@ function normalizeItem(
     publishedAtISO,
 
     href,
-
     imageUrl,
   };
 }
@@ -595,9 +681,14 @@ function toCountryNewsCard(
     NormalizedNews,
 ): CountryNewsCard {
   return {
-    id: news.id,
-    title: news.title,
-    excerpt: news.excerpt,
+    id:
+      news.id,
+
+    title:
+      news.title,
+
+    excerpt:
+      news.excerpt,
 
     category:
       news.category,
@@ -605,11 +696,17 @@ function toCountryNewsCard(
     categoryLabel:
       news.categoryLabel,
 
+    sourceId:
+      news.sourceId,
+
     source:
       news.source,
 
     publishedAt:
       news.publishedAt,
+
+    publishedAtISO:
+      news.publishedAtISO,
 
     href:
       news.href,
@@ -625,6 +722,9 @@ function createCountry(
 
   news:
     CountryNewsCard[],
+
+  stories:
+    NewsStory[],
 
   defaultRegions:
     CountryRegionId[],
@@ -652,6 +752,7 @@ function createCountry(
       defaultRegions,
 
     news,
+    stories,
   };
 }
 
