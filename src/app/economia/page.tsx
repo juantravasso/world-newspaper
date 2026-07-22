@@ -4,12 +4,14 @@ import {
 } from "@/components";
 
 import {
-  buildWorldCountriesWithNews,
-} from "@/server/news/build-world-countries";
+  buildWorldCountriesFromStorage,
+} from "@/server/news/build-world-countries-from-storage";
 
 export default async function EconomyPage() {
   const countries =
-    await buildWorldCountriesWithNews();
+    await buildWorldCountriesFromStorage(
+      "economy",
+    );
 
   return (
     <Box

@@ -4,12 +4,12 @@ import {
 } from "@/components";
 
 import {
-  buildWorldCountriesWithNews,
-} from "@/server/news/build-world-countries";
+  buildWorldCountriesFromStorage,
+} from "@/server/news/build-world-countries-from-storage";
 
 export default async function CountriesPage() {
   const countries =
-    await buildWorldCountriesWithNews();
+    await buildWorldCountriesFromStorage();
 
   return (
     <Box
