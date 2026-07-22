@@ -17,7 +17,7 @@ import {
 } from "@/server/database/prisma";
 
 const PERSISTENCE_BATCH_SIZE =
-  20;
+  5;
 
 const categoryLabels:
   Record<

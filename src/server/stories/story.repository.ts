@@ -3,83 +3,156 @@ import type {
 } from "@/domain/news/story.types";
 
 import {
-  buildWorldCountriesWithNews,
-} from "@/server/news/build-world-countries";
+  findStoredStories,
+  findStoredStoryById,
+} from "@/server/stories/story.persistence";
 
+import {
+  synchronizeStories,
+} from "@/server/stories/story.sync";
+
+const SYNCHRONIZATION_COOLDOWN_MS =
+  60_000;
+
+let synchronizationInProgress:
+  Promise<void> | null =
+  null;
+
+let lastSynchronizationStartedAt =
+  0;
+
+/**
+ * Retorna as stories armazenadas no PostgreSQL.
+ *
+ * Caso o banco esteja completamente vazio,
+ * executa uma sincronização inicial com os feeds.
+ */
 export async function findAllStories():
   Promise<NewsStory[]> {
-  const countries =
-    await buildWorldCountriesWithNews();
+  const storedStories =
+    await findStoredStories();
 
-  const stories =
-    countries.flatMap(
-      (country) =>
-        country.stories,
-    );
-
-  const uniqueStories =
-    new Map<
-      string,
-      NewsStory
-    >();
-
-  for (
-    const story of
-    stories
+  if (
+    storedStories.length >
+    0
   ) {
-    uniqueStories.set(
-      story.id,
-      story,
-    );
+    return storedStories;
   }
 
-  return [
-    ...uniqueStories.values(),
-  ].sort(
-    (
-      first,
-      second,
-    ) =>
-      getTimestamp(
-        second.publishedAtISO,
-      ) -
-      getTimestamp(
-        first.publishedAtISO,
-      ),
-  );
+  await synchronizeWhenNeeded();
+
+  return findStoredStories();
 }
 
+/**
+ * Busca uma story diretamente no PostgreSQL.
+ *
+ * Caso ela ainda não esteja armazenada,
+ * tenta uma sincronização com os feeds e
+ * consulta novamente.
+ */
 export async function findStoryById(
-  storyId: string,
+  storyId:
+    string,
 ): Promise<NewsStory | null> {
-  const stories =
-    await findAllStories();
+  const storedStory =
+    await findStoredStoryById(
+      storyId,
+    );
 
-  return (
-    stories.find(
-      (story) =>
-        story.id ===
-        storyId,
-    ) ??
-    null
+  if (storedStory) {
+    return storedStory;
+  }
+
+  await synchronizeWhenNeeded();
+
+  return findStoredStoryById(
+    storyId,
   );
 }
 
-function getTimestamp(
-  value: string | null,
-): number {
-  if (!value) {
-    return 0;
+/**
+ * Impede que várias requisições simultâneas
+ * iniciem várias sincronizações iguais.
+ *
+ * O cooldown também evita sincronizações
+ * repetidas quando alguém acessa um ID
+ * inexistente.
+ */
+async function synchronizeWhenNeeded():
+  Promise<void> {
+  if (
+    synchronizationInProgress
+  ) {
+    await synchronizationInProgress;
+
+    return;
   }
 
-  const timestamp =
-    new Date(
-      value,
-    ).getTime();
+  const now =
+    Date.now();
 
-  return Number.isNaN(
-    timestamp,
-  )
-    ? 0
-    : timestamp;
+  const timeSinceLastSynchronization =
+    now -
+    lastSynchronizationStartedAt;
+
+  if (
+    timeSinceLastSynchronization <
+    SYNCHRONIZATION_COOLDOWN_MS
+  ) {
+    return;
+  }
+
+  lastSynchronizationStartedAt =
+    now;
+
+  synchronizationInProgress =
+    synchronizeStories()
+      .then(
+        (result) => {
+          console.info(
+            "[STORY SYNCHRONIZATION]",
+            {
+              stories:
+                result.storiesSaved,
+
+              articles:
+                result.articlesSaved,
+            },
+          );
+        },
+      )
+      .catch(
+        (error: unknown) => {
+          console.error(
+            "[STORY SYNCHRONIZATION ERROR]",
+            getErrorMessage(
+              error,
+            ),
+          );
+        },
+      )
+      .finally(
+        () => {
+          synchronizationInProgress =
+            null;
+        },
+      );
+
+  await synchronizationInProgress;
+}
+
+function getErrorMessage(
+  error:
+    unknown,
+): string {
+  if (
+    error instanceof Error
+  ) {
+    return error.message;
+  }
+
+  return String(
+    error,
+  );
 }
