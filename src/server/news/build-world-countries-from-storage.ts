@@ -8,6 +8,10 @@ import oceaniaSourcesJson from "@/data/news/oceania.sources.json";
 import southAmericaSourcesJson from "@/data/news/south-america.sources.json";
 
 import {
+  WORLD_NEWS_CACHE_TAG,
+} from "@/server/news/news-cache";
+
+import {
   cacheLife,
   cacheTag,
 } from "next/cache";
@@ -159,7 +163,7 @@ export async function buildWorldCountriesFromStorage(
 
   cacheLife("minutes");
   cacheTag(
-    "world-news",
+    WORLD_NEWS_CACHE_TAG,
   );
 
   const storedStories =

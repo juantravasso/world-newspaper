@@ -45,6 +45,25 @@ export type SaveStoriesResult = {
   articlesSaved: number;
 };
 
+export type DeleteExpiredStoriesResult = {
+  storiesDeleted: number;
+  cutoffISO: string;
+};
+
+export type StoryStorageStats = {
+  stories: number;
+  articles: number;
+
+  newestPublishedAtISO:
+    string | null;
+
+  oldestPublishedAtISO:
+    string | null;
+
+  latestSeenAtISO:
+    string | null;
+};
+
 /**
  * Salva ou atualiza stories e matérias.
  *
@@ -338,6 +357,130 @@ export async function findStoredStoryById(
   return mapStoredStoryToDomain(
     storedStory,
   );
+}
+
+/**
+ * Remove stories que não apareceram nas
+ * sincronizações mais recentes.
+ *
+ * Os artigos relacionados são removidos
+ * automaticamente pelo onDelete Cascade
+ * configurado no Prisma.
+ */
+export async function deleteStoriesNotSeenSince(
+  cutoff:
+    Date,
+): Promise<DeleteExpiredStoriesResult> {
+  const deletion =
+    await prisma.story.deleteMany({
+      where: {
+        lastSeenAt: {
+          lt:
+            cutoff,
+        },
+      },
+    });
+
+  return {
+    storiesDeleted:
+      deletion.count,
+
+    cutoffISO:
+      cutoff.toISOString(),
+  };
+}
+
+/**
+ * Retorna um resumo do conteúdo armazenado.
+ *
+ * Será usado pelo endpoint interno de status.
+ */
+export async function getStoryStorageStats():
+  Promise<StoryStorageStats> {
+  const [
+    stories,
+    articles,
+    newestStory,
+    oldestStory,
+    latestSeenStory,
+  ] = await Promise.all([
+    prisma.story.count(),
+
+    prisma.article.count(),
+
+    prisma.story.findFirst({
+      where: {
+        publishedAt: {
+          not:
+            null,
+        },
+      },
+
+      orderBy: {
+        publishedAt:
+          "desc",
+      },
+
+      select: {
+        publishedAt:
+          true,
+      },
+    }),
+
+    prisma.story.findFirst({
+      where: {
+        publishedAt: {
+          not:
+            null,
+        },
+      },
+
+      orderBy: {
+        publishedAt:
+          "asc",
+      },
+
+      select: {
+        publishedAt:
+          true,
+      },
+    }),
+
+    prisma.story.findFirst({
+      orderBy: {
+        lastSeenAt:
+          "desc",
+      },
+
+      select: {
+        lastSeenAt:
+          true,
+      },
+    }),
+  ]);
+
+  return {
+    stories,
+    articles,
+
+    newestPublishedAtISO:
+      newestStory
+        ?.publishedAt
+        ?.toISOString() ??
+      null,
+
+    oldestPublishedAtISO:
+      oldestStory
+        ?.publishedAt
+        ?.toISOString() ??
+      null,
+
+    latestSeenAtISO:
+      latestSeenStory
+        ?.lastSeenAt
+        .toISOString() ??
+      null,
+  };
 }
 
 function removeDuplicateStories(
