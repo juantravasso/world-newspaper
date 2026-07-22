@@ -9,9 +9,7 @@ import {
 
 export default async function FootballPage() {
   const countries =
-    await buildWorldCountriesWithNews(
-      "football",
-    );
+    await buildWorldCountriesWithNews();
 
   return (
     <Box

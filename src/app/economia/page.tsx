@@ -9,9 +9,7 @@ import {
 
 export default async function EconomyPage() {
   const countries =
-    await buildWorldCountriesWithNews(
-      "economy",
-    );
+    await buildWorldCountriesWithNews();
 
   return (
     <Box

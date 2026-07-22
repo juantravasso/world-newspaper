@@ -9,9 +9,7 @@ import {
 
 export default async function PoliticsPage() {
   const countries =
-    await buildWorldCountriesWithNews(
-      "politics",
-    );
+    await buildWorldCountriesWithNews();
 
   return (
     <Box

@@ -29,7 +29,8 @@ export function SecondaryNewsCard({
   )}`;
   return (
     <Link
-      href={news.href}
+      href={storyHref}
+      prefetch={false}
       className="
         block h-full rounded-card
         outline-none
