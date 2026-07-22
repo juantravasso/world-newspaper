@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum NewsCategory {
+  football
+  politics
+  economy
+}
+
+model Story {
+  id String @id @db.VarChar(64)
+
+  headline String @db.Text
+  summary  String @db.Text
+
+  category    NewsCategory
+  countryCode String       @map("country_code") @db.Char(2)
+
+  imageUrl    String?   @map("image_url") @db.Text
+  publishedAt DateTime? @map("published_at") @db.Timestamptz(3)
+
+  lastSeenAt DateTime @default(now()) @map("last_seen_at") @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  articles Article[]
+
+  @@index([publishedAt])
+  @@index([category, publishedAt])
+  @@index([countryCode, publishedAt])
+  @@index([lastSeenAt])
+  @@map("stories")
+}
+
+model Article {
+  id String @id @db.VarChar(128)
+
+  storyId String @map("story_id") @db.VarChar(64)
+
+  sourceId   String @map("source_id") @db.VarChar(128)
+  sourceName String @map("source_name") @db.VarChar(255)
+
+  title   String @db.Text
+  excerpt String @db.Text
+  url     String @db.Text
+
+  imageUrl String? @map("image_url") @db.Text
+
+  category    NewsCategory
+  countryCode String       @map("country_code") @db.Char(2)
+  language    String       @db.VarChar(16)
+
+  publishedAt DateTime? @map("published_at") @db.Timestamptz(3)
+
+  lastSeenAt DateTime @default(now()) @map("last_seen_at") @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@index([storyId])
+  @@index([sourceId])
+  @@index([publishedAt])
+  @@index([category, publishedAt])
+  @@index([countryCode, publishedAt])
+  @@index([lastSeenAt])
+  @@map("articles")
+}
