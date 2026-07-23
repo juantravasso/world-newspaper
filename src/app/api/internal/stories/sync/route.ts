@@ -18,6 +18,9 @@ import {
   synchronizeStories,
 } from "@/server/stories/story.sync";
 
+export const maxDuration =
+  300;
+
 export function GET(
   request:
     Request,
@@ -62,11 +65,17 @@ async function handleSynchronizationRequest(
 
         headers: {
           "Cache-Control":
-            "no-store",
+            "no-store, max-age=0",
+
+          "X-Robots-Tag":
+            "noindex, nofollow",
         },
       },
     );
   }
+
+  const requestId =
+    crypto.randomUUID();
 
   try {
     const synchronization =
@@ -85,6 +94,8 @@ async function handleSynchronizationRequest(
         ok:
           true,
 
+        requestId,
+
         synchronization,
 
         storage,
@@ -100,13 +111,19 @@ async function handleSynchronizationRequest(
       {
         headers: {
           "Cache-Control":
-            "no-store",
+            "no-store, max-age=0",
+
+          "X-Robots-Tag":
+            "noindex, nofollow",
+
+          "X-Sync-Request-Id":
+            requestId,
         },
       },
     );
   } catch (error) {
     console.error(
-      "[STORY SYNCHRONIZATION ERROR]",
+      `[STORY SYNCHRONIZATION ERROR] requestId=${requestId}`,
       error,
     );
 
@@ -114,6 +131,8 @@ async function handleSynchronizationRequest(
       {
         ok:
           false,
+
+        requestId,
 
         message:
           getErrorMessage(
@@ -126,7 +145,13 @@ async function handleSynchronizationRequest(
 
         headers: {
           "Cache-Control":
-            "no-store",
+            "no-store, max-age=0",
+
+          "X-Robots-Tag":
+            "noindex, nofollow",
+
+          "X-Sync-Request-Id":
+            requestId,
         },
       },
     );

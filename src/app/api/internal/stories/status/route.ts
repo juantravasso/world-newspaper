@@ -6,6 +6,9 @@ import {
   getStoryStorageStats,
 } from "@/server/stories/story.persistence";
 
+export const maxDuration =
+  30;
+
 export async function GET(
   request:
     Request,
@@ -32,7 +35,10 @@ export async function GET(
 
         headers: {
           "Cache-Control":
-            "no-store",
+            "no-store, max-age=0",
+
+          "X-Robots-Tag":
+            "noindex, nofollow",
         },
       },
     );
@@ -56,7 +62,10 @@ export async function GET(
       {
         headers: {
           "Cache-Control":
-            "no-store",
+            "no-store, max-age=0",
+
+          "X-Robots-Tag":
+            "noindex, nofollow",
         },
       },
     );
@@ -84,7 +93,10 @@ export async function GET(
 
         headers: {
           "Cache-Control":
-            "no-store",
+            "no-store, max-age=0",
+
+          "X-Robots-Tag":
+            "noindex, nofollow",
         },
       },
     );

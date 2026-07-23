@@ -39,28 +39,41 @@ export const EMPTY_READER_LIBRARY:
     [],
 };
 
-export function readReaderLibrary():
-  ReaderLibraryState {
+const EMPTY_READER_LIBRARY_SNAPSHOT =
+  JSON.stringify(
+    EMPTY_READER_LIBRARY,
+  );
+
+export function readReaderLibrarySnapshot():
+  string {
   if (
     typeof window ===
     "undefined"
   ) {
-    return EMPTY_READER_LIBRARY;
+    return EMPTY_READER_LIBRARY_SNAPSHOT;
   }
 
-  const storedValue =
+  return (
     window.localStorage.getItem(
       STORAGE_KEY,
-    );
+    ) ??
+    EMPTY_READER_LIBRARY_SNAPSHOT
+  );
+}
 
-  if (!storedValue) {
-    return EMPTY_READER_LIBRARY;
-  }
+export function getServerReaderLibrarySnapshot():
+  string {
+  return EMPTY_READER_LIBRARY_SNAPSHOT;
+}
 
+export function parseReaderLibrarySnapshot(
+  snapshot:
+    string,
+): ReaderLibraryState {
   try {
     const parsedValue =
       JSON.parse(
-        storedValue,
+        snapshot,
       ) as
         Partial<
           ReaderLibraryState
@@ -72,6 +85,13 @@ export function readReaderLibrary():
   } catch {
     return EMPTY_READER_LIBRARY;
   }
+}
+
+export function readReaderLibrary():
+  ReaderLibraryState {
+  return parseReaderLibrarySnapshot(
+    readReaderLibrarySnapshot(),
+  );
 }
 
 export function writeReaderLibrary(
@@ -166,6 +186,7 @@ export function toggleSavedStory(
         )
       : [
           normalizedStoryId,
+
           ...state.savedStoryIds.filter(
             (currentStoryId) =>
               currentStoryId !==
@@ -413,7 +434,9 @@ function normalizeStringArray(
           (item) =>
             item.trim(),
         )
-        .filter(Boolean),
+        .filter(
+          Boolean,
+        ),
     ),
   ].slice(
     0,

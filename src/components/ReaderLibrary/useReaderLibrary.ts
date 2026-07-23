@@ -2,8 +2,8 @@
 
 import {
   useCallback,
-  useEffect,
-  useState,
+  useMemo,
+  useSyncExternalStore,
 } from "react";
 
 import type {
@@ -16,9 +16,11 @@ import type {
 } from "@/domain/reader/reader-library.types";
 
 import {
-  EMPTY_READER_LIBRARY,
   addHistoryEntry,
+  getServerReaderLibrarySnapshot,
+  parseReaderLibrarySnapshot,
   readReaderLibrary,
+  readReaderLibrarySnapshot,
   subscribeToReaderLibrary,
   toggleFavoriteCategory,
   toggleFavoriteCountry,
@@ -27,44 +29,30 @@ import {
 } from "./reader-library.storage";
 
 export function useReaderLibrary() {
-  const [
-    state,
-    setState,
-  ] =
-    useState<
-      ReaderLibraryState
-    >(
-      EMPTY_READER_LIBRARY,
+  const serializedState =
+    useSyncExternalStore(
+      subscribeToReaderLibrary,
+      readReaderLibrarySnapshot,
+      getServerReaderLibrarySnapshot,
     );
 
-  const [
-    hydrated,
-    setHydrated,
-  ] =
-    useState(
-      false,
+  const hydrated =
+    useSyncExternalStore(
+      subscribeToHydration,
+      getHydratedSnapshot,
+      getServerHydratedSnapshot,
     );
 
-  useEffect(
-    () => {
-      function refresh():
-        void {
-        setState(
-          readReaderLibrary(),
-        );
-      }
-
-      refresh();
-      setHydrated(
-        true,
-      );
-
-      return subscribeToReaderLibrary(
-        refresh,
-      );
-    },
-    [],
-  );
+  const state =
+    useMemo(
+      () =>
+        parseReaderLibrarySnapshot(
+          serializedState,
+        ),
+      [
+        serializedState,
+      ],
+    );
 
   const updateState =
     useCallback(
@@ -79,15 +67,10 @@ export function useReaderLibrary() {
         const currentState =
           readReaderLibrary();
 
-        const nextState =
-          writeReaderLibrary(
-            createNextState(
-              currentState,
-            ),
-          );
-
-        setState(
-          nextState,
+        writeReaderLibrary(
+          createNextState(
+            currentState,
+          ),
         );
       },
       [],
@@ -185,6 +168,7 @@ export function useReaderLibrary() {
             currentState,
           ) => ({
             ...currentState,
+
             savedStoryIds:
               [],
           }),
@@ -203,6 +187,7 @@ export function useReaderLibrary() {
             currentState,
           ) => ({
             ...currentState,
+
             history:
               [],
           }),
@@ -233,4 +218,19 @@ export function useReaderLibrary() {
     clearSaved,
     clearHistory,
   };
+}
+
+function subscribeToHydration():
+  () => void {
+  return () => {};
+}
+
+function getHydratedSnapshot():
+  boolean {
+  return true;
+}
+
+function getServerHydratedSnapshot():
+  boolean {
+  return false;
 }
