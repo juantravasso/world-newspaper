@@ -7,6 +7,10 @@ import {
 } from "next/navigation";
 
 import {
+  ReaderStoryPersonalization,
+} from "@/components/ReaderLibrary/ReaderStoryPersonalization";
+
+import {
   StoryDetails,
 } from "@/components/StoryDetails";
 
@@ -15,8 +19,8 @@ import {
 } from "@/components/StoryModal";
 
 import {
-  getStoryById,
-} from "@/server/stories/get-story-by-id";
+  getStoryReaderData,
+} from "@/server/stories/story.reader";
 
 type StoryModalPageProps = {
   params:
@@ -30,40 +34,53 @@ export default function StoryModalPage({
   params,
 }: StoryModalPageProps) {
   return (
-    <StoryModal>
-      <Suspense
-        fallback={
+    <Suspense
+      fallback={
+        <StoryModal>
           <StoryLoading />
-        }
-      >
-        <StoryModalContent
-          params={params}
-        />
-      </Suspense>
-    </StoryModal>
+        </StoryModal>
+      }
+    >
+      <StoryModalShell
+        params={params}
+      />
+    </Suspense>
   );
 }
 
-async function StoryModalContent({
+async function StoryModalShell({
   params,
 }: StoryModalPageProps) {
   const {
     storyId,
   } = await params;
 
-  const story =
-    await getStoryById(
+  const data =
+    await getStoryReaderData(
       storyId,
     );
 
-  if (!story) {
+  if (!data) {
     notFound();
   }
 
   return (
-    <StoryDetails
-      story={story}
-    />
+    <StoryModal
+      storyHref={`/noticias/${encodeURIComponent(
+        storyId,
+      )}`}
+    >
+      <ReaderStoryPersonalization
+        storyId={
+          data.story.id
+        }
+      />
+
+      <StoryDetails
+        data={data}
+        variant="modal"
+      />
+    </StoryModal>
   );
 }
 
@@ -73,18 +90,19 @@ function StoryLoading() {
       aria-label="Carregando notícia"
       className="
         animate-pulse
-        space-y-4
+        space-y-5
       "
     >
-      <div className="h-4 w-24 rounded bg-surface-strong" />
+      <div className="h-5 w-32 rounded bg-surface-strong" />
 
-      <div className="h-10 w-4/5 rounded bg-surface-strong" />
+      <div className="h-14 w-4/5 rounded bg-surface-strong" />
 
-      <div className="h-20 w-full rounded bg-surface-strong" />
+      <div className="h-28 w-full rounded bg-surface-strong" />
 
-      <p className="text-sm text-muted-foreground">
-        Carregando notícia…
-      </p>
+      <div className="grid grid-cols-1 gap-5 pt-5 lg:grid-cols-2">
+        <div className="h-52 rounded-card bg-surface-strong" />
+        <div className="h-52 rounded-card bg-surface-strong" />
+      </div>
     </div>
   );
 }

@@ -4,12 +4,16 @@ import {
 } from "@/components";
 
 import {
-  buildWorldCountriesWithNews,
-} from "@/server/news/build-world-countries";
+  TrendingStories,
+} from "@/components/sections/TrendingStories/TrendingStories";
+
+import {
+  buildWorldCountriesFromStorage,
+} from "@/server/news/build-world-countries-from-storage";
 
 export default async function Home() {
   const countries =
-    await buildWorldCountriesWithNews();
+    await buildWorldCountriesFromStorage();
 
   return (
     <Box
@@ -28,6 +32,8 @@ export default async function Home() {
           exploreTitle="Explore por país"
           defaultRegion="world"
         />
+
+        <TrendingStories />
       </Box>
     </Box>
   );

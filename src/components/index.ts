@@ -7,3 +7,4 @@ export * from "./Header";
 export * from "./Text";
 export * from "./WorldImageRing";
 export * from "./sections";
+export * from "./Search"

@@ -3,83 +3,28 @@ import type {
 } from "@/domain/news/story.types";
 
 import {
-  buildWorldCountriesWithNews,
-} from "@/server/news/build-world-countries";
+  findStoredStories,
+  findStoredStoryById,
+} from "@/server/stories/story.persistence";
 
-export async function findAllStories():
+/**
+ * Retorna as stories armazenadas
+ * no PostgreSQL.
+ */
+export function findAllStories():
   Promise<NewsStory[]> {
-  const countries =
-    await buildWorldCountriesWithNews();
-
-  const stories =
-    countries.flatMap(
-      (country) =>
-        country.stories,
-    );
-
-  const uniqueStories =
-    new Map<
-      string,
-      NewsStory
-    >();
-
-  for (
-    const story of
-    stories
-  ) {
-    uniqueStories.set(
-      story.id,
-      story,
-    );
-  }
-
-  return [
-    ...uniqueStories.values(),
-  ].sort(
-    (
-      first,
-      second,
-    ) =>
-      getTimestamp(
-        second.publishedAtISO,
-      ) -
-      getTimestamp(
-        first.publishedAtISO,
-      ),
-  );
+  return findStoredStories();
 }
 
-export async function findStoryById(
-  storyId: string,
+/**
+ * Busca uma story diretamente
+ * no PostgreSQL pelo ID.
+ */
+export function findStoryById(
+  storyId:
+    string,
 ): Promise<NewsStory | null> {
-  const stories =
-    await findAllStories();
-
-  return (
-    stories.find(
-      (story) =>
-        story.id ===
-        storyId,
-    ) ??
-    null
+  return findStoredStoryById(
+    storyId,
   );
-}
-
-function getTimestamp(
-  value: string | null,
-): number {
-  if (!value) {
-    return 0;
-  }
-
-  const timestamp =
-    new Date(
-      value,
-    ).getTime();
-
-  return Number.isNaN(
-    timestamp,
-  )
-    ? 0
-    : timestamp;
 }

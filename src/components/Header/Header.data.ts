@@ -1,24 +1,61 @@
-import type { NavigationItem } from "./Header.types";
+import type {
+  NavigationItem,
+} from "./Header.types";
 
 export const navigationItems = [
   {
-    label: "Últimas",
-    href: "/",
+    label:
+      "Home",
+
+    href:
+      "/",
   },
+
   {
-    label: "Futebol",
-    href: "/futebol",
+    label:
+      "Últimas",
+
+    href:
+      "/noticias",
   },
+
   {
-    label: "Política",
-    href: "/politica",
+    label:
+      "Futebol",
+
+    href:
+      "/futebol",
   },
+
   {
-    label: "Economia",
-    href: "/economia",
+    label:
+      "Política",
+
+    href:
+      "/politica",
   },
+
   {
-    label: "Países",
-    href: "/paises",
+    label:
+      "Economia",
+
+    href:
+      "/economia",
+  },
+
+  {
+    label:
+      "Países",
+
+    href:
+      "/paises",
+  },
+
+  {
+    label:
+      "Minha seleção",
+
+    href:
+      "/minha-selecao",
   },
 ] satisfies readonly NavigationItem[];

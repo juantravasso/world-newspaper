@@ -1,0 +1,219 @@
+name: Synchronize production news
+
+on:
+  schedule:
+    - cron: "7,37 * * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-news-synchronization
+  cancel-in-progress: false
+
+jobs:
+  synchronize:
+    name: Synchronize stories
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      PRODUCTION_SITE_URL: ${{ secrets.PRODUCTION_SITE_URL }}
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+
+    steps:
+      - name: Validate workflow secrets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          if [[ -z "${PRODUCTION_SITE_URL:-}" ]]; then
+            echo "::error::Missing GitHub Actions secret: PRODUCTION_SITE_URL"
+            exit 1
+          fi
+
+          if [[ -z "${CRON_SECRET:-}" ]]; then
+            echo "::error::Missing GitHub Actions secret: CRON_SECRET"
+            exit 1
+          fi
+
+          if [[ "${PRODUCTION_SITE_URL}" != https://* ]]; then
+            echo "::error::PRODUCTION_SITE_URL must start with https://"
+            exit 1
+          fi
+
+      - name: Check production health
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          BASE_URL="${PRODUCTION_SITE_URL%/}"
+          RESPONSE_FILE="${RUNNER_TEMP}/health-before.json"
+
+          HTTP_CODE="$(
+            curl \
+              --silent \
+              --show-error \
+              --location \
+              --connect-timeout 20 \
+              --max-time 60 \
+              --retry 3 \
+              --retry-delay 5 \
+              --retry-all-errors \
+              --output "${RESPONSE_FILE}" \
+              --write-out "%{http_code}" \
+              "${BASE_URL}/api/health"
+          )"
+
+          cat "${RESPONSE_FILE}"
+
+          if [[ "${HTTP_CODE}" -lt 200 || "${HTTP_CODE}" -ge 300 ]]; then
+            echo "::error::Health check failed with HTTP ${HTTP_CODE}"
+            exit 1
+          fi
+
+          node - "${RESPONSE_FILE}" <<'NODE'
+          const fs = require("node:fs");
+
+          const filePath = process.argv[2];
+          const payload = JSON.parse(
+            fs.readFileSync(
+              filePath,
+              "utf8",
+            ),
+          );
+
+          if (
+            payload.ok !== true ||
+            payload.services?.database !== "connected"
+          ) {
+            throw new Error(
+              `Production health check failed: ${JSON.stringify(payload)}`,
+            );
+          }
+
+          console.log(
+            `Health check passed. Stories: ${payload.content?.stories ?? "unknown"}.`,
+          );
+          NODE
+
+      - name: Trigger protected synchronization
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          BASE_URL="${PRODUCTION_SITE_URL%/}"
+          RESPONSE_FILE="${RUNNER_TEMP}/story-sync.json"
+
+          HTTP_CODE="$(
+            curl \
+              --silent \
+              --show-error \
+              --location \
+              --request POST \
+              --connect-timeout 20 \
+              --max-time 360 \
+              --retry 3 \
+              --retry-delay 10 \
+              --retry-all-errors \
+              --header "Accept: application/json" \
+              --header "Authorization: Bearer ${CRON_SECRET}" \
+              --output "${RESPONSE_FILE}" \
+              --write-out "%{http_code}" \
+              "${BASE_URL}/api/internal/stories/sync"
+          )"
+
+          cat "${RESPONSE_FILE}"
+
+          if [[ "${HTTP_CODE}" -lt 200 || "${HTTP_CODE}" -ge 300 ]]; then
+            echo "::error::Synchronization failed with HTTP ${HTTP_CODE}"
+            exit 1
+          fi
+
+          node - "${RESPONSE_FILE}" <<'NODE'
+          const fs = require("node:fs");
+
+          const filePath = process.argv[2];
+          const payload = JSON.parse(
+            fs.readFileSync(
+              filePath,
+              "utf8",
+            ),
+          );
+
+          if (payload.ok !== true) {
+            throw new Error(
+              `Synchronization failed: ${JSON.stringify(payload)}`,
+            );
+          }
+
+          const synchronization =
+            payload.synchronization ?? {};
+
+          console.log(
+            [
+              "Synchronization completed.",
+              `Countries: ${synchronization.countriesProcessed ?? "unknown"}.`,
+              `Stories saved: ${synchronization.storiesSaved ?? "unknown"}.`,
+              `Articles saved: ${synchronization.articlesSaved ?? "unknown"}.`,
+              `Duration: ${synchronization.durationMs ?? "unknown"} ms.`,
+            ].join(" "),
+          );
+          NODE
+
+      - name: Check production after synchronization
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          BASE_URL="${PRODUCTION_SITE_URL%/}"
+          RESPONSE_FILE="${RUNNER_TEMP}/health-after.json"
+
+          HTTP_CODE="$(
+            curl \
+              --silent \
+              --show-error \
+              --location \
+              --connect-timeout 20 \
+              --max-time 60 \
+              --retry 3 \
+              --retry-delay 5 \
+              --retry-all-errors \
+              --output "${RESPONSE_FILE}" \
+              --write-out "%{http_code}" \
+              "${BASE_URL}/api/health"
+          )"
+
+          cat "${RESPONSE_FILE}"
+
+          if [[ "${HTTP_CODE}" -lt 200 || "${HTTP_CODE}" -ge 300 ]]; then
+            echo "::error::Post-sync health check failed with HTTP ${HTTP_CODE}"
+            exit 1
+          fi
+
+          node - "${RESPONSE_FILE}" <<'NODE'
+          const fs = require("node:fs");
+
+          const filePath = process.argv[2];
+          const payload = JSON.parse(
+            fs.readFileSync(
+              filePath,
+              "utf8",
+            ),
+          );
+
+          if (
+            payload.ok !== true ||
+            payload.services?.database !== "connected"
+          ) {
+            throw new Error(
+              `Post-sync health check failed: ${JSON.stringify(payload)}`,
+            );
+          }
+
+          console.log(
+            `Post-sync health check passed at ${payload.checkedAtISO}.`,
+          );
+          NODE
