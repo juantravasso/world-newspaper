@@ -7,6 +7,10 @@ import {
   Text,
 } from "@/components";
 
+import {
+  SaveStoryButton,
+} from "@/components/ReaderLibrary/SaveStoryButton";
+
 import type {
   StoryDiscoveryItem,
 } from "@/server/stories/story.discovery";
@@ -20,147 +24,169 @@ export function SearchResultCard({
   item,
 }: SearchResultCardProps) {
   return (
-    <Link
-      href={`/noticias/${item.story.id}`}
-      prefetch={false}
+    <article
       className="
-        group block overflow-hidden
+        relative overflow-hidden
         rounded-card border
         border-border bg-card
-        outline-none
         transition-transform
         hover:-translate-y-1
-        focus-visible:ring-2
-        focus-visible:ring-ring
       "
     >
-      <article
+      <Link
+        href={`/noticias/${item.story.id}`}
+        prefetch={false}
         className="
-          grid min-h-full
-          grid-cols-1
-          md:grid-cols-[15rem_minmax(0,1fr)]
+          group block outline-none
+          focus-visible:ring-2
+          focus-visible:ring-ring
         "
       >
-        <EditorialImage
-          src={
-            item.story.imageUrl
-          }
-          alt={
-            item.story.headline
-          }
-          sizes="
-            (min-width: 768px) 240px,
-            100vw
-          "
+        <div
           className="
-            aspect-video w-full
-            md:aspect-auto md:min-h-52
+            grid min-h-full
+            grid-cols-1
+            md:grid-cols-[15rem_minmax(0,1fr)]
           "
-          fallback={
-            <div
-              className="
-                flex h-full min-h-48
-                items-center
-                justify-center
-                bg-surface-strong
-                px-6 text-center
-                text-sm font-semibold
-                text-muted-foreground
-              "
-            >
-              {
-                item.story
-                  .categoryLabel
-              }
-            </div>
-          }
-        />
+        >
+          <EditorialImage
+            src={
+              item.story.imageUrl
+            }
+            alt={
+              item.story.headline
+            }
+            sizes="
+              (min-width: 768px) 240px,
+              100vw
+            "
+            className="
+              aspect-video w-full
+              md:aspect-auto md:min-h-52
+            "
+            fallback={
+              <div
+                className="
+                  flex h-full min-h-48
+                  items-center
+                  justify-center
+                  bg-surface-strong
+                  px-6 text-center
+                  text-sm font-semibold
+                  text-muted-foreground
+                "
+              >
+                {
+                  item.story
+                    .categoryLabel
+                }
+              </div>
+            }
+          />
 
-        <Box padding="lg">
           <Box
-            display="flex"
-            align="center"
-            gap="sm"
-            className="flex-wrap"
+            padding="lg"
+            className="pr-16"
           >
-            <Text
-              as="span"
-              preset="categoryLabel"
-              tone="accent"
-            >
-              {
-                item.story
-                  .categoryLabel
-              }
-            </Text>
-
             <Box
               display="flex"
               align="center"
-              gap="xs"
+              gap="sm"
+              className="flex-wrap"
             >
-              <CountryFlag
-                code={
-                  item.country.code
-                }
-                countryName={
-                  item.country.name
-                }
-                className="h-4 w-6"
-              />
-
               <Text
                 as="span"
-                preset="metadata"
-                tone="subtle"
+                preset="categoryLabel"
+                tone="accent"
               >
                 {
-                  item.country.name
+                  item.story
+                    .categoryLabel
                 }
               </Text>
+
+              <Box
+                display="flex"
+                align="center"
+                gap="xs"
+              >
+                <CountryFlag
+                  code={
+                    item.country.code
+                  }
+                  countryName={
+                    item.country.name
+                  }
+                  className="h-4 w-6"
+                />
+
+                <Text
+                  as="span"
+                  preset="metadata"
+                  tone="subtle"
+                >
+                  {
+                    item.country.name
+                  }
+                </Text>
+              </Box>
             </Box>
+
+            <Text
+              preset="articleTitle"
+              clamp={3}
+              className="
+                mt-3
+                transition-colors
+                group-hover:text-primary
+              "
+            >
+              {
+                item.story.headline
+              }
+            </Text>
+
+            <Text
+              preset="bodySmall"
+              tone="muted"
+              clamp={3}
+              className="mt-3"
+            >
+              {
+                item.story.summary
+              }
+            </Text>
+
+            <Text
+              preset="metadata"
+              tone="subtle"
+              className="mt-5"
+            >
+              {item.sourceCount === 1
+                ? "1 fonte"
+                : `${item.sourceCount} fontes`}
+              {" · "}
+              {
+                item.publishedAtLabel
+              }
+            </Text>
           </Box>
+        </div>
+      </Link>
 
-          <Text
-            preset="articleTitle"
-            clamp={3}
-            className="
-              mt-3
-              transition-colors
-              group-hover:text-primary
-            "
-          >
-            {
-              item.story.headline
-            }
-          </Text>
-
-          <Text
-            preset="bodySmall"
-            tone="muted"
-            clamp={3}
-            className="mt-3"
-          >
-            {
-              item.story.summary
-            }
-          </Text>
-
-          <Text
-            preset="metadata"
-            tone="subtle"
-            className="mt-5"
-          >
-            {item.sourceCount === 1
-              ? "1 fonte"
-              : `${item.sourceCount} fontes`}
-            {" · "}
-            {
-              item.publishedAtLabel
-            }
-          </Text>
-        </Box>
-      </article>
-    </Link>
+      <div
+        className="
+          absolute right-3 top-3
+          z-30
+        "
+      >
+        <SaveStoryButton
+          storyId={
+            item.story.id
+          }
+          compact
+        />
+      </div>
+    </article>
   );
 }

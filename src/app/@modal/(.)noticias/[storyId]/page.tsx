@@ -7,6 +7,10 @@ import {
 } from "next/navigation";
 
 import {
+  ReaderStoryPersonalization,
+} from "@/components/ReaderLibrary/ReaderStoryPersonalization";
+
+import {
   StoryDetails,
 } from "@/components/StoryDetails";
 
@@ -66,6 +70,12 @@ async function StoryModalShell({
         storyId,
       )}`}
     >
+      <ReaderStoryPersonalization
+        storyId={
+          data.story.id
+        }
+      />
+
       <StoryDetails
         data={data}
         variant="modal"

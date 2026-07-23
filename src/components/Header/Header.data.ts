@@ -50,4 +50,12 @@ export const navigationItems = [
     href:
       "/paises",
   },
+
+  {
+    label:
+      "Minha seleção",
+
+    href:
+      "/minha-selecao",
+  },
 ] satisfies readonly NavigationItem[];

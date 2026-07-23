@@ -11,6 +11,10 @@ import {
 } from "next/navigation";
 
 import {
+  ReaderStoryPersonalization,
+} from "@/components/ReaderLibrary/ReaderStoryPersonalization";
+
+import {
   StoryDetails,
 } from "@/components/StoryDetails";
 
@@ -221,6 +225,12 @@ async function StoryContent({
               "\\u003c",
             ),
         }}
+      />
+
+      <ReaderStoryPersonalization
+        storyId={
+          data.story.id
+        }
       />
 
       <StoryDetails
