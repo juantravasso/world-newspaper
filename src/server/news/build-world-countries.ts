@@ -1,3 +1,9 @@
+import "server-only";
+
+import {
+  cacheLife,
+} from "next/cache";
+
 import africaSourcesJson from "@/data/news/africa.sources.json";
 import asiaSourcesJson from "@/data/news/asia.sources.json";
 import centralAmericaSourcesJson from "@/data/news/central-america.sources.json";
@@ -23,7 +29,6 @@ import {
 import type {
   NewsSourcesCatalog,
 } from "./news-source.types";
-import { cacheLife } from "next/cache";
 
 type CatalogEntry = {
   catalog:
@@ -36,34 +41,34 @@ type CatalogEntry = {
 const catalogEntries:
   CatalogEntry[] = [
     {
-  catalog:
-    northAmericaSourcesJson as
-      NewsSourcesCatalog,
+      catalog:
+        northAmericaSourcesJson as
+          NewsSourcesCatalog,
 
-  defaultRegions: [
-    "north-america",
-  ],
-},
+      defaultRegions: [
+        "north-america",
+      ],
+    },
 
-{
-  catalog:
-    centralAmericaSourcesJson as
-      NewsSourcesCatalog,
+    {
+      catalog:
+        centralAmericaSourcesJson as
+          NewsSourcesCatalog,
 
-  defaultRegions: [
-    "central-america",
-  ],
-},
+      defaultRegions: [
+        "central-america",
+      ],
+    },
 
-{
-  catalog:
-    southAmericaSourcesJson as
-      NewsSourcesCatalog,
+    {
+      catalog:
+        southAmericaSourcesJson as
+          NewsSourcesCatalog,
 
-  defaultRegions: [
-    "south-america",
-  ],
-},
+      defaultRegions: [
+        "south-america",
+      ],
+    },
 
     {
       catalog:
@@ -116,19 +121,44 @@ const catalogEntries:
     },
   ];
 
+/**
+ * Versão cacheada mantida para usos de leitura que
+ * aceitam dados temporariamente reutilizados.
+ */
 export async function buildWorldCountriesWithNews(
-  category?: NewsCategory,
+  category?:
+    NewsCategory,
 ): Promise<
   CountryWithLatestNews[]
 > {
   "use cache";
 
   cacheLife({
-    stale: 900,
-    revalidate: 900,
-    expire: 3600,
+    stale:
+      900,
+
+    revalidate:
+      900,
+
+    expire:
+      3_600,
   });
 
+  return collectWorldCountriesWithNews(
+    category,
+  );
+}
+
+/**
+ * Coleta sem cache. A sincronização persistente usa
+ * esta função para consultar os feeds em toda execução.
+ */
+export async function collectWorldCountriesWithNews(
+  category?:
+    NewsCategory,
+): Promise<
+  CountryWithLatestNews[]
+> {
   const catalogResults =
     await Promise.all(
       catalogEntries.map(
@@ -161,7 +191,10 @@ function mergeCountries(
       CountryWithLatestNews
     >();
 
-  for (const country of countries) {
+  for (
+    const country of
+    countries
+  ) {
     const existing =
       byCode.get(
         country.code,
@@ -181,17 +214,16 @@ function mergeCountries(
       {
         ...existing,
 
-        regions:
-          [
-            ...new Set([
-              ...existing.regions,
-              ...country.regions,
-            ]),
-          ],
+        regions: [
+          ...new Set([
+            ...existing.regions,
+            ...country.regions,
+          ]),
+        ],
 
         news: [
-  ...existing.news,
-  ...country.news,
+          ...existing.news,
+          ...country.news,
         ],
 
         stories: [

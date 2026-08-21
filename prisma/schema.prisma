@@ -13,6 +13,18 @@ enum NewsCategory {
   economy
 }
 
+enum SyncRunStatus {
+  running
+  success
+  failed
+}
+
+enum SyncRunTrigger {
+  scheduled
+  admin
+  manual
+}
+
 model Story {
   id String @id @db.VarChar(64)
 
@@ -71,4 +83,37 @@ model Article {
   @@index([countryCode, publishedAt])
   @@index([lastSeenAt])
   @@map("articles")
+}
+
+model SyncRun {
+  id String @id @default(cuid()) @db.VarChar(32)
+
+  trigger SyncRunTrigger
+  status  SyncRunStatus @default(running)
+
+  requestId String? @map("request_id") @db.VarChar(64)
+
+  startedAt  DateTime  @default(now()) @map("started_at") @db.Timestamptz(3)
+  finishedAt DateTime? @map("finished_at") @db.Timestamptz(3)
+  durationMs Int?      @map("duration_ms")
+
+  countriesProcessed Int @default(0) @map("countries_processed")
+  storiesCollected   Int @default(0) @map("stories_collected")
+  articlesCollected  Int @default(0) @map("articles_collected")
+
+  storiesSaved  Int @default(0) @map("stories_saved")
+  articlesSaved Int @default(0) @map("articles_saved")
+
+  retentionDays  Int @default(0) @map("retention_days")
+  storiesDeleted Int @default(0) @map("stories_deleted")
+
+  errorMessage String? @map("error_message") @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([startedAt])
+  @@index([status, startedAt])
+  @@index([trigger, startedAt])
+  @@map("sync_runs")
 }

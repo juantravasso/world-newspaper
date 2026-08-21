@@ -63,13 +63,8 @@ async function handleSynchronizationRequest(
         status:
           authorization.status,
 
-        headers: {
-          "Cache-Control":
-            "no-store, max-age=0",
-
-          "X-Robots-Tag":
-            "noindex, nofollow",
-        },
+        headers:
+          getNoStoreHeaders(),
       },
     );
   }
@@ -79,7 +74,12 @@ async function handleSynchronizationRequest(
 
   try {
     const synchronization =
-      await synchronizeStories();
+      await synchronizeStories({
+        trigger:
+          "scheduled",
+
+        requestId,
+      });
 
     revalidateTag(
       WORLD_NEWS_CACHE_TAG,
@@ -110,18 +110,16 @@ async function handleSynchronizationRequest(
       },
       {
         headers: {
-          "Cache-Control":
-            "no-store, max-age=0",
-
-          "X-Robots-Tag":
-            "noindex, nofollow",
+          ...getNoStoreHeaders(),
 
           "X-Sync-Request-Id":
             requestId,
         },
       },
     );
-  } catch (error) {
+  } catch (
+    error
+  ) {
     console.error(
       `[STORY SYNCHRONIZATION ERROR] requestId=${requestId}`,
       error,
@@ -144,11 +142,7 @@ async function handleSynchronizationRequest(
           500,
 
         headers: {
-          "Cache-Control":
-            "no-store, max-age=0",
-
-          "X-Robots-Tag":
-            "noindex, nofollow",
+          ...getNoStoreHeaders(),
 
           "X-Sync-Request-Id":
             requestId,
@@ -156,6 +150,20 @@ async function handleSynchronizationRequest(
       },
     );
   }
+}
+
+function getNoStoreHeaders():
+  Record<
+    string,
+    string
+  > {
+  return {
+    "Cache-Control":
+      "no-store, max-age=0",
+
+    "X-Robots-Tag":
+      "noindex, nofollow",
+  };
 }
 
 function getErrorMessage(
