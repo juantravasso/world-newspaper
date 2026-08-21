@@ -16,9 +16,11 @@ import {
   Clock3,
   Database,
   Globe2,
+  LayoutDashboard,
   LogOut,
   Newspaper,
   RefreshCw,
+  Rss,
   RotateCcw,
   Server,
   ShieldCheck,
@@ -32,11 +34,17 @@ import type {
   AdminSystemStatus,
 } from "@/domain/admin/admin.types";
 
+import { AdminSources } from "./AdminSources";
+
 type ViewState =
   | "checking"
   | "login"
   | "dashboard"
   | "error";
+
+type AdminTab =
+  | "dashboard"
+  | "sources";
 
 type DashboardPayload = {
   ok:
@@ -94,6 +102,16 @@ export function AdminDashboard() {
   ] =
     useState(
       false,
+    );
+
+  const [
+    activeTab,
+    setActiveTab,
+  ] =
+    useState<
+      AdminTab
+    >(
+      "dashboard",
     );
 
   const loadDashboard =
@@ -484,93 +502,148 @@ export function AdminDashboard() {
         }
       />
 
-      {error && (
-        <div
-          role="alert"
-          className="
-            mt-5 flex items-start
-            gap-3 rounded-card
-            border border-red-200
-            bg-red-50 p-4
-            text-red-900
-          "
+      <nav
+        className="
+          mt-5 flex gap-2
+        "
+      >
+        <TabButton
+          active={activeTab === "dashboard"}
+          onClick={() => setActiveTab("dashboard")}
+          icon={<LayoutDashboard aria-hidden="true" size={16} />}
         >
-          <AlertTriangle
-            aria-hidden="true"
-            className="mt-0.5 shrink-0"
-            size={20}
+          Painel
+        </TabButton>
+
+        <TabButton
+          active={activeTab === "sources"}
+          onClick={() => setActiveTab("sources")}
+          icon={<Rss aria-hidden="true" size={16} />}
+        >
+          Fontes
+        </TabButton>
+      </nav>
+
+      {activeTab === "sources" ? (
+        <div className="mt-6">
+          <AdminSources />
+        </div>
+      ) : (
+        <>
+          {error && (
+            <div
+              role="alert"
+              className="
+                mt-5 flex items-start
+                gap-3 rounded-card
+                border border-red-200
+                bg-red-50 p-4
+                text-red-900
+              "
+            >
+              <AlertTriangle
+                aria-hidden="true"
+                className="mt-0.5 shrink-0"
+                size={20}
+              />
+
+              <div>
+                <p className="font-semibold">
+                  A última operação apresentou
+                  um problema
+                </p>
+
+                <p className="mt-1 text-sm">
+                  {error}
+                </p>
+              </div>
+            </div>
+          )}
+
+          <SystemStatusBanner
+            status={
+              data.systemStatus
+            }
+            latestSuccessAtISO={
+              data.syncSummary
+                .latestSuccessAtISO
+            }
           />
 
-          <div>
-            <p className="font-semibold">
-              A última operação apresentou
-              um problema
-            </p>
+          <MetricsGrid
+            data={data}
+          />
 
-            <p className="mt-1 text-sm">
-              {error}
-            </p>
+          <div
+            className="
+              mt-8 grid
+              grid-cols-1 gap-6
+              xl:grid-cols-[minmax(0,1.35fr)_minmax(22rem,0.65fr)]
+            "
+          >
+            <RecentRunsTable
+              runs={
+                data.recentRuns
+              }
+            />
+
+            <DistributionPanel
+              data={data}
+            />
           </div>
-        </div>
+
+          <SourceHealthTable
+            sources={
+              data.sourceHealth
+            }
+            summary={
+              data.sourceSummary
+            }
+          />
+
+          <footer
+            className="
+              mt-8 border-t
+              border-border pt-5
+              text-sm
+              text-muted-foreground
+            "
+          >
+            Painel atualizado em{" "}
+            {formatDateTime(
+              data.generatedAtISO,
+            )}
+            . Atualização automática a cada
+            60 segundos.
+          </footer>
+        </>
       )}
-
-      <SystemStatusBanner
-        status={
-          data.systemStatus
-        }
-        latestSuccessAtISO={
-          data.syncSummary
-            .latestSuccessAtISO
-        }
-      />
-
-      <MetricsGrid
-        data={data}
-      />
-
-      <div
-        className="
-          mt-8 grid
-          grid-cols-1 gap-6
-          xl:grid-cols-[minmax(0,1.35fr)_minmax(22rem,0.65fr)]
-        "
-      >
-        <RecentRunsTable
-          runs={
-            data.recentRuns
-          }
-        />
-
-        <DistributionPanel
-          data={data}
-        />
-      </div>
-
-      <SourceHealthTable
-        sources={
-          data.sourceHealth
-        }
-        summary={
-          data.sourceSummary
-        }
-      />
-
-      <footer
-        className="
-          mt-8 border-t
-          border-border pt-5
-          text-sm
-          text-muted-foreground
-        "
-      >
-        Painel atualizado em{" "}
-        {formatDateTime(
-          data.generatedAtISO,
-        )}
-        . Atualização automática a cada
-        60 segundos.
-      </footer>
     </div>
+  );
+}
+
+type TabButtonProps = {
+  active: boolean;
+  onClick: () => void;
+  icon: ReactNode;
+  children: ReactNode;
+};
+
+function TabButton({ active, onClick, icon, children }: TabButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={[
+        "inline-flex min-h-10 items-center gap-2 rounded-button border px-4 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+        active
+          ? "border-primary bg-primary text-white"
+          : "border-border bg-background text-foreground hover:border-primary hover:text-primary",
+      ].join(" ")}
+    >
+      {icon}
+      {children}
+    </button>
   );
 }
 

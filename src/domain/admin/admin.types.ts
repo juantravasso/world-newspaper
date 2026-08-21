@@ -115,6 +115,64 @@ export type AdminCountryMetric = {
     number;
 };
 
+export type AdminNewsSourceItem = {
+  id:
+    string;
+
+  countryCode:
+    string;
+
+  countryName:
+    string;
+
+  name:
+    string;
+
+  websiteUrl:
+    string;
+
+  feedUrl:
+    string | null;
+
+  feedCategory:
+    "football" |
+    "politics" |
+    "economy" |
+    null;
+
+  enabled:
+    boolean;
+
+  updatedAtISO:
+    string;
+};
+
+export type AdminNewsSourceInput = {
+  id:
+    string;
+
+  countryCode:
+    string;
+
+  name:
+    string;
+
+  websiteUrl:
+    string;
+
+  feedUrl:
+    string | null;
+
+  feedCategory:
+    "football" |
+    "politics" |
+    "economy" |
+    null;
+
+  enabled:
+    boolean;
+};
+
 export type AdminDashboardData = {
   generatedAtISO:
     string;

@@ -25,6 +25,14 @@ import {
   classifyNews,
 } from "./classify-news";
 
+import {
+  listEnabledSourcesByCountry,
+} from "./news-source.repository";
+
+import type {
+  NewsSourceRecord,
+} from "./news-source.repository";
+
 import type {
   CountryNewsSourceConfig,
   NewsFeedConfig,
@@ -134,23 +142,23 @@ async function buildCountry(
 ): Promise<
   CountryWithLatestNews
 > {
+  const sources =
+    await listEnabledSourcesByCountry(
+      country.code,
+    );
+
   const feedTasks =
-    country.sources.flatMap(
+    sources.map(
       (source) =>
-        source.feeds
-          .filter(
-            (feed) =>
-              feed.enabled !==
-              false,
-          )
-          .map(
-            (feed) =>
-              loadFeedSafely(
-                country,
-                source,
-                feed,
-              ),
+        loadFeedSafely(
+          country,
+          toSourceConfig(
+            source,
           ),
+          toFeedConfig(
+            source,
+          ),
+        ),
     );
 
   if (
@@ -301,6 +309,40 @@ async function buildCountry(
     stories,
     defaultRegions,
   );
+}
+
+function toSourceConfig(
+  source:
+    NewsSourceRecord,
+): NewsSourceConfig {
+  return {
+    id:
+      source.id,
+
+    name:
+      source.name,
+
+    websiteUrl:
+      source.websiteUrl,
+
+    feeds:
+      [],
+  };
+}
+
+function toFeedConfig(
+  source:
+    NewsSourceRecord,
+): NewsFeedConfig {
+  return {
+    url:
+      source.feedUrl ??
+      "",
+
+    category:
+      source.feedCategory ??
+      undefined,
+  };
 }
 
 async function loadFeedSafely(

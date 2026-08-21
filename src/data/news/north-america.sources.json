@@ -5,105 +5,21 @@
       "name": "Canadá",
       "slug": "canada",
       "flag": "🇨🇦",
-      "language": "en",
-      "sources": [
-        {
-          "id": "ca-the-tyee",
-          "name": "The Tyee",
-          "websiteUrl": "https://thetyee.ca/",
-          "feeds": []
-        },
-        {
-          "id": "ca-cbc",
-          "name": "Canadian Broadcasting Corporation (CBC)",
-          "websiteUrl": "https://www.cbc.ca/",
-          "feeds": [
-            {
-              "url": "https://www.cbc.ca/webfeed/rss/rss-topstories"
-            }
-          ]
-        },
-        {
-          "id": "ca-national-post",
-          "name": "The National Post",
-          "websiteUrl": "https://nationalpost.com/",
-          "feeds": [
-            {
-              "url": "https://nationalpost.com/feed"
-            }
-          ]
-        }
-      ]
+      "language": "en"
     },
     {
       "code": "US",
       "name": "Estados Unidos",
       "slug": "estados-unidos",
       "flag": "🇺🇸",
-      "language": "en",
-      "sources": [
-        {
-          "id": "us-the-nation",
-          "name": "The Nation",
-          "websiteUrl": "https://www.thenation.com/",
-          "feeds": []
-        },
-        {
-          "id": "us-ap",
-          "name": "Associated Press (AP)",
-          "websiteUrl": "https://apnews.com/",
-          "feeds": []
-        },
-        {
-          "id": "us-nyt",
-          "name": "The New York Times",
-          "websiteUrl": "https://www.nytimes.com/",
-          "feeds": [
-            {
-              "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
-            }
-          ]
-        }
-      ]
+      "language": "en"
     },
     {
       "code": "MX",
       "name": "México",
       "slug": "mexico",
       "flag": "🇲🇽",
-      "language": "es",
-      "sources": [
-        {
-          "id": "mx-la-jornada",
-          "name": "La Jornada",
-          "websiteUrl": "https://www.jornada.com.mx/",
-          "feeds": [
-            {
-              "url": "https://www.jornada.com.mx/rss/edicion.xml"
-            }
-          ]
-        },
-        {
-          "id": "mx-el-universal",
-          "name": "El Universal",
-          "websiteUrl": "https://www.eluniversal.com.mx/",
-          "feeds": [
-            {
-              "url": "https://www.eluniversal.com.mx/arc/outboundfeeds/rss/"
-            }
-          ]
-        },
-        {
-          "id": "mx-reforma",
-          "name": "Reforma",
-          "websiteUrl": "https://www.reforma.com/",
-          "feeds": [
-            {
-              "url": "https://www.reforma.com/rss/portada.xml"
-            }
-          ]
-        }
-      ]
+      "language": "es"
     }
   ]
 }

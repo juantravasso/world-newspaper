@@ -42,9 +42,6 @@ export type CountryNewsSourceConfig = {
  * de uma região quando necessário.
  */
 regions?: CountryRegionId[];
-
-  sources:
-    NewsSourceConfig[];
 };
 
 export type NewsSourcesCatalog = {

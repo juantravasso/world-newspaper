@@ -85,6 +85,26 @@ model Article {
   @@map("articles")
 }
 
+model NewsSource {
+  id String @id @db.VarChar(64)
+
+  countryCode String @map("country_code") @db.Char(2)
+
+  name       String @db.VarChar(255)
+  websiteUrl String @map("website_url") @db.Text
+
+  feedUrl      String?       @map("feed_url") @db.Text
+  feedCategory NewsCategory? @map("feed_category")
+
+  enabled Boolean @default(true)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([countryCode])
+  @@map("news_sources")
+}
+
 model SyncRun {
   id String @id @default(cuid()) @db.VarChar(32)
 

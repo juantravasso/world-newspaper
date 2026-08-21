@@ -8,35 +8,6 @@
       "language": "en",
       "regions": [
         "oceania"
-      ],
-      "sources": [
-        {
-          "id": "au-the-australian",
-          "name": "The Australian",
-          "websiteUrl": "https://www.theaustralian.com.au/",
-          "feeds": []
-        },
-        {
-          "id": "au-afr",
-          "name": "Australian Financial Review",
-          "websiteUrl": "https://www.afr.com/",
-          "feeds": [
-            {
-              "url": "https://www.afr.com/rss/feed.xml"
-            }
-          ]
-        },
-        {
-          "id": "au-football-australia",
-          "name": "Football Australia",
-          "websiteUrl": "https://www.footballaustralia.com.au/",
-          "feeds": [
-            {
-              "url": "https://www.footballaustralia.com.au/rss.xml",
-              "enabled": true
-            }
-          ]
-        }
       ]
     },
     {
@@ -47,30 +18,6 @@
       "language": "en",
       "regions": [
         "oceania"
-      ],
-      "sources": [
-        {
-          "id": "nz-herald",
-          "name": "The New Zealand Herald",
-          "websiteUrl": "https://www.nzherald.co.nz/",
-          "feeds": []
-        },
-        {
-          "id": "nz-businessdesk",
-          "name": "BusinessDesk",
-          "websiteUrl": "https://businessdesk.co.nz/",
-          "feeds": [
-            {
-              "url": "https://businessdesk.co.nz/feed"
-            }
-          ]
-        },
-        {
-          "id": "nz-football",
-          "name": "NZ Football",
-          "websiteUrl": "https://www.nzfootball.co.nz/",
-          "feeds": []
-        }
       ]
     },
     {
@@ -81,30 +28,6 @@
       "language": "en",
       "regions": [
         "oceania"
-      ],
-      "sources": [
-        {
-          "id": "fj-times",
-          "name": "Fiji Times",
-          "websiteUrl": "https://www.fijitimes.com.fj/",
-          "feeds": []
-        },
-        {
-          "id": "fj-sun",
-          "name": "Fiji Sun",
-          "websiteUrl": "https://fijisun.com.fj/",
-          "feeds": []
-        },
-        {
-          "id": "fj-football",
-          "name": "Fiji Football",
-          "websiteUrl": "https://www.fijifootball.com.fj/",
-          "feeds": [
-            {
-              "url": "https://www.fijifootball.com.fj/feed/"
-            }
-          ]
-        }
       ]
     }
   ]
