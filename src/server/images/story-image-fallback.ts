@@ -25,9 +25,6 @@ const CATEGORY_SEARCH_TERMS:
     NewsCategory,
     string
   > = {
-  football:
-    "football soccer stadium",
-
   politics:
     "government politics building",
 

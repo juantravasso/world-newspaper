@@ -44,9 +44,6 @@ export type StoryDetailsProps = {
 
 const categoryRoutes =
   {
-    football:
-      "/futebol",
-
     politics:
       "/politica",
 
@@ -554,12 +551,9 @@ function SourceComparison({
                 >
                   {
                     article.category ===
-                    "football"
-                      ? "Futebol"
-                      : article.category ===
-                          "politics"
-                        ? "Política"
-                        : "Economia"
+                    "politics"
+                      ? "Política"
+                      : "Economia"
                   }
                 </Text>
               </Box>

@@ -25,9 +25,6 @@ const categoryLabels:
     NewsStory["category"],
     string
   > = {
-  football:
-    "Futebol",
-
   politics:
     "Política",
 
@@ -470,17 +467,28 @@ function buildStoredStoryWhere(
     >,
 ) {
   return {
+    /*
+     * O futebol foi removido do site, mas as stories
+     * antigas permanecem no banco (sem migration
+     * destrutiva). Excluir a categoria aqui garante
+     * que elas nunca voltem a aparecer em nenhuma
+     * consulta, mesmo sem filtro de categoria.
+     */
+    category:
+      options.category
+        ? {
+            equals:
+              options.category,
+          }
+        : {
+            not:
+              "football" as const,
+          },
+
     ...(options.countryCode
       ? {
           countryCode:
             options.countryCode,
-        }
-      : {}),
-
-    ...(options.category
-      ? {
-          category:
-            options.category,
         }
       : {}),
 
@@ -525,7 +533,14 @@ export async function findStoredStoryById(
       },
     });
 
-  if (!storedStory) {
+  if (
+    !storedStory ||
+    (
+      storedStory.category as
+        string
+    ) ===
+      "football"
+  ) {
     return null;
   }
 
@@ -698,11 +713,13 @@ function mapStoredStoryToDomain(
       storedStory.summary,
 
     category:
-      storedStory.category,
+      storedStory.category as
+        NewsCategory,
 
     categoryLabel:
       categoryLabels[
-        storedStory.category
+        storedStory.category as
+          NewsCategory
       ],
 
     countryCode:
@@ -753,7 +770,8 @@ function mapStoredArticleToDomain(
       undefined,
 
     category:
-      storedArticle.category,
+      storedArticle.category as
+        NewsCategory,
 
     countryCode:
       storedArticle.countryCode as

@@ -346,8 +346,6 @@ function normalizeUpdateInput(
 
     input.feedCategory =
       feedCategoryValue ===
-        "football" ||
-      feedCategoryValue ===
         "politics" ||
       feedCategoryValue ===
         "economy"

@@ -12,27 +12,6 @@ type ClassifyNewsInput = {
 
 const keywords:
   Record<NewsCategory, string[]> = {
-    football: [
-      "futebol",
-      "football",
-      "fútbol",
-      "soccer",
-      "copa",
-      "liga",
-      "campeonato",
-      "champions",
-      "libertadores",
-      "seleção",
-      "seleccion",
-      "selección",
-      "gol",
-      "goles",
-      "partido",
-      "partida",
-      "club",
-      "clube",
-    ],
-
     politics: [
       "política",
       "politica",
@@ -118,7 +97,6 @@ export function classifyNews({
 
   const scores:
     Record<NewsCategory, number> = {
-      football: 0,
       politics: 0,
       economy: 0,
     };

@@ -54,7 +54,6 @@ const COUNTRY_CONCURRENCY =
 
 const categoryLabels:
   Record<NewsCategory, string> = {
-    football: "Futebol",
     politics: "Política",
     economy: "Economia",
   };

@@ -6,7 +6,6 @@ import type {
 } from "./story.types";
 
 export type NewsCategory =
-  | "football"
   | "politics"
   | "economy";
 

@@ -27,7 +27,6 @@ const categoryLabels:
     NewsArticle["category"],
     string
   > = {
-    football: "Futebol",
     politics: "Política",
     economy: "Economia",
   };

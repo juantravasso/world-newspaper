@@ -248,9 +248,9 @@ function toNewsSourceRecord(
       source.feedUrl,
 
     feedCategory:
-      source.feedCategory as
-        | NewsCategory
-        | null,
+      toKnownCategory(
+        source.feedCategory,
+      ),
 
     enabled:
       source.enabled,
@@ -259,4 +259,22 @@ function toNewsSourceRecord(
       source.updatedAt
         .toISOString(),
   };
+}
+
+/**
+ * Categorias antigas que saíram do produto (ex:
+ * futebol) continuam salvas em fontes já
+ * cadastradas, mas não devem mais forçar a
+ * classificação de itens do feed.
+ */
+function toKnownCategory(
+  value:
+    string | null,
+): NewsCategory | null {
+  return value ===
+    "politics" ||
+    value ===
+      "economy"
+    ? value
+    : null;
 }

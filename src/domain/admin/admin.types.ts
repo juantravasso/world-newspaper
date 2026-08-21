@@ -93,7 +93,6 @@ export type AdminSourceHealthItem = {
 
 export type AdminCategoryMetric = {
   category:
-    "football" |
     "politics" |
     "economy";
 
@@ -135,7 +134,6 @@ export type AdminNewsSourceItem = {
     string | null;
 
   feedCategory:
-    "football" |
     "politics" |
     "economy" |
     null;
@@ -164,7 +162,6 @@ export type AdminNewsSourceInput = {
     string | null;
 
   feedCategory:
-    "football" |
     "politics" |
     "economy" |
     null;

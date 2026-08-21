@@ -70,9 +70,6 @@ const categoryLabels:
     NewsCategory,
     string
   > = {
-  football:
-    "Futebol",
-
   politics:
     "Política",
 
@@ -760,8 +757,6 @@ function isNewsCategory(
     string | undefined,
 ): value is NewsCategory {
   return (
-    value ===
-      "football" ||
     value ===
       "politics" ||
     value ===

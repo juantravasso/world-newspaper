@@ -67,7 +67,6 @@ export type BoxBackground =
   | "brandEmphasis"
   | "primary"
   | "primarySoft"
-  | "footballSoft"
   | "politicsSoft"
   | "economySoft";
 
@@ -238,7 +237,6 @@ const backgroundStyles: Record<BoxBackground, string> = {
   brandEmphasis: "bg-brand-emphasis",
   primary: "bg-primary",
   primarySoft: "bg-primary-soft",
-  footballSoft: "bg-football-soft",
   politicsSoft: "bg-politics-soft",
   economySoft: "bg-economy-soft",
 };

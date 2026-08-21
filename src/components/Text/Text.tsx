@@ -31,7 +31,6 @@ export type TextTone =
   | "inverse"
   | "brand"
   | "accent"
-  | "football"
   | "politics"
   | "economy"
   | "info"
@@ -108,7 +107,6 @@ const toneStyles: Record<TextTone, string> = {
   brand: "text-brand",
   accent: "text-primary",
 
-  football: "text-football-foreground",
   politics: "text-politics-foreground",
   economy: "text-economy-foreground",
 

@@ -42,9 +42,6 @@ const MILLISECONDS_PER_DAY =
   MILLISECONDS_PER_HOUR;
 
 const categoryLabels = {
-  football:
-    "Futebol",
-
   politics:
     "Política",
 
@@ -617,7 +614,6 @@ export async function getAdminDashboardData():
     categories:
       (
         [
-          "football",
           "politics",
           "economy",
         ] as const

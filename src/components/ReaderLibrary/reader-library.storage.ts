@@ -461,8 +461,6 @@ function normalizeCategories(
       item,
     ): item is NewsCategory =>
       item ===
-        "football" ||
-      item ===
         "politics" ||
       item ===
         "economy",

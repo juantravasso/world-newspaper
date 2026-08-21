@@ -32,7 +32,7 @@ type FormState = {
   name: string;
   websiteUrl: string;
   feedUrl: string;
-  feedCategory: "" | "football" | "politics" | "economy";
+  feedCategory: "" | "politics" | "economy";
   enabled: boolean;
 };
 
@@ -47,7 +47,6 @@ const EMPTY_FORM: FormState = {
 };
 
 const categoryLabels: Record<string, string> = {
-  football: "Futebol",
   politics: "Política",
   economy: "Economia",
 };
@@ -140,7 +139,10 @@ export function AdminSources() {
       name: source.name,
       websiteUrl: source.websiteUrl,
       feedUrl: source.feedUrl ?? "",
-      feedCategory: source.feedCategory ?? "",
+      feedCategory:
+        source.feedCategory === "politics" || source.feedCategory === "economy"
+          ? source.feedCategory
+          : "",
       enabled: source.enabled,
     });
     setFormError(null);
@@ -576,7 +578,6 @@ export function AdminSources() {
                   className="mt-1.5 min-h-11 w-full rounded-control border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <option value="">Classificar automaticamente</option>
-                  <option value="football">Futebol</option>
                   <option value="politics">Política</option>
                   <option value="economy">Economia</option>
                 </select>
