@@ -7,13 +7,19 @@ import {
   findStoredStoryById,
 } from "@/server/stories/story.persistence";
 
+const MAX_LISTED_STORIES =
+  200;
+
 /**
- * Retorna as stories armazenadas
- * no PostgreSQL.
+ * Retorna as stories mais recentes
+ * armazenadas no PostgreSQL.
  */
 export function findAllStories():
   Promise<NewsStory[]> {
-  return findStoredStories();
+  return findStoredStories({
+    take:
+      MAX_LISTED_STORIES,
+  });
 }
 
 /**

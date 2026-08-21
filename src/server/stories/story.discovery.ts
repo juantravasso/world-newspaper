@@ -50,6 +50,9 @@ const COUNTRY_PAGE_STORY_LIMIT =
 const TRENDING_WINDOW_DAYS =
   7;
 
+const TRENDING_CANDIDATE_POOL =
+  500;
+
 const MILLISECONDS_PER_HOUR =
   60 *
   60 *
@@ -265,9 +268,6 @@ export async function getTrendingStories(
       12,
     );
 
-  const storedStories =
-    await findStoredStories();
-
   const currentTime =
     Date.now();
 
@@ -277,22 +277,24 @@ export async function getTrendingStories(
       MILLISECONDS_PER_DAY;
 
   const recentStories =
-    storedStories.filter(
-      (story) =>
-        getTimestamp(
-          story.publishedAtISO,
-        ) >=
-        recentCutoff,
-    );
+    await findStoredStories({
+      publishedAfter:
+        new Date(
+          recentCutoff,
+        ),
+
+      take:
+        TRENDING_CANDIDATE_POOL,
+    });
 
   const candidates =
     recentStories.length >=
     limit
       ? recentStories
-      : storedStories.slice(
-          0,
-          100,
-        );
+      : await findStoredStories({
+          take:
+            100,
+        });
 
   return candidates
     .map(
@@ -362,25 +364,16 @@ export async function getCountryStoryPage(
     return null;
   }
 
-  const storedStories =
-    await findStoredStories();
-
   const stories =
-    storedStories
-      .filter(
-        (story) =>
-          story.countryCode ===
-            countryMetadata.code &&
-          (
-            !category ||
-            story.category ===
-              category
-          ),
-      )
-      .slice(
-        0,
+    await findStoredStories({
+      countryCode:
+        countryMetadata.code,
+
+      category,
+
+      take:
         COUNTRY_PAGE_STORY_LIMIT,
-      );
+    });
 
   const sourceIds =
     new Set(

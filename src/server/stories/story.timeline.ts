@@ -33,7 +33,9 @@ import {
 } from "@/server/news/story-presentation";
 
 import {
+  countStoredStories,
   findStoredStories,
+  listStoredStoryCountryCodes,
 } from "@/server/stories/story.persistence";
 
 const TIMELINE_PAGE_SIZE =
@@ -118,66 +120,43 @@ export async function getStoryTimeline(
     WORLD_NEWS_CACHE_TAG,
   );
 
-  const storedStories =
-    await findStoredStories();
-
-  const activeCountryCodes =
-    new Set(
-      storedStories.map(
-        (story) =>
-          story.countryCode,
-      ),
-    );
-
-  const activeCountries =
-    listCountryCatalog()
-      .filter(
-        (country) =>
-          activeCountryCodes.has(
-            country.code,
-          ),
-      );
-
   const cutoff =
     getPeriodCutoff(
       filters.period,
     );
 
-  const filteredStories =
-    storedStories.filter(
-      (story) => {
-        if (
-          filters.category &&
-          story.category !==
-            filters.category
-        ) {
-          return false;
-        }
+  const whereOptions = {
+    category:
+      filters.category,
 
-        if (
-          filters.countryCode &&
-          story.countryCode !==
-            filters.countryCode
-        ) {
-          return false;
-        }
+    countryCode:
+      filters.countryCode,
 
-        if (
-          cutoff &&
-          getTimestamp(
-            story.publishedAtISO,
-          ) <
-            cutoff.getTime()
-        ) {
-          return false;
-        }
+    publishedAfter:
+      cutoff ??
+      undefined,
+  };
 
-        return true;
-      },
-    );
+  const [
+    activeCountryCodes,
+    total,
+  ] =
+    await Promise.all([
+      listStoredStoryCountryCodes(),
 
-  const total =
-    filteredStories.length;
+      countStoredStories(
+        whereOptions,
+      ),
+    ]);
+
+  const activeCountries =
+    listCountryCatalog()
+      .filter(
+        (country) =>
+          activeCountryCodes.includes(
+            country.code,
+          ),
+      );
 
   const totalPages =
     Math.ceil(
@@ -202,16 +181,24 @@ export async function getStoryTimeline(
     ) *
     TIMELINE_PAGE_SIZE;
 
+  const pageStories =
+    total ===
+    0
+      ? []
+      : await findStoredStories({
+          ...whereOptions,
+
+          take:
+            TIMELINE_PAGE_SIZE,
+
+          skip:
+            start,
+        });
+
   const items =
-    filteredStories
-      .slice(
-        start,
-        start +
-          TIMELINE_PAGE_SIZE,
-      )
-      .flatMap(
-        toTimelineItem,
-      );
+    pageStories.flatMap(
+      toTimelineItem,
+    );
 
   return {
     filters: {
@@ -300,26 +287,6 @@ function getPeriodCutoff(
     days *
       MILLISECONDS_PER_DAY,
   );
-}
-
-function getTimestamp(
-  value:
-    string | null,
-): number {
-  if (!value) {
-    return 0;
-  }
-
-  const timestamp =
-    new Date(
-      value,
-    ).getTime();
-
-  return Number.isNaN(
-    timestamp,
-  )
-    ? 0
-    : timestamp;
 }
 
 function clampInteger(

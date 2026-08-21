@@ -8,10 +8,6 @@ import type {
   NewsCategory,
 } from "@/domain/news/news.types";
 
-import type {
-  NewsStory,
-} from "@/domain/news/story.types";
-
 import {
   listCountryCatalog,
 } from "@/server/countries/country-catalog";
@@ -47,31 +43,31 @@ export async function buildWorldCountriesFromStorage(
     WORLD_NEWS_CACHE_TAG,
   );
 
-  const storedStories =
-    await findStoredStories();
+  const countries =
+    listCountryCatalog();
 
   const storiesByCountry =
-    groupStoriesByCountry(
-      storedStories,
-      category,
+    await Promise.all(
+      countries.map(
+        (country) =>
+          findStoredStories({
+            countryCode:
+              country.code,
+
+            category,
+
+            take:
+              MAX_STORIES_PER_COUNTRY,
+          }),
+      ),
     );
 
-  return listCountryCatalog().map(
-    (country) => {
+  return countries.map(
+    (country, index) => {
       const stories =
-        (
-          storiesByCountry.get(
-            country.code,
-          ) ??
-          []
-        )
-          .sort(
-            compareStoriesByDateDescending,
-          )
-          .slice(
-            0,
-            MAX_STORIES_PER_COUNTRY,
-          );
+        storiesByCountry[
+          index
+        ];
 
       return {
         ...country,
@@ -88,88 +84,4 @@ export async function buildWorldCountriesFromStorage(
       };
     },
   );
-}
-
-function groupStoriesByCountry(
-  stories:
-    NewsStory[],
-
-  category:
-    NewsCategory | undefined,
-): Map<
-  NewsStory["countryCode"],
-  NewsStory[]
-> {
-  const storiesByCountry =
-    new Map<
-      NewsStory["countryCode"],
-      NewsStory[]
-    >();
-
-  for (
-    const story of
-    stories
-  ) {
-    if (
-      category &&
-      story.category !==
-        category
-    ) {
-      continue;
-    }
-
-    const countryStories =
-      storiesByCountry.get(
-        story.countryCode,
-      ) ??
-      [];
-
-    countryStories.push(
-      story,
-    );
-
-    storiesByCountry.set(
-      story.countryCode,
-      countryStories,
-    );
-  }
-
-  return storiesByCountry;
-}
-
-function compareStoriesByDateDescending(
-  first:
-    NewsStory,
-
-  second:
-    NewsStory,
-): number {
-  return (
-    getTimestamp(
-      second.publishedAtISO,
-    ) -
-    getTimestamp(
-      first.publishedAtISO,
-    )
-  );
-}
-
-function getTimestamp(
-  value:
-    string | null,
-): number {
-  if (!value) {
-    return 0;
-  }
-
-  const timestamp =
-    new Date(
-      value,
-    ).getTime();
-
-  return Number.isNaN(
-    timestamp,
-  )
-    ? 0
-    : timestamp;
 }

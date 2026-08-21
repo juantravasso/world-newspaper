@@ -1,5 +1,6 @@
 import type {
   CountryCode,
+  NewsCategory,
 } from "@/domain/news/news.types";
 
 import type {
@@ -281,13 +282,67 @@ export async function saveStories(
 }
 
 /**
- * Retorna todas as stories persistidas,
- * ordenadas da mais recente para a mais antiga.
+ * Lista os códigos de país que têm ao menos uma
+ * story persistida, sem trazer as stories em si.
  */
-export async function findStoredStories():
-  Promise<NewsStory[]> {
+export async function listStoredStoryCountryCodes():
+  Promise<CountryCode[]> {
+  const rows =
+    await prisma.story.findMany({
+      distinct: [
+        "countryCode",
+      ],
+
+      select: {
+        countryCode:
+          true,
+      },
+    });
+
+  return rows.map(
+    (row) =>
+      row.countryCode as
+        CountryCode,
+  );
+}
+
+export type FindStoredStoriesOptions = {
+  countryCode?:
+    CountryCode;
+
+  category?:
+    NewsCategory;
+
+  publishedAfter?:
+    Date;
+
+  take?:
+    number;
+
+  skip?:
+    number;
+};
+
+/**
+ * Retorna as stories persistidas, ordenadas da
+ * mais recente para a mais antiga. Sem opções,
+ * retorna a tabela inteira — prefira sempre
+ * passar `countryCode`/`category`/`take` para
+ * que o filtro e o limite sejam aplicados no
+ * banco, e não em memória depois da busca.
+ */
+export async function findStoredStories(
+  options:
+    FindStoredStoriesOptions =
+      {},
+): Promise<NewsStory[]> {
   const storedStories =
     await prisma.story.findMany({
+      where:
+        buildStoredStoryWhere(
+          options,
+        ),
+
       include: {
         articles: {
           orderBy: [
@@ -313,11 +368,75 @@ export async function findStoredStories():
             "asc",
         },
       ],
+
+      take:
+        options.take,
+
+      skip:
+        options.skip,
     });
 
   return storedStories.map(
     mapStoredStoryToDomain,
   );
+}
+
+/**
+ * Conta as stories persistidas que casam com o
+ * mesmo filtro aceito por `findStoredStories`,
+ * sem trazer as linhas do banco.
+ */
+export async function countStoredStories(
+  options:
+    Pick<
+      FindStoredStoriesOptions,
+      | "countryCode"
+      | "category"
+      | "publishedAfter"
+    > =
+      {},
+): Promise<number> {
+  return prisma.story.count({
+    where:
+      buildStoredStoryWhere(
+        options,
+      ),
+  });
+}
+
+function buildStoredStoryWhere(
+  options:
+    Pick<
+      FindStoredStoriesOptions,
+      | "countryCode"
+      | "category"
+      | "publishedAfter"
+    >,
+) {
+  return {
+    ...(options.countryCode
+      ? {
+          countryCode:
+            options.countryCode,
+        }
+      : {}),
+
+    ...(options.category
+      ? {
+          category:
+            options.category,
+        }
+      : {}),
+
+    ...(options.publishedAfter
+      ? {
+          publishedAt: {
+            gte:
+              options.publishedAfter,
+          },
+        }
+      : {}),
+  };
 }
 
 /**
