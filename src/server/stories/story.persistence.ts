@@ -282,6 +282,62 @@ export async function saveStories(
 }
 
 /**
+ * Retorna a imagem já persistida (se houver) para
+ * cada id de story informado. Usado para evitar
+ * buscar uma imagem de novo em toda sincronização.
+ */
+export async function findStoredStoryImages(
+  storyIds:
+    string[],
+): Promise<
+  Map<
+    string,
+    string
+  >
+> {
+  if (
+    storyIds.length ===
+    0
+  ) {
+    return new Map();
+  }
+
+  const rows =
+    await prisma.story.findMany({
+      where: {
+        id: {
+          in:
+            storyIds,
+        },
+
+        imageUrl: {
+          not:
+            null,
+        },
+      },
+
+      select: {
+        id:
+          true,
+
+        imageUrl:
+          true,
+      },
+    });
+
+  return new Map(
+    rows.map(
+      (row) =>
+        [
+          row.id,
+          row.imageUrl as
+            string,
+        ] as const,
+    ),
+  );
+}
+
+/**
  * Lista os códigos de país que têm ao menos uma
  * story persistida, sem trazer as stories em si.
  */

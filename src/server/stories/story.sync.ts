@@ -15,6 +15,10 @@ import {
 } from "@/server/monitoring/sync-run.repository";
 
 import {
+  fillMissingStoryImages,
+} from "@/server/images/story-image-fallback";
+
+import {
   collectWorldCountriesWithNews,
 } from "@/server/news/build-world-countries";
 
@@ -198,9 +202,14 @@ async function performStorySynchronization({
       }
     }
 
-    const stories = [
+    const collectedStories = [
       ...storiesById.values(),
     ];
+
+    const stories =
+      await fillMissingStoryImages(
+        collectedStories,
+      );
 
     const articleIds =
       new Set(
