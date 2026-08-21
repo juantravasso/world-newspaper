@@ -14,7 +14,11 @@
           "id": "de-dw",
           "name": "Deutsche Welle",
           "websiteUrl": "https://www.dw.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://rss.dw.com/xml/rss-en-all"
+            }
+          ]
         },
         {
           "id": "de-handelsblatt",
@@ -182,6 +186,82 @@
           "name": "La Gazzetta dello Sport",
           "websiteUrl": "https://www.gazzetta.it/",
           "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "NL",
+      "name": "Holanda",
+      "slug": "holanda",
+      "flag": "🇳🇱",
+      "language": "en",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "nl-nltimes",
+          "name": "NL Times",
+          "websiteUrl": "https://nltimes.nl/",
+          "feeds": [
+            {
+              "url": "https://nltimes.nl/rssfeed2"
+            }
+          ]
+        },
+        {
+          "id": "nl-dutchnews",
+          "name": "DutchNews.nl",
+          "websiteUrl": "https://www.dutchnews.nl/",
+          "feeds": [
+            {
+              "url": "https://www.dutchnews.nl/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "PL",
+      "name": "Polônia",
+      "slug": "polonia",
+      "flag": "🇵🇱",
+      "language": "en",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "pl-notes-from-poland",
+          "name": "Notes From Poland",
+          "websiteUrl": "https://notesfrompoland.com/",
+          "feeds": [
+            {
+              "url": "https://notesfrompoland.com/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "SE",
+      "name": "Suécia",
+      "slug": "suecia",
+      "flag": "🇸🇪",
+      "language": "en",
+      "regions": [
+        "europe"
+      ],
+      "sources": [
+        {
+          "id": "se-the-local",
+          "name": "The Local Sweden",
+          "websiteUrl": "https://www.thelocal.se/",
+          "feeds": [
+            {
+              "url": "https://feeds.thelocal.com/rss/se/today-in-sweden"
+            }
+          ]
         }
       ]
     },

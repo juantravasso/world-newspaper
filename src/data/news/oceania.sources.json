@@ -20,7 +20,11 @@
           "id": "au-afr",
           "name": "Australian Financial Review",
           "websiteUrl": "https://www.afr.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.afr.com/rss/feed.xml"
+            }
+          ]
         },
         {
           "id": "au-football-australia",
@@ -55,7 +59,11 @@
           "id": "nz-businessdesk",
           "name": "BusinessDesk",
           "websiteUrl": "https://businessdesk.co.nz/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://businessdesk.co.nz/feed"
+            }
+          ]
         },
         {
           "id": "nz-football",
@@ -91,7 +99,11 @@
           "id": "fj-football",
           "name": "Fiji Football",
           "websiteUrl": "https://www.fijifootball.com.fj/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.fijifootball.com.fj/feed/"
+            }
+          ]
         }
       ]
     }

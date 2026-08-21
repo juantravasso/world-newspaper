@@ -121,6 +121,26 @@
               "url": "https://plazapublica.com.gt/feed/"
             }
           ]
+        },
+        {
+          "id": "gt-prensa-libre",
+          "name": "Prensa Libre",
+          "websiteUrl": "https://www.prensalibre.com/",
+          "feeds": [
+            {
+              "url": "https://www.prensalibre.com/feed/"
+            }
+          ]
+        },
+        {
+          "id": "gt-emisoras-unidas",
+          "name": "Emisoras Unidas",
+          "websiteUrl": "https://www.emisorasunidas.com/",
+          "feeds": [
+            {
+              "url": "https://www.emisorasunidas.com/feed/"
+            }
+          ]
         }
       ]
     },

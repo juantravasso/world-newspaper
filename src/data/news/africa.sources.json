@@ -25,13 +25,21 @@
           "id": "za-business-day",
           "name": "Business Day",
           "websiteUrl": "https://www.businessday.co.za/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.businessday.co.za/arc/outboundfeeds/rss/"
+            }
+          ]
         },
         {
           "id": "za-kick-off",
           "name": "Kick Off",
           "websiteUrl": "https://www.kickoff.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.kickoff.com/rss"
+            }
+          ]
         }
       ]
     },
@@ -173,6 +181,60 @@
           "name": "KingFut",
           "websiteUrl": "https://www.kingfut.com/",
           "feeds": []
+        }
+      ]
+    },
+    {
+      "code": "GH",
+      "name": "Gana",
+      "slug": "gana",
+      "flag": "🇬🇭",
+      "language": "en",
+      "regions": [
+        "africa"
+      ],
+      "sources": [
+        {
+          "id": "gh-myjoyonline",
+          "name": "MyJoyOnline",
+          "websiteUrl": "https://www.myjoyonline.com/",
+          "feeds": [
+            {
+              "url": "https://www.myjoyonline.com/feed/"
+            }
+          ]
+        },
+        {
+          "id": "gh-citinewsroom",
+          "name": "Citi Newsroom",
+          "websiteUrl": "https://citinewsroom.com/",
+          "feeds": [
+            {
+              "url": "https://citinewsroom.com/feed/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "TZ",
+      "name": "Tanzânia",
+      "slug": "tanzania",
+      "flag": "🇹🇿",
+      "language": "en",
+      "regions": [
+        "africa"
+      ],
+      "sources": [
+        {
+          "id": "tz-daily-news",
+          "name": "Daily News",
+          "websiteUrl": "https://dailynews.co.tz/",
+          "feeds": [
+            {
+              "url": "https://dailynews.co.tz/feed/"
+            }
+          ]
         }
       ]
     }

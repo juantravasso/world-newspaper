@@ -164,7 +164,11 @@
           "id": "sa-arab-news",
           "name": "Arab News",
           "websiteUrl": "https://www.arabnews.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.arabnews.com/rss.xml"
+            }
+          ]
         },
         {
           "id": "sa-saudi-gazette",
@@ -201,7 +205,11 @@
           "id": "tr-daily-sabah",
           "name": "Daily Sabah",
           "websiteUrl": "https://www.dailysabah.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.dailysabah.com/rss/index.xml"
+            }
+          ]
         },
         {
           "id": "tr-dunya",

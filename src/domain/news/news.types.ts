@@ -41,13 +41,18 @@ export type CountryCode =
   | "FR"
   | "GB"
   | "IT"
+  | "NL"
+  | "PL"
   | "PT"
+  | "SE"
 
   // África
   | "EG"
+  | "GH"
   | "KE"
   | "MA"
   | "NG"
+  | "TZ"
   | "ZA"
 
   // Ásia
@@ -56,6 +61,9 @@ export type CountryCode =
   | "IN"
   | "JP"
   | "KR"
+  | "PH"
+  | "TH"
+  | "VN"
 
   // Oceania
   | "AU"

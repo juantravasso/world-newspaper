@@ -14,13 +14,21 @@
           "id": "cn-scmp",
           "name": "South China Morning Post",
           "websiteUrl": "https://www.scmp.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.scmp.com/rss/91/feed/"
+            }
+          ]
         },
         {
           "id": "cn-china-daily",
           "name": "China Daily",
           "websiteUrl": "https://www.chinadaily.com.cn/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.chinadaily.com.cn/rss/china_rss.xml"
+            }
+          ]
         },
         {
           "id": "cn-xinhua-sports",
@@ -55,7 +63,11 @@
           "id": "in-economic-times",
           "name": "The Economic Times",
           "websiteUrl": "https://economictimes.indiatimes.com/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://economictimes.indiatimes.com/rssfeedstopstories.cms"
+            }
+          ]
         },
         {
           "id": "in-sportstar",
@@ -185,6 +197,82 @@
             {
               "url": "https://www.kleagueunited.com/feeds/posts/default",
               "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "TH",
+      "name": "Tailândia",
+      "slug": "tailandia",
+      "flag": "🇹🇭",
+      "language": "en",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "th-bangkok-post",
+          "name": "Bangkok Post",
+          "websiteUrl": "https://www.bangkokpost.com/",
+          "feeds": [
+            {
+              "url": "https://www.bangkokpost.com/rss/data/topstories.xml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "VN",
+      "name": "Vietnã",
+      "slug": "vietna",
+      "flag": "🇻🇳",
+      "language": "en",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "vn-vnexpress",
+          "name": "VnExpress International",
+          "websiteUrl": "https://e.vnexpress.net/",
+          "feeds": [
+            {
+              "url": "https://e.vnexpress.net/rss/news.rss"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "PH",
+      "name": "Filipinas",
+      "slug": "filipinas",
+      "flag": "🇵🇭",
+      "language": "en",
+      "regions": [
+        "asia"
+      ],
+      "sources": [
+        {
+          "id": "ph-philstar",
+          "name": "Philstar",
+          "websiteUrl": "https://www.philstar.com/",
+          "feeds": [
+            {
+              "url": "https://www.philstar.com/rss/headlines"
+            }
+          ]
+        },
+        {
+          "id": "ph-rappler",
+          "name": "Rappler",
+          "websiteUrl": "https://www.rappler.com/",
+          "feeds": [
+            {
+              "url": "https://www.rappler.com/feed/"
             }
           ]
         }

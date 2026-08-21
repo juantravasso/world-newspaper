@@ -17,7 +17,11 @@
           "id": "ca-cbc",
           "name": "Canadian Broadcasting Corporation (CBC)",
           "websiteUrl": "https://www.cbc.ca/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.cbc.ca/webfeed/rss/rss-topstories"
+            }
+          ]
         },
         {
           "id": "ca-national-post",
@@ -73,13 +77,21 @@
           "id": "mx-la-jornada",
           "name": "La Jornada",
           "websiteUrl": "https://www.jornada.com.mx/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.jornada.com.mx/rss/edicion.xml"
+            }
+          ]
         },
         {
           "id": "mx-el-universal",
           "name": "El Universal",
           "websiteUrl": "https://www.eluniversal.com.mx/",
-          "feeds": []
+          "feeds": [
+            {
+              "url": "https://www.eluniversal.com.mx/arc/outboundfeeds/rss/"
+            }
+          ]
         },
         {
           "id": "mx-reforma",
