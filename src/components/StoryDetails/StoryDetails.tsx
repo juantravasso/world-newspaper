@@ -8,6 +8,10 @@ import {
   CountryFlag,
 } from "@/components/CountryFlag";
 
+import type {
+  CountryCode,
+} from "@/domain/news/news.types";
+
 import {
   EditorialImage,
 } from "@/components/EditorialImage";
@@ -21,6 +25,7 @@ import {
 } from "@/server/news/story-presentation";
 
 import type {
+  StoryInternationalCoverageItem,
   StoryReaderData,
   StoryReaderNavigationItem,
   StoryReaderRelatedItem,
@@ -324,6 +329,12 @@ export function StoryDetails({
         }
       />
 
+      <InternationalCoverage
+        items={
+          data.internationalCoverage
+        }
+      />
+
       {isFullPage && (
         <>
           <RelatedStories
@@ -602,6 +613,186 @@ function SourceComparison({
               >
                 Ler na fonte original ↗
               </a>
+            </Box>
+          ),
+        )}
+      </Box>
+    </Box>
+  );
+}
+
+type InternationalCoverageProps = {
+  items:
+    StoryInternationalCoverageItem[];
+};
+
+function InternationalCoverage({
+  items,
+}: InternationalCoverageProps) {
+  if (
+    items.length ===
+    0
+  ) {
+    return null;
+  }
+
+  return (
+    <Box
+      as="section"
+      aria-labelledby="international-coverage-title"
+      className="mt-12"
+    >
+      <Box
+        preset="stack"
+        gap="xs"
+      >
+        <Text
+          id="international-coverage-title"
+          preset="sectionTitle"
+        >
+          Repercussão internacional
+        </Text>
+
+        <Text
+          tone="muted"
+          className="max-w-3xl"
+        >
+          Este mesmo acontecimento também
+          foi coberto por veículos de
+          outros países. Manchetes e
+          resumos traduzidos para
+          português quando o original
+          não é em português.
+        </Text>
+      </Box>
+
+      <Box
+        as="ol"
+        className="
+          mt-6 grid grid-cols-1
+          gap-5
+          lg:grid-cols-2
+        "
+      >
+        {items.map(
+          (item) => (
+            <Box
+              as="li"
+              key={
+                item.storyId
+              }
+              background="card"
+              border="default"
+              radius="card"
+              padding="lg"
+              className="min-w-0"
+            >
+              <Box
+                display="flex"
+                align="center"
+                gap="sm"
+              >
+                <CountryFlag
+                  code={
+                    item.countryCode as
+                      CountryCode
+                  }
+                  countryName={
+                    item.countryName
+                  }
+                  className="h-5 w-7"
+                />
+
+                <Box className="min-w-0">
+                  <Text
+                    preset="label"
+                    clamp={1}
+                  >
+                    {
+                      item.countryName
+                    }
+                  </Text>
+
+                  <Text
+                    preset="metadata"
+                    tone="subtle"
+                    className="mt-1"
+                  >
+                    {
+                      item.sourceName ??
+                      item.language.toUpperCase()
+                    }
+                    {" · "}
+                    {
+                      item.publishedAtLabel
+                    }
+                  </Text>
+                </Box>
+              </Box>
+
+              <Text
+                preset="articleTitle"
+                wrap="pretty"
+                className="mt-5"
+              >
+                {
+                  item.headline
+                }
+              </Text>
+
+              <Text
+                preset="bodySmall"
+                tone="muted"
+                wrap="pretty"
+                className="mt-3"
+              >
+                {
+                  item.summary
+                }
+              </Text>
+
+              {!item.translated && (
+                <Text
+                  preset="metadata"
+                  tone="subtle"
+                  className="mt-3"
+                >
+                  Texto original em{" "}
+                  {
+                    item.language.toUpperCase()
+                  }
+                  , tradução ainda não
+                  disponível.
+                </Text>
+              )}
+
+              {item.sourceUrl && (
+                <a
+                  href={
+                    item.sourceUrl
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    mt-6 inline-flex
+                    min-h-10 items-center
+                    rounded-button
+                    border border-border
+                    bg-background px-4
+                    text-sm font-semibold
+                    text-foreground
+                    outline-none
+                    transition-colors
+                    hover:border-primary
+                    hover:text-primary
+                    focus-visible:ring-2
+                    focus-visible:ring-ring
+                    focus-visible:ring-offset-2
+                  "
+                >
+                  Ver cobertura original ↗
+                </a>
+              )}
             </Box>
           ),
         )}

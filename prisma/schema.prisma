@@ -43,6 +43,11 @@ model Story {
 
   articles Article[]
 
+  embedding              StoryEmbedding?
+  internationalLinksFrom StoryInternationalLink[] @relation("StoryLinksFrom")
+  internationalLinksTo   StoryInternationalLink[] @relation("StoryLinksTo")
+  translations           StoryTranslation[]
+
   @@index([publishedAt])
   @@index([category, publishedAt])
   @@index([countryCode, publishedAt])
@@ -105,11 +110,58 @@ model NewsSource {
   @@map("news_sources")
 }
 
+model StoryEmbedding {
+  storyId String @id @map("story_id") @db.VarChar(64)
+
+  embedding Float[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@map("story_embeddings")
+}
+
+model StoryInternationalLink {
+  id String @id @default(cuid()) @db.VarChar(32)
+
+  storyId        String @map("story_id") @db.VarChar(64)
+  relatedStoryId String @map("related_story_id") @db.VarChar(64)
+
+  similarity Float
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  story        Story @relation("StoryLinksFrom", fields: [storyId], references: [id], onDelete: Cascade)
+  relatedStory Story @relation("StoryLinksTo", fields: [relatedStoryId], references: [id], onDelete: Cascade)
+
+  @@unique([storyId, relatedStoryId])
+  @@index([storyId])
+  @@map("story_international_links")
+}
+
+model StoryTranslation {
+  storyId  String @map("story_id") @db.VarChar(64)
+  language String @db.VarChar(8)
+
+  headline String @db.Text
+  summary  String @db.Text
+
+  sourceUpdatedAt DateTime @map("source_updated_at") @db.Timestamptz(3)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@id([storyId, language])
+  @@map("story_translations")
+}
+
 model SyncRun {
   id String @id @default(cuid()) @db.VarChar(32)
 
   trigger SyncRunTrigger
-  status  SyncRunStatus @default(running)
+  status  SyncRunStatus  @default(running)
 
   requestId String? @map("request_id") @db.VarChar(64)
 

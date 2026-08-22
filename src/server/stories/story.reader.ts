@@ -6,6 +6,10 @@ import {
 } from "next/cache";
 
 import type {
+  CountryCode,
+} from "@/domain/news/news.types";
+
+import type {
   NewsStory,
 } from "@/domain/news/story.types";
 
@@ -16,6 +20,10 @@ import {
 import type {
   CountryCatalogItem,
 } from "@/server/countries/country-catalog";
+
+import {
+  prisma,
+} from "@/server/database/prisma";
 
 import {
   WORLD_NEWS_CACHE_TAG,
@@ -32,6 +40,41 @@ import {
 
 const RELATED_STORIES_LIMIT =
   6;
+
+export type StoryInternationalCoverageItem = {
+  storyId:
+    string;
+
+  countryCode:
+    string;
+
+  countryName:
+    string;
+
+  countryFlag:
+    string;
+
+  headline:
+    string;
+
+  summary:
+    string;
+
+  language:
+    string;
+
+  translated:
+    boolean;
+
+  sourceName:
+    string | null;
+
+  sourceUrl:
+    string | null;
+
+  publishedAtLabel:
+    string;
+};
 
 export type StoryReaderRelatedItem = {
   story:
@@ -76,6 +119,9 @@ export type StoryReaderData = {
 
   relatedStories:
     StoryReaderRelatedItem[];
+
+  internationalCoverage:
+    StoryInternationalCoverageItem[];
 
   newerStory:
     StoryReaderNavigationItem | null;
@@ -205,6 +251,11 @@ export async function getStoryReaderData(
         },
       );
 
+  const internationalCoverage =
+    await getInternationalCoverage(
+      story.id,
+    );
+
   return {
     story,
     country,
@@ -220,6 +271,7 @@ export async function getStoryReaderData(
       ),
 
     relatedStories,
+    internationalCoverage,
 
     newerStory:
       toNavigationItem(
@@ -237,6 +289,287 @@ export async function getStoryReaderData(
         ],
       ),
   };
+}
+
+/**
+ * Busca direta e indexada em
+ * StoryInternationalLink — de propósito, não
+ * usa findStoredStories() (que traz a tabela
+ * inteira). Cada story linkada é resolvida
+ * junto com uma matéria representante e a
+ * tradução em português, se já existir.
+ */
+async function getInternationalCoverage(
+  storyId:
+    string,
+): Promise<
+  StoryInternationalCoverageItem[]
+> {
+  const links =
+    await prisma.storyInternationalLink.findMany(
+      {
+        where: {
+          storyId,
+        },
+
+        orderBy: {
+          similarity:
+            "desc",
+        },
+
+        select: {
+          relatedStoryId:
+            true,
+        },
+      },
+    );
+
+  if (
+    links.length ===
+    0
+  ) {
+    return [];
+  }
+
+  const relatedStoryIds =
+    links.map(
+      (link) =>
+        link.relatedStoryId,
+    );
+
+  const [
+    relatedStories,
+    representativeArticles,
+    translations,
+  ] =
+    await Promise.all(
+      [
+        prisma.story.findMany(
+          {
+            where: {
+              id: {
+                in:
+                  relatedStoryIds,
+              },
+            },
+
+            select: {
+              id:
+                true,
+
+              headline:
+                true,
+
+              summary:
+                true,
+
+              countryCode:
+                true,
+
+              publishedAt:
+                true,
+            },
+          },
+        ),
+
+        prisma.article.findMany(
+          {
+            where: {
+              storyId: {
+                in:
+                  relatedStoryIds,
+              },
+            },
+
+            orderBy: [
+              {
+                publishedAt:
+                  "desc",
+              },
+              {
+                id:
+                  "asc",
+              },
+            ],
+
+            select: {
+              storyId:
+                true,
+
+              sourceName:
+                true,
+
+              url:
+                true,
+
+              language:
+                true,
+            },
+          },
+        ),
+
+        prisma.storyTranslation.findMany(
+          {
+            where: {
+              storyId: {
+                in:
+                  relatedStoryIds,
+              },
+
+              language:
+                "pt",
+            },
+
+            select: {
+              storyId:
+                true,
+
+              headline:
+                true,
+
+              summary:
+                true,
+            },
+          },
+        ),
+      ],
+    );
+
+  const storyById =
+    new Map(
+      relatedStories.map(
+        (story) =>
+          [
+            story.id,
+            story,
+          ] as const,
+      ),
+    );
+
+  const articleByStoryId =
+    new Map<
+      string,
+      {
+        sourceName:
+          string;
+
+        url:
+          string;
+
+        language:
+          string;
+      }
+    >();
+
+  for (
+    const article of
+    representativeArticles
+  ) {
+    if (
+      !articleByStoryId.has(
+        article.storyId,
+      )
+    ) {
+      articleByStoryId.set(
+        article.storyId,
+        article,
+      );
+    }
+  }
+
+  const translationByStoryId =
+    new Map(
+      translations.map(
+        (translation) =>
+          [
+            translation.storyId,
+            translation,
+          ] as const,
+      ),
+    );
+
+  return links.flatMap(
+    (link) => {
+      const relatedStory =
+        storyById.get(
+          link.relatedStoryId,
+        );
+
+      const country =
+        relatedStory &&
+        findCountryByCode(
+          relatedStory.countryCode as
+            CountryCode,
+        );
+
+      if (
+        !relatedStory ||
+        !country
+      ) {
+        return [];
+      }
+
+      const article =
+        articleByStoryId.get(
+          relatedStory.id,
+        ) ??
+        null;
+
+      const translation =
+        translationByStoryId.get(
+          relatedStory.id,
+        ) ??
+        null;
+
+      return [
+        {
+          storyId:
+            relatedStory.id,
+
+          countryCode:
+            country.code,
+
+          countryName:
+            country.name,
+
+          countryFlag:
+            country.flag,
+
+          headline:
+            translation?.headline ??
+            relatedStory.headline,
+
+          summary:
+            translation?.summary ??
+            relatedStory.summary,
+
+          language:
+            article?.language ??
+            country.language,
+
+          translated:
+            Boolean(
+              translation,
+            ),
+
+          sourceName:
+            article?.sourceName ??
+            null,
+
+          sourceUrl:
+            article?.url ??
+            null,
+
+          publishedAtLabel:
+            formatRelativeTime(
+              relatedStory.publishedAt
+                ?.toISOString() ??
+                null,
+            ),
+        },
+      ];
+    },
+  );
 }
 
 function getRelatedStoryScore(
