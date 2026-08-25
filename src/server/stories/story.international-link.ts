@@ -36,13 +36,48 @@ const MAX_EMBEDDINGS_PER_RUN =
 const MAX_TRANSLATIONS_PER_RUN =
   200;
 
+const TRANSLATION_CONCURRENCY =
+  5;
+
 /*
- * Ainda não calibrado contra dados reais — ver a
- * seção "Rollout" do plano. Rode uma vez com
- * dryRun antes de confiar nesse número.
+ * Calibrado contra dados reais do banco (dry run,
+ * agosto de 2026): acima de 0.87, sem o filtro de
+ * cotação abaixo, todo par revisado manualmente
+ * era o mesmo fato de verdade — Zelensky, tarifas
+ * do Trump, Suprema Corte, IPO da Shein, terremoto
+ * na Colômbia, visita de Burnham a Kyiv, etc.
  */
 const SIMILARITY_THRESHOLD =
   0.87;
+
+/*
+ * Único padrão de falso positivo encontrado na
+ * revisão manual: notícias de cotação de moeda
+ * ("dólar hoy", "euro hoy") de países diferentes
+ * batem alta similaridade só por usarem o mesmo
+ * texto padronizado todo dia — não é o mesmo fato,
+ * é o mesmo gênero de notícia. Exclui da comparação
+ * em vez de tentar resolver só no limiar.
+ */
+const CURRENCY_TERM_PATTERN =
+  /\b(d[oó]lar|euro|real|bol[ií]var|peso)s?\b/i;
+
+const RATE_QUOTE_PATTERN =
+  /\b(cotiza|tipo de cambio|tasa oficial|taxa de c[aâ]mbio|c[aâ]mbio hoje|exchange rate)\b/i;
+
+function isRoutineExchangeRateStory(
+  headline:
+    string,
+): boolean {
+  return (
+    CURRENCY_TERM_PATTERN.test(
+      headline,
+    ) &&
+    RATE_QUOTE_PATTERN.test(
+      headline,
+    )
+  );
+}
 
 type WindowStory = {
   id:
@@ -471,6 +506,14 @@ function findCandidateMatches(
       continue;
     }
 
+    if (
+      isRoutineExchangeRateStory(
+        story.headline,
+      )
+    ) {
+      continue;
+    }
+
     const list =
       byCategory.get(
         story.category,
@@ -873,35 +916,71 @@ async function translateNewlyLinkedStories(
   let translated =
     0;
 
-  for (
-    const storyId of
-    needsTranslation
-  ) {
-    const story =
-      storyById.get(
-        storyId,
-      );
-
-    if (!story) {
-      continue;
-    }
-
-    const language =
-      languageByStoryId.get(
-        storyId,
-      ) ??
-      "";
-
-    const alreadyPortuguese =
-      language
-        .toLowerCase()
-        .startsWith(
-          "pt",
+  /*
+   * Traduções em série ficaram perto do limite
+   * de 300s num teste real (200 traduções ≈
+   * 281s). Roda em paralelo, mesmo padrão de
+   * concorrência do fallback de imagens do Pexels.
+   */
+  await mapWithConcurrency(
+    needsTranslation,
+    TRANSLATION_CONCURRENCY,
+    async (storyId) => {
+      const story =
+        storyById.get(
+          storyId,
         );
 
-    if (
-      alreadyPortuguese
-    ) {
+      if (!story) {
+        return;
+      }
+
+      const language =
+        languageByStoryId.get(
+          storyId,
+        ) ??
+        "";
+
+      const alreadyPortuguese =
+        language
+          .toLowerCase()
+          .startsWith(
+            "pt",
+          );
+
+      const translation =
+        alreadyPortuguese
+          ? {
+              translated:
+                true as
+                  const,
+
+              headline:
+                story.headline,
+
+              summary:
+                story.summary,
+            }
+          : await translateStoryToPortuguese(
+              {
+                headline:
+                  story.headline,
+
+                summary:
+                  story.summary,
+
+                language:
+                  language ||
+                  "unknown",
+              },
+            );
+
+      if (
+        !translation.translated
+      ) {
+        return;
+      }
+
       await prisma.storyTranslation.upsert(
         {
           where: {
@@ -921,10 +1000,10 @@ async function translateNewlyLinkedStories(
               "pt",
 
             headline:
-              story.headline,
+              translation.headline,
 
             summary:
-              story.summary,
+              translation.summary,
 
             sourceUpdatedAt:
               story.updatedAt,
@@ -932,10 +1011,10 @@ async function translateNewlyLinkedStories(
 
           update: {
             headline:
-              story.headline,
+              translation.headline,
 
             summary:
-              story.summary,
+              translation.summary,
 
             sourceUpdatedAt:
               story.updatedAt,
@@ -945,77 +1024,69 @@ async function translateNewlyLinkedStories(
 
       translated +=
         1;
-
-      continue;
-    }
-
-    const result =
-      await translateStoryToPortuguese(
-        {
-          headline:
-            story.headline,
-
-          summary:
-            story.summary,
-
-          language:
-            language ||
-            "unknown",
-        },
-      );
-
-    if (
-      !result.translated
-    ) {
-      continue;
-    }
-
-    await prisma.storyTranslation.upsert(
-      {
-        where: {
-          storyId_language:
-            {
-              storyId,
-
-              language:
-                "pt",
-            },
-        },
-
-        create: {
-          storyId,
-
-          language:
-            "pt",
-
-          headline:
-            result.headline,
-
-          summary:
-            result.summary,
-
-          sourceUpdatedAt:
-            story.updatedAt,
-        },
-
-        update: {
-          headline:
-            result.headline,
-
-          summary:
-            result.summary,
-
-          sourceUpdatedAt:
-            story.updatedAt,
-        },
-      },
-    );
-
-    translated +=
-      1;
-  }
+    },
+  );
 
   return translated;
+}
+
+async function mapWithConcurrency<
+  Item,
+>(
+  items:
+    Item[],
+
+  concurrency:
+    number,
+
+  worker: (
+    item:
+      Item,
+  ) =>
+    Promise<void>,
+): Promise<void> {
+  let nextIndex =
+    0;
+
+  async function runWorker():
+    Promise<void> {
+    while (
+      nextIndex <
+      items.length
+    ) {
+      const currentIndex =
+        nextIndex;
+
+      nextIndex +=
+        1;
+
+      await worker(
+        items[
+          currentIndex
+        ]!,
+      );
+    }
+  }
+
+  const workerCount =
+    Math.min(
+      Math.max(
+        concurrency,
+        1,
+      ),
+      items.length,
+    );
+
+  await Promise.all(
+    Array.from(
+      {
+        length:
+          workerCount,
+      },
+      () =>
+        runWorker(),
+    ),
+  );
 }
 
 function pairKey(

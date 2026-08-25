@@ -107,6 +107,19 @@ export async function embedStoryTexts(
   return results;
 }
 
+/*
+ * Contas sem forma de pagamento cadastrada na
+ * Voyage ficam com um limite bem baixo (ex: 3
+ * requisições/minuto) — os tokens grátis
+ * continuam valendo, só a velocidade cai. Espera
+ * e tenta de novo em vez de simplesmente desistir.
+ */
+const MAX_RATE_LIMIT_RETRIES =
+  3;
+
+const DEFAULT_RETRY_DELAY_MS =
+  21_000;
+
 async function embedBatch(
   batch: Array<{
     storyId:
@@ -119,107 +132,177 @@ async function embedBatch(
   apiKey:
     string,
 ): Promise<EmbedTextsResult[]> {
-  try {
-    const response =
-      await fetch(
-        VOYAGE_EMBEDDINGS_URL,
-        {
-          method:
-            "POST",
+  for (
+    let attempt = 0;
+    attempt <=
+    MAX_RATE_LIMIT_RETRIES;
+    attempt++
+  ) {
+    try {
+      const response =
+        await fetch(
+          VOYAGE_EMBEDDINGS_URL,
+          {
+            method:
+              "POST",
 
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
 
-            "Content-Type":
-              "application/json",
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify(
+                {
+                  input:
+                    batch.map(
+                      (item) =>
+                        item.text,
+                    ),
+
+                  model:
+                    VOYAGE_MODEL,
+
+                  output_dimension:
+                    OUTPUT_DIMENSION,
+
+                  input_type:
+                    "document",
+                },
+              ),
+
+            signal:
+              AbortSignal.timeout(
+                REQUEST_TIMEOUT_MS,
+              ),
           },
+        );
 
-          body:
-            JSON.stringify(
-              {
-                input:
-                  batch.map(
-                    (item) =>
-                      item.text,
-                  ),
+      if (
+        response.status ===
+          429 &&
+        attempt <
+          MAX_RATE_LIMIT_RETRIES
+      ) {
+        const delayMs =
+          getRetryDelayMs(
+            response,
+          );
 
-                model:
-                  VOYAGE_MODEL,
+        console.warn(
+          `[VOYAGE] limite de taxa atingido, tentando de novo em ${delayMs}ms`,
+        );
 
-                output_dimension:
-                  OUTPUT_DIMENSION,
+        await sleep(
+          delayMs,
+        );
 
-                input_type:
-                  "document",
-              },
-            ),
+        continue;
+      }
 
-          signal:
-            AbortSignal.timeout(
-              REQUEST_TIMEOUT_MS,
-            ),
+      if (
+        !response.ok
+      ) {
+        console.warn(
+          `[VOYAGE] lote falhou com status ${response.status}`,
+        );
+
+        return [];
+      }
+
+      const data =
+        await response.json() as
+          VoyageEmbeddingsResponse;
+
+      return (
+        data.data ??
+        []
+      ).flatMap(
+        (entry) => {
+          const index =
+            entry.index;
+
+          const embedding =
+            entry.embedding;
+
+          if (
+            index ===
+              undefined ||
+            !embedding ||
+            !batch[index]
+          ) {
+            return [];
+          }
+
+          return [
+            {
+              storyId:
+                batch[
+                  index
+                ]!.storyId,
+
+              embedding,
+            },
+          ];
         },
       );
-
-    if (
-      !response.ok
+    } catch (
+      error
     ) {
       console.warn(
-        `[VOYAGE] lote falhou com status ${response.status}`,
+        "[VOYAGE] falha ao calcular embeddings",
+        error instanceof
+          Error
+          ? error.message
+          : error,
       );
 
       return [];
     }
-
-    const data =
-      await response.json() as
-        VoyageEmbeddingsResponse;
-
-    return (
-      data.data ??
-      []
-    ).flatMap(
-      (entry) => {
-        const index =
-          entry.index;
-
-        const embedding =
-          entry.embedding;
-
-        if (
-          index ===
-            undefined ||
-          !embedding ||
-          !batch[index]
-        ) {
-          return [];
-        }
-
-        return [
-          {
-            storyId:
-              batch[
-                index
-              ]!.storyId,
-
-            embedding,
-          },
-        ];
-      },
-    );
-  } catch (
-    error
-  ) {
-    console.warn(
-      "[VOYAGE] falha ao calcular embeddings",
-      error instanceof
-        Error
-        ? error.message
-        : error,
-    );
-
-    return [];
   }
+
+  return [];
+}
+
+function getRetryDelayMs(
+  response:
+    Response,
+): number {
+  const header =
+    response.headers.get(
+      "retry-after",
+    );
+
+  const parsed =
+    header ?
+      Number(
+        header,
+      )
+      : NaN;
+
+  return Number.isFinite(
+    parsed,
+  ) &&
+    parsed >
+      0
+    ? parsed *
+        1_000
+    : DEFAULT_RETRY_DELAY_MS;
+}
+
+function sleep(
+  ms:
+    number,
+): Promise<void> {
+  return new Promise(
+    (resolve) =>
+      setTimeout(
+        resolve,
+        ms,
+      ),
+  );
 }
 
 /**
