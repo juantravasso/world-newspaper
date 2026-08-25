@@ -335,6 +335,78 @@ export async function findStoredStoryImages(
 }
 
 /**
+ * Busca a tradução em português já persistida
+ * (se houver) para cada id de story informado.
+ * Quando não existe ainda, o chamador continua
+ * mostrando o texto no idioma original — nunca
+ * um erro.
+ */
+export async function findPortugueseTranslations(
+  storyIds:
+    string[],
+): Promise<
+  Map<
+    string,
+    {
+      headline:
+        string;
+
+      summary:
+        string;
+    }
+  >
+> {
+  if (
+    storyIds.length ===
+    0
+  ) {
+    return new Map();
+  }
+
+  const rows =
+    await prisma.storyTranslation.findMany(
+      {
+        where: {
+          storyId: {
+            in:
+              storyIds,
+          },
+
+          language:
+            "pt",
+        },
+
+        select: {
+          storyId:
+            true,
+
+          headline:
+            true,
+
+          summary:
+            true,
+        },
+      },
+    );
+
+  return new Map(
+    rows.map(
+      (row) =>
+        [
+          row.storyId,
+          {
+            headline:
+              row.headline,
+
+            summary:
+              row.summary,
+          },
+        ] as const,
+    ),
+  );
+}
+
+/**
  * Lista os códigos de país que têm ao menos uma
  * story persistida, sem trazer as stories em si.
  */
@@ -429,8 +501,23 @@ export async function findStoredStories(
         options.skip,
     });
 
+  const translations =
+    await findPortugueseTranslations(
+      storedStories.map(
+        (story) =>
+          story.id,
+      ),
+    );
+
   return storedStories.map(
-    mapStoredStoryToDomain,
+    (story) =>
+      mapStoredStoryToDomain(
+        story,
+        translations.get(
+          story.id,
+        ) ??
+          null,
+      ),
   );
 }
 
@@ -544,8 +631,19 @@ export async function findStoredStoryById(
     return null;
   }
 
+  const translations =
+    await findPortugueseTranslations(
+      [
+        storedStory.id,
+      ],
+    );
+
   return mapStoredStoryToDomain(
     storedStory,
+    translations.get(
+      storedStory.id,
+    ) ??
+      null,
   );
 }
 
@@ -701,16 +799,34 @@ function removeDuplicateStories(
 function mapStoredStoryToDomain(
   storedStory:
     StoredStoryWithArticles,
+
+  translation:
+    | {
+        headline:
+          string;
+
+        summary:
+          string;
+      }
+    | null =
+    null,
 ): NewsStory {
   return {
     id:
       storedStory.id,
 
     headline:
+      translation?.headline ??
       storedStory.headline,
 
     summary:
+      translation?.summary ??
       storedStory.summary,
+
+    translated:
+      Boolean(
+        translation,
+      ),
 
     category:
       storedStory.category as
