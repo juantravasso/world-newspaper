@@ -16,6 +16,18 @@ const MAX_HEADLINE_LENGTH =
 const MAX_SUMMARY_LENGTH =
   2_000;
 
+const targetLanguageNames:
+  Record<
+    string,
+    string
+  > = {
+  pt:
+    "português do Brasil",
+
+  en:
+    "English",
+};
+
 let cachedClient:
   Anthropic | null =
   null;
@@ -43,7 +55,7 @@ function getClient():
   return cachedClient;
 }
 
-export type TranslateToPortugueseResult =
+export type TranslateStoryResult =
   | {
       translated:
         true;
@@ -60,15 +72,16 @@ export type TranslateToPortugueseResult =
     };
 
 /**
- * Traduz manchete + resumo de uma story
- * estrangeira para português. Nunca lança —
- * se a chave não estiver configurada, a
- * chamada falhar, ou a resposta vier vazia
- * ou malformada, retorna `translated: false`
- * e quem chama simplesmente não grava nada
- * (tenta de novo na próxima execução).
+ * Traduz manchete + resumo de uma story para o
+ * idioma de destino informado (`"pt"` ou `"en"`).
+ * Nunca lança — se a chave não estiver
+ * configurada, a chamada falhar, ou a resposta
+ * vier vazia ou malformada, retorna
+ * `translated: false` e quem chama simplesmente
+ * não grava nada (tenta de novo na próxima
+ * execução).
  */
-export async function translateStoryToPortuguese(
+export async function translateStoryText(
   input: {
     headline:
       string;
@@ -76,10 +89,13 @@ export async function translateStoryToPortuguese(
     summary:
       string;
 
-    language:
+    sourceLanguage:
+      string;
+
+    targetLanguage:
       string;
   },
-): Promise<TranslateToPortugueseResult> {
+): Promise<TranslateStoryResult> {
   const client =
     getClient();
 
@@ -89,6 +105,12 @@ export async function translateStoryToPortuguese(
         false,
     };
   }
+
+  const targetLanguageName =
+    targetLanguageNames[
+      input.targetLanguage
+    ] ??
+    input.targetLanguage;
 
   try {
     const response =
@@ -101,7 +123,7 @@ export async function translateStoryToPortuguese(
             1_024,
 
           system:
-            "Você traduz manchetes e resumos de notícias para português do Brasil. " +
+            `Você traduz manchetes e resumos de notícias para ${targetLanguageName}. ` +
             "Responda só com um objeto JSON válido, sem markdown, no formato " +
             '{"headline": "...", "summary": "..."}. ' +
             "Mantenha nomes próprios como estão. Não adicione opinião nem comentário.",
@@ -111,7 +133,7 @@ export async function translateStoryToPortuguese(
               role:
                 "user",
 
-              content: `Idioma original: ${input.language}\n\nManchete: ${input.headline}\n\nResumo: ${input.summary}`,
+              content: `Idioma original: ${input.sourceLanguage}\n\nManchete: ${input.headline}\n\nResumo: ${input.summary}`,
             },
           ],
         },
@@ -161,7 +183,7 @@ export async function translateStoryToPortuguese(
 function parseTranslationResponse(
   rawText:
     string,
-): TranslateToPortugueseResult {
+): TranslateStoryResult {
   try {
     const jsonText =
       extractJsonObject(

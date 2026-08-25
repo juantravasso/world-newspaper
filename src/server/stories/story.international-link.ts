@@ -10,7 +10,7 @@ import {
 } from "@/server/ai/voyage";
 
 import {
-  translateStoryToPortuguese,
+  translateStoryText,
 } from "@/server/ai/translate";
 
 import {
@@ -961,7 +961,7 @@ async function translateNewlyLinkedStories(
               summary:
                 story.summary,
             }
-          : await translateStoryToPortuguese(
+          : await translateStoryText(
               {
                 headline:
                   story.headline,
@@ -969,9 +969,12 @@ async function translateNewlyLinkedStories(
                 summary:
                   story.summary,
 
-                language:
+                sourceLanguage:
                   language ||
                   "unknown",
+
+                targetLanguage:
+                  "pt",
               },
             );
 
