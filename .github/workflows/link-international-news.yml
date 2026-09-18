@@ -1,8 +1,10 @@
 name: Link international news coverage
 
 on:
-  schedule:
-    - cron: "15 */3 * * *"
+  # Agendamento pausado a pedido do usuário — job de IA (embeddings +
+  # tradução) fica disponível só sob disparo manual até ser reativado.
+  # schedule:
+  #   - cron: "15 */3 * * *"
 
   workflow_dispatch:
 
