@@ -112,6 +112,37 @@ export async function listEnabledSourcesByCountry(
   );
 }
 
+export async function listEnabledSourcesWithoutFeed():
+  Promise<NewsSourceRecord[]> {
+  const sources =
+    await prisma
+      .newsSource
+      .findMany({
+        where: {
+          enabled:
+            true,
+
+          feedUrl:
+            null,
+        },
+
+        orderBy: [
+          {
+            countryCode:
+              "asc",
+          },
+          {
+            name:
+              "asc",
+          },
+        ],
+      });
+
+  return sources.map(
+    toNewsSourceRecord,
+  );
+}
+
 export async function createNewsSource(
   input:
     NewsSourceInput,

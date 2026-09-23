@@ -9,6 +9,10 @@ import type {
 } from "@/domain/news/story.types";
 
 import {
+  generateImageSearchQuery,
+} from "@/server/ai/image-query";
+
+import {
   findStoredStoryImages,
 } from "@/server/stories/story.persistence";
 
@@ -136,7 +140,7 @@ export async function fillMissingStoryImages(
 
       const imageUrl =
         await searchPexelsImage(
-          buildImageQuery(
+          await buildImageQuery(
             story,
           ),
           story.id,
@@ -157,10 +161,28 @@ export async function fillMissingStoryImages(
   return result;
 }
 
-function buildImageQuery(
+/**
+ * Pede pra IA um termo de busca específico do
+ * assunto da notícia; cai pro template genérico
+ * categoria+país quando a IA não está disponível
+ * ou falha.
+ */
+async function buildImageQuery(
   story:
     NewsStory,
-): string {
+): Promise<string> {
+  const aiQuery =
+    await generateImageSearchQuery(
+      story.headline,
+      story.summary,
+    );
+
+  if (
+    aiQuery
+  ) {
+    return aiQuery;
+  }
+
   const countryName =
     countryNameInEnglish[
       story.countryCode
