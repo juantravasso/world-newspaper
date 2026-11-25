@@ -18,6 +18,15 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": sourceDirectory,
+
+      // Next resolve `server-only` sozinho; fora dele o pacote não existe.
+      "server-only":
+        fileURLToPath(
+          new URL(
+            "./tests/support/server-only.ts",
+            import.meta.url,
+          ),
+        ),
     },
   },
 

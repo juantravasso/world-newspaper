@@ -12,6 +12,11 @@ import {
 } from "@/server/countries/country-catalog";
 
 import {
+  checkPublicRateLimit,
+  rateLimitedResponse,
+} from "@/server/security/public-rate-limit";
+
+import {
   getReaderLibraryData,
 } from "@/server/stories/story.library";
 
@@ -22,6 +27,29 @@ export async function POST(
   request:
     Request,
 ) {
+  const rateLimit =
+    checkPublicRateLimit(
+      request,
+      {
+        name:
+          "reader-library",
+
+        maxRequests:
+          30,
+
+        windowMs:
+          60_000,
+      },
+    );
+
+  if (
+    !rateLimit.allowed
+  ) {
+    return rateLimitedResponse(
+      rateLimit.retryAfterSeconds,
+    );
+  }
+
   try {
     const body =
       await request.json() as

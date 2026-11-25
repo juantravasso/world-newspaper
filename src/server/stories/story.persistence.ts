@@ -648,6 +648,92 @@ export async function findStoredStoryById(
 }
 
 /**
+ * Busca stories por id, preservando a ordem dos ids
+ * recebidos. Ids inexistentes (ou de futebol) são
+ * ignorados.
+ */
+export async function findStoredStoriesByIds(
+  storyIds:
+    string[],
+): Promise<NewsStory[]> {
+  if (
+    storyIds.length ===
+    0
+  ) {
+    return [];
+  }
+
+  const storedStories =
+    await prisma.story.findMany({
+      where: {
+        ...buildStoredStoryWhere(
+          {},
+        ),
+
+        id: {
+          in:
+            storyIds,
+        },
+      },
+
+      include: {
+        articles: {
+          orderBy: [
+            {
+              publishedAt:
+                "desc",
+            },
+            {
+              id:
+                "asc",
+            },
+          ],
+        },
+      },
+    });
+
+  const translations =
+    await findPortugueseTranslations(
+      storedStories.map(
+        (story) =>
+          story.id,
+      ),
+    );
+
+  const storiesById =
+    new Map(
+      storedStories.map(
+        (story) =>
+          [
+            story.id,
+            mapStoredStoryToDomain(
+              story,
+              translations.get(
+                story.id,
+              ) ??
+                null,
+            ),
+          ] as const,
+      ),
+    );
+
+  return storyIds.flatMap(
+    (storyId) => {
+      const story =
+        storiesById.get(
+          storyId,
+        );
+
+      return story
+        ? [
+            story,
+          ]
+        : [];
+    },
+  );
+}
+
+/**
  * Stories imediatamente antes e depois de
  * `story` na mesma ordem usada pelas listagens
  * (publishedAt desc, id asc). Stories sem data
