@@ -45,57 +45,62 @@ export type TextWrap = "normal" | "balance" | "pretty" | "nowrap";
 
 export type TextClamp = 1 | 2 | 3 | 4 | 5 | 6;
 
+/*
+ * Serifa editorial nos títulos (credibilidade de
+ * publicação), sans na interface e no corpo, mono
+ * na linha de crédito (país, veículo, idioma, hora).
+ */
 const presetStyles: Record<TextPreset, string> = {
   display:
-    "text-5xl font-bold leading-[0.98] tracking-[-0.045em] sm:text-6xl lg:text-7xl",
+    "font-serif text-5xl font-medium leading-[1.02] tracking-[-0.02em] sm:text-6xl lg:text-7xl",
 
   heroTitle:
-    "text-[2rem] font-bold leading-[1.08] tracking-[-0.035em] sm:text-4xl lg:text-[2.625rem]",
+    "font-serif text-[2rem] font-medium leading-[1.1] tracking-[-0.015em] sm:text-4xl lg:text-[2.75rem]",
 
   pageTitle:
-    "text-3xl font-bold leading-[1.12] tracking-[-0.03em] sm:text-4xl",
+    "font-serif text-3xl font-medium leading-[1.12] tracking-[-0.015em] sm:text-4xl",
 
   sectionTitle:
-    "text-2xl font-bold leading-tight tracking-[-0.025em] lg:text-[1.75rem]",
+    "font-serif text-2xl font-medium leading-tight tracking-[-0.01em] lg:text-[1.75rem]",
 
   featuredTitle:
-    "text-2xl font-bold leading-[1.12] tracking-[-0.025em] sm:text-3xl lg:text-[2rem]",
+    "font-serif text-2xl font-medium leading-[1.15] tracking-[-0.01em] sm:text-3xl lg:text-[2rem]",
 
   articleTitle:
-    "text-xl font-bold leading-[1.2] tracking-[-0.02em] sm:text-2xl",
+    "font-serif text-xl font-medium leading-[1.22] tracking-[-0.005em] sm:text-2xl",
 
   cardTitle:
-    "text-lg font-bold leading-[1.22] tracking-[-0.015em]",
+    "font-serif text-lg font-medium leading-[1.28]",
 
   bodyLarge:
-    "text-lg font-normal leading-8",
+    "font-sans text-lg font-normal leading-8",
 
   body:
-    "text-base font-normal leading-7",
+    "font-sans text-base font-normal leading-7",
 
   bodySmall:
-    "text-sm font-normal leading-6",
+    "font-sans text-sm font-normal leading-6",
 
   nav:
-    "text-sm font-semibold leading-5",
+    "font-sans text-sm font-medium leading-5",
 
   button:
-    "text-sm font-semibold leading-none",
+    "font-sans text-sm font-semibold leading-none",
 
   label:
-    "text-sm font-semibold leading-5",
+    "font-sans text-sm font-semibold leading-5",
 
   categoryLabel:
-    "text-[0.6875rem] font-bold uppercase leading-none tracking-[0.04em]",
+    "font-mono text-[0.6875rem] font-medium uppercase leading-none tracking-[0.06em]",
 
   eyebrow:
-    "text-xs font-bold uppercase leading-4 tracking-[0.14em]",
+    "font-mono text-xs font-medium uppercase leading-4 tracking-[0.1em]",
 
   metadata:
-    "text-xs font-medium leading-4",
+    "font-mono text-[0.75rem] font-normal leading-4",
 
   caption:
-    "text-xs font-normal leading-4",
+    "font-sans text-xs font-normal leading-4",
 };
 
 const toneStyles: Record<TextTone, string> = {
@@ -214,7 +219,6 @@ export function Text<T extends ElementType = "p">({
   return (
     <Component
       className={cn(
-        "font-sans",
         presetStyles[preset],
         toneStyles[tone],
         alignStyles[align],

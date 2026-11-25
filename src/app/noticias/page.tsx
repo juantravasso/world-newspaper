@@ -45,7 +45,7 @@ export const metadata:
     "Últimas notícias",
 
   description:
-    "Acompanhe as notícias mais recentes por país, categoria e período no World Newspaper.",
+    "Acompanhe as notícias mais recentes por país, categoria e período no Paralelo.",
 };
 
 type LatestNewsPageProps = {

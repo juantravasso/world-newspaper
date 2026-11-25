@@ -743,7 +743,7 @@ function AdminHeader({
         >
           Acompanhe banco, sincronizações,
           retenção e atividade das fontes
-          que alimentam o World Newspaper.
+          que alimentam o Paralelo.
         </p>
 
         <p

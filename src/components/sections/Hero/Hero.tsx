@@ -7,10 +7,6 @@ import {
 } from "@/components/effects/MotionReveal";
 
 import {
-  Spotlight,
-} from "@/components/effects/Spotlight";
-
-import {
   Text,
 } from "@/components/Text";
 
@@ -43,8 +39,6 @@ export function Hero({
       radius="card"
       className="w-full p-5 sm:p-8"
     >
-      <Spotlight />
-
       <Box
         position="relative"
         className="z-10"

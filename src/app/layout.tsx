@@ -7,8 +7,9 @@ import type {
 } from "next";
 
 import {
-  Geist,
-  Geist_Mono,
+  IBM_Plex_Mono,
+  Instrument_Sans,
+  Newsreader,
 } from "next/font/google";
 
 import {
@@ -17,10 +18,10 @@ import {
 
 import "./globals.css";
 
-const geistSans =
-  Geist({
+const uiFont =
+  Instrument_Sans({
     variable:
-      "--font-inter",
+      "--font-ui",
 
     subsets: [
       "latin",
@@ -30,10 +31,28 @@ const geistSans =
       "swap",
   });
 
-const geistMono =
-  Geist_Mono({
+const editorialFont =
+  Newsreader({
     variable:
-      "--font-mono",
+      "--font-editorial",
+
+    subsets: [
+      "latin",
+    ],
+
+    display:
+      "swap",
+  });
+
+const dataFont =
+  IBM_Plex_Mono({
+    variable:
+      "--font-data",
+
+    weight: [
+      "400",
+      "500",
+    ],
 
     subsets: [
       "latin",
@@ -47,14 +66,14 @@ export const metadata:
   Metadata = {
   title: {
     default:
-      "World Newspaper",
+      "Paralelo — o mundo pelas fontes de cada país",
 
     template:
-      "%s | World Newspaper",
+      "%s | Paralelo",
   },
 
   description:
-    "Notícias dos principais jornais da América do Sul e do mundo.",
+    "Acompanhe o que acontece no mundo pelas fontes locais de cada país, com manchetes traduzidas para o português e link para a matéria original.",
 };
 
 type RootLayoutProps =
@@ -73,7 +92,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${uiFont.variable} ${editorialFont.variable} ${dataFont.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
         <Suspense

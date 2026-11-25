@@ -168,7 +168,7 @@ export function StoryDetails({
               preset="display"
               wrap="balance"
               className="
-                text-4xl
+                text-[1.875rem]
                 sm:text-5xl
                 lg:text-[3.5rem]
               "

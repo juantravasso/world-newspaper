@@ -110,7 +110,7 @@ export async function generateMetadata({
         storyUrl,
 
       siteName:
-        "World Newspaper",
+        "Paralelo",
 
       locale:
         "pt_BR",
@@ -360,7 +360,7 @@ function createNewsArticleJsonLd(
         "Organization",
 
       name:
-        "World Newspaper",
+        "Paralelo",
     },
   };
 }

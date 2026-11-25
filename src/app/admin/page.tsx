@@ -12,7 +12,7 @@ export const metadata:
     "Administração",
 
   description:
-    "Monitoramento interno do World Newspaper.",
+    "Monitoramento interno do Paralelo.",
 
   robots: {
     index:

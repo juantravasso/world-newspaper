@@ -86,10 +86,7 @@ export function FeaturedNewsCard({
             <div
               className="
                 absolute inset-0
-                bg-gradient-to-br
-                from-brand-emphasis
-                via-brand
-                to-[#07152d]
+                bg-surface-strong
               "
             />
           }
@@ -111,10 +108,7 @@ export function FeaturedNewsCard({
               radius="pill"
               paddingX="sm"
               paddingY="xs"
-              className="
-                shadow-card
-                backdrop-blur-md
-              "
+              border="default"
             >
               <Text
                 as="span"

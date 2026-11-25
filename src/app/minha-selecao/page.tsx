@@ -20,7 +20,7 @@ export const metadata:
     "Minha seleção",
 
   description:
-    "Notícias salvas, histórico de leitura e recomendações personalizadas no World Newspaper.",
+    "Notícias salvas, histórico de leitura e recomendações personalizadas no Paralelo.",
 };
 
 export default function MySelectionPage() {

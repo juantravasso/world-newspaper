@@ -27,8 +27,8 @@ export default async function Home() {
       >
         <NewsByRegion
           countries={countries}
-          title="O mundo em um só lugar."
-          description="Notícias locais, fontes verificadas e diferentes perspectivas sobre os principais acontecimentos mundiais."
+          title="O mundo pelas fontes de cada país."
+          description="Manchetes dos veículos locais de 55 países, traduzidas para o português, com link para a matéria original."
           exploreTitle="Explore por país"
           defaultRegion="world"
         />
