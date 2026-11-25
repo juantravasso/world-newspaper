@@ -114,10 +114,3 @@ export type CountryWithLatestNews = {
   stories:
     NewsStory[];
 };
-
-export type MockNewsSource = {
-  id: string;
-  name: string;
-  websiteUrl: string;
-  rssUrl: string | null;
-};
