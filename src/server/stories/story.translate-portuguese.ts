@@ -16,6 +16,10 @@ import {
   WORLD_NEWS_CACHE_TAG,
 } from "@/server/news/news-cache";
 
+import {
+  refreshStorySearchText,
+} from "@/server/stories/story.persistence";
+
 /*
  * Roda com frequência (mesmo ritmo da
  * sincronização) então não precisa processar
@@ -67,6 +71,10 @@ export async function translateStoriesToPortuguese():
 
   let translated =
     0;
+
+  const translatedStoryIds:
+    string[] =
+    [];
 
   await mapWithConcurrency(
     candidates,
@@ -159,6 +167,10 @@ export async function translateStoriesToPortuguese():
 
       translated +=
         1;
+
+      translatedStoryIds.push(
+        candidate.id,
+      );
     },
   );
 
@@ -166,6 +178,10 @@ export async function translateStoriesToPortuguese():
     translated >
     0
   ) {
+    await refreshStorySearchText(
+      translatedStoryIds,
+    );
+
     revalidateTag(
       WORLD_NEWS_CACHE_TAG,
       "max",

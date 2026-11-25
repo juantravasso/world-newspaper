@@ -36,6 +36,7 @@ import {
 
 import {
   findStoredStories,
+  searchStoredStories,
 } from "@/server/stories/story.persistence";
 
 const DEFAULT_SEARCH_PAGE_SIZE =
@@ -170,30 +171,44 @@ export async function searchStories(
   }
 
   const matchingCountryCodes =
-    new Set(
-      findCountriesMatchingText(
-        query,
-      ).map(
-        (country) =>
-          country.code,
-      ),
+    findCountriesMatchingText(
+      query,
+    ).map(
+      (country) =>
+        country.code,
     );
 
-  const storedStories =
-    await findStoredStories();
+  const requestedOffset =
+    (
+      Math.max(
+        1,
+        Math.trunc(
+          requestedPage,
+        ) ||
+          1,
+      ) -
+      1
+    ) *
+    pageSize;
 
-  const matchingStories =
-    storedStories.filter(
-      (story) =>
-        storyMatchesQuery(
-          story,
-          normalizedQuery,
+  const firstPage =
+    await searchStoredStories(
+      {
+        query,
+
+        countryCodes:
           matchingCountryCodes,
-        ),
+
+        take:
+          pageSize,
+
+        skip:
+          requestedOffset,
+      },
     );
 
   const total =
-    matchingStories.length;
+    firstPage.total;
 
   const totalPages =
     Math.ceil(
@@ -211,23 +226,41 @@ export async function searchStories(
           totalPages,
         );
 
-  const offset =
+  /*
+   * Página pedida além do fim volta para a última
+   * página existente, como antes.
+   */
+  const pageResult =
     (
       page -
       1
     ) *
-    pageSize;
+      pageSize ===
+    requestedOffset
+      ? firstPage
+      : await searchStoredStories(
+          {
+            query,
+
+            countryCodes:
+              matchingCountryCodes,
+
+            take:
+              pageSize,
+
+            skip:
+              (
+                page -
+                1
+              ) *
+              pageSize,
+          },
+        );
 
   const items =
-    matchingStories
-      .slice(
-        offset,
-        offset +
-          pageSize,
-      )
-      .flatMap(
-        toStoryDiscoveryItem,
-      );
+    pageResult.stories.flatMap(
+      toStoryDiscoveryItem,
+    );
 
   return {
     query:
@@ -412,52 +445,6 @@ export async function getCountryStoryPage(
         ?.publishedAtISO ??
       null,
   };
-}
-
-function storyMatchesQuery(
-  story:
-    NewsStory,
-
-  normalizedQuery:
-    string,
-
-  matchingCountryCodes:
-    Set<
-      NewsStory["countryCode"]
-    >,
-): boolean {
-  if (
-    matchingCountryCodes.has(
-      story.countryCode,
-    )
-  ) {
-    return true;
-  }
-
-  const searchableValues = [
-    story.headline,
-    story.summary,
-    story.category,
-    story.categoryLabel,
-
-    ...story.articles.flatMap(
-      (article) => [
-        article.title,
-        article.excerpt,
-        article.sourceName,
-        article.language,
-      ],
-    ),
-  ];
-
-  return searchableValues.some(
-    (value) =>
-      normalizeSearchText(
-        value,
-      ).includes(
-        normalizedQuery,
-      ),
-  );
 }
 
 function toStoryDiscoveryItem(

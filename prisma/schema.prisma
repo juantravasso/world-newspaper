@@ -41,10 +41,14 @@ model Story {
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
+  // Mantido por story_search_document() (SQL); nunca escrever direto.
+  searchText String @default("") @map("search_text") @db.Text
+
   articles Article[]
 
   translations StoryTranslation[]
 
+  @@index([searchText(ops: raw("gin_trgm_ops"))], type: Gin, map: "stories_search_text_trgm_idx")
   @@index([publishedAt])
   @@index([category, publishedAt])
   @@index([countryCode, publishedAt])

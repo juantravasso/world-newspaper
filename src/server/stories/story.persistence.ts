@@ -14,6 +14,10 @@ import type {
 } from "@/generated/prisma/client";
 
 import {
+  Prisma,
+} from "@/generated/prisma/client";
+
+import {
   prisma,
 } from "@/server/database/prisma";
 
@@ -269,12 +273,143 @@ export async function saveStories(
     );
   }
 
+  await refreshStorySearchText(
+    uniqueStories.map(
+      (story) =>
+        story.id,
+    ),
+  );
+
   return {
     storiesSaved:
       uniqueStories.length,
 
     articlesSaved:
       savedArticleIds.size,
+  };
+}
+
+const SEARCH_REFRESH_BATCH_SIZE =
+  500;
+
+/**
+ * Recalcula a coluna pesquisável a partir da
+ * story, das matérias e da tradução PT, usando
+ * a mesma função SQL da migration.
+ */
+export async function refreshStorySearchText(
+  storyIds:
+    string[],
+): Promise<void> {
+  for (
+    let start = 0;
+    start < storyIds.length;
+    start +=
+      SEARCH_REFRESH_BATCH_SIZE
+  ) {
+    const batch =
+      storyIds.slice(
+        start,
+        start +
+          SEARCH_REFRESH_BATCH_SIZE,
+      );
+
+    await prisma.$executeRaw`
+      UPDATE "stories"
+      SET "search_text" = COALESCE(story_search_document("id"), '')
+      WHERE "id" = ANY(${batch}::text[])
+    `;
+  }
+}
+
+export type StorySearchPage = {
+  total:
+    number;
+
+  stories:
+    NewsStory[];
+};
+
+/**
+ * Busca por trecho (sem acento, sem caixa) no texto
+ * pesquisável, ou por país quando o termo é o nome
+ * de um país. Mesma ordenação das listagens.
+ */
+export async function searchStoredStories(
+  {
+    query,
+    countryCodes,
+    take,
+    skip,
+  }: {
+    query:
+      string;
+
+    countryCodes:
+      CountryCode[];
+
+    take:
+      number;
+
+    skip:
+      number;
+  },
+): Promise<StorySearchPage> {
+  const matches =
+    Prisma.sql`
+      "category" <> 'football'
+      AND (
+        "search_text" LIKE '%' || story_search_normalize(${query}) || '%'
+        OR "country_code" = ANY(${countryCodes}::text[])
+      )
+    `;
+
+  const [
+    countRows,
+    idRows,
+  ] =
+    await Promise.all(
+      [
+        prisma.$queryRaw<
+          {
+            total:
+              number;
+          }[]
+        >`
+          SELECT count(*)::int AS "total"
+          FROM "stories"
+          WHERE ${matches}
+        `,
+
+        prisma.$queryRaw<
+          {
+            id:
+              string;
+          }[]
+        >`
+          SELECT "id"
+          FROM "stories"
+          WHERE ${matches}
+          ORDER BY "published_at" DESC NULLS FIRST, "id" ASC
+          LIMIT ${take}
+          OFFSET ${skip}
+        `,
+      ],
+    );
+
+  return {
+    total:
+      countRows[0]
+        ?.total ??
+      0,
+
+    stories:
+      await findStoredStoriesByIds(
+        idRows.map(
+          (row) =>
+            row.id,
+        ),
+      ),
   };
 }
 
