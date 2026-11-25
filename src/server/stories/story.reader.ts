@@ -27,11 +27,16 @@ import {
 } from "@/server/news/story-presentation";
 
 import {
+  findAdjacentStories,
   findStoredStories,
+  findStoredStoryById,
 } from "@/server/stories/story.persistence";
 
 const RELATED_STORIES_LIMIT =
   6;
+
+const RELATED_CANDIDATES_PER_GROUP =
+  30;
 
 export type StoryReaderRelatedItem = {
   story:
@@ -100,35 +105,77 @@ export async function getStoryReaderData(
     WORLD_NEWS_CACHE_TAG,
   );
 
-  const stories =
-    await findStoredStories();
-
-  const currentIndex =
-    stories.findIndex(
-      (story) =>
-        story.id ===
-        storyId,
+  const story =
+    await findStoredStoryById(
+      storyId,
     );
 
-  if (
-    currentIndex <
-    0
-  ) {
+  if (!story) {
     return null;
   }
-
-  const story =
-    stories[
-      currentIndex
-    ];
 
   const country =
     findCountryByCode(
       story.countryCode,
     );
 
+  /*
+   * O score favorece mesmo país e depois mesma
+   * categoria, então os candidatos mais recentes
+   * desses dois recortes bastam — sem carregar a
+   * tabela inteira a cada página de notícia.
+   */
+  const [
+    sameCountryStories,
+    sameCategoryStories,
+    adjacentStories,
+  ] =
+    await Promise.all(
+      [
+        findStoredStories(
+          {
+            countryCode:
+              story.countryCode,
+
+            take:
+              RELATED_CANDIDATES_PER_GROUP,
+          },
+        ),
+
+        findStoredStories(
+          {
+            category:
+              story.category,
+
+            take:
+              RELATED_CANDIDATES_PER_GROUP,
+          },
+        ),
+
+        findAdjacentStories(
+          story,
+        ),
+      ],
+    );
+
+  const candidates =
+    new Map(
+      [
+        ...sameCountryStories,
+        ...sameCategoryStories,
+      ].map(
+        (candidate) =>
+          [
+            candidate.id,
+            candidate,
+          ] as const,
+      ),
+    );
+
   const relatedStories =
-    stories
+    [
+      ...candidates.values(),
+    ]
       .filter(
         (candidate) =>
           candidate.id !==
@@ -223,18 +270,14 @@ export async function getStoryReaderData(
 
     newerStory:
       toNavigationItem(
-        stories[
-          currentIndex -
-            1
-        ],
+        adjacentStories.newer ??
+          undefined,
       ),
 
     olderStory:
       toNavigationItem(
-        stories[
-          currentIndex +
-            1
-        ],
+        adjacentStories.older ??
+          undefined,
       ),
   };
 }

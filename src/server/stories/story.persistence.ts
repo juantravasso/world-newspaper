@@ -648,6 +648,179 @@ export async function findStoredStoryById(
 }
 
 /**
+ * Stories imediatamente antes e depois de
+ * `story` na mesma ordem usada pelas listagens
+ * (publishedAt desc, id asc). Stories sem data
+ * não têm vizinhas bem definidas.
+ */
+export async function findAdjacentStories(
+  story:
+    NewsStory,
+): Promise<{
+  newer:
+    NewsStory | null;
+
+  older:
+    NewsStory | null;
+}> {
+  if (
+    !story.publishedAtISO
+  ) {
+    return {
+      newer:
+        null,
+
+      older:
+        null,
+    };
+  }
+
+  const publishedAt =
+    new Date(
+      story.publishedAtISO,
+    );
+
+  const baseWhere =
+    buildStoredStoryWhere(
+      {},
+    );
+
+  const include = {
+    articles: {
+      orderBy: [
+        {
+          publishedAt:
+            "desc" as const,
+        },
+        {
+          id:
+            "asc" as const,
+        },
+      ],
+    },
+  };
+
+  const [
+    newer,
+    older,
+  ] =
+    await Promise.all(
+      [
+        prisma.story.findFirst({
+          where: {
+            ...baseWhere,
+
+            OR: [
+              {
+                publishedAt: {
+                  gt:
+                    publishedAt,
+                },
+              },
+              {
+                publishedAt,
+
+                id: {
+                  lt:
+                    story.id,
+                },
+              },
+            ],
+          },
+
+          orderBy: [
+            {
+              publishedAt:
+                "asc",
+            },
+            {
+              id:
+                "desc",
+            },
+          ],
+
+          include,
+        }),
+
+        prisma.story.findFirst({
+          where: {
+            ...baseWhere,
+
+            OR: [
+              {
+                publishedAt: {
+                  lt:
+                    publishedAt,
+                },
+              },
+              {
+                publishedAt,
+
+                id: {
+                  gt:
+                    story.id,
+                },
+              },
+            ],
+          },
+
+          orderBy: [
+            {
+              publishedAt:
+                "desc",
+            },
+            {
+              id:
+                "asc",
+            },
+          ],
+
+          include,
+        }),
+      ],
+    );
+
+  const translations =
+    await findPortugueseTranslations(
+      [
+        newer,
+        older,
+      ].flatMap(
+        (candidate) =>
+          candidate
+            ? [
+                candidate.id,
+              ]
+            : [],
+      ),
+    );
+
+  return {
+    newer:
+      newer
+        ? mapStoredStoryToDomain(
+            newer,
+            translations.get(
+              newer.id,
+            ) ??
+              null,
+          )
+        : null,
+
+    older:
+      older
+        ? mapStoredStoryToDomain(
+            older,
+            translations.get(
+              older.id,
+            ) ??
+              null,
+          )
+        : null,
+  };
+}
+
+/**
  * Remove stories que não apareceram nas
  * sincronizações mais recentes.
  *
