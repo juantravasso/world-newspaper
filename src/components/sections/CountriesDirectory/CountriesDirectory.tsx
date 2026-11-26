@@ -19,10 +19,6 @@ import {
 } from "@/components/effects/MotionReveal";
 
 import {
-  Spotlight,
-} from "@/components/effects/Spotlight";
-
-import {
   Text,
 } from "@/components/Text";
 
@@ -102,8 +98,6 @@ export function CountriesDirectory({
           p-6 sm:p-8
         "
       >
-        <Spotlight />
-
         <Box
           position="relative"
           className="

@@ -13,6 +13,18 @@ enum NewsCategory {
   economy
 }
 
+enum SyncRunStatus {
+  running
+  success
+  failed
+}
+
+enum SyncRunTrigger {
+  scheduled
+  admin
+  manual
+}
+
 model Story {
   id String @id @db.VarChar(64)
 
@@ -29,8 +41,14 @@ model Story {
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
+  // Mantido por story_search_document() (SQL); nunca escrever direto.
+  searchText String @default("") @map("search_text") @db.Text
+
   articles Article[]
 
+  translations StoryTranslation[]
+
+  @@index([searchText(ops: raw("gin_trgm_ops"))], type: Gin, map: "stories_search_text_trgm_idx")
   @@index([publishedAt])
   @@index([category, publishedAt])
   @@index([countryCode, publishedAt])
@@ -71,4 +89,74 @@ model Article {
   @@index([countryCode, publishedAt])
   @@index([lastSeenAt])
   @@map("articles")
+}
+
+model NewsSource {
+  id String @id @db.VarChar(64)
+
+  countryCode String @map("country_code") @db.Char(2)
+
+  name       String @db.VarChar(255)
+  websiteUrl String @map("website_url") @db.Text
+
+  feedUrl      String?       @map("feed_url") @db.Text
+  feedCategory NewsCategory? @map("feed_category")
+
+  enabled Boolean @default(true)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([countryCode])
+  @@map("news_sources")
+}
+
+model StoryTranslation {
+  storyId  String @map("story_id") @db.VarChar(64)
+  language String @db.VarChar(8)
+
+  headline String @db.Text
+  summary  String @db.Text
+
+  sourceUpdatedAt DateTime @map("source_updated_at") @db.Timestamptz(3)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@id([storyId, language])
+  @@map("story_translations")
+}
+
+model SyncRun {
+  id String @id @default(cuid()) @db.VarChar(32)
+
+  trigger SyncRunTrigger
+  status  SyncRunStatus  @default(running)
+
+  requestId String? @map("request_id") @db.VarChar(64)
+
+  startedAt  DateTime  @default(now()) @map("started_at") @db.Timestamptz(3)
+  finishedAt DateTime? @map("finished_at") @db.Timestamptz(3)
+  durationMs Int?      @map("duration_ms")
+
+  countriesProcessed Int @default(0) @map("countries_processed")
+  storiesCollected   Int @default(0) @map("stories_collected")
+  articlesCollected  Int @default(0) @map("articles_collected")
+
+  storiesSaved  Int @default(0) @map("stories_saved")
+  articlesSaved Int @default(0) @map("articles_saved")
+
+  retentionDays  Int @default(0) @map("retention_days")
+  storiesDeleted Int @default(0) @map("stories_deleted")
+
+  errorMessage String? @map("error_message") @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([startedAt])
+  @@index([status, startedAt])
+  @@index([trigger, startedAt])
+  @@map("sync_runs")
 }

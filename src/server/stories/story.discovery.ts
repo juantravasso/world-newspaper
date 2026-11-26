@@ -36,6 +36,7 @@ import {
 
 import {
   findStoredStories,
+  searchStoredStories,
 } from "@/server/stories/story.persistence";
 
 const DEFAULT_SEARCH_PAGE_SIZE =
@@ -49,6 +50,9 @@ const COUNTRY_PAGE_STORY_LIMIT =
 
 const TRENDING_WINDOW_DAYS =
   7;
+
+const TRENDING_CANDIDATE_POOL =
+  500;
 
 const MILLISECONDS_PER_HOUR =
   60 *
@@ -167,30 +171,44 @@ export async function searchStories(
   }
 
   const matchingCountryCodes =
-    new Set(
-      findCountriesMatchingText(
-        query,
-      ).map(
-        (country) =>
-          country.code,
-      ),
+    findCountriesMatchingText(
+      query,
+    ).map(
+      (country) =>
+        country.code,
     );
 
-  const storedStories =
-    await findStoredStories();
+  const requestedOffset =
+    (
+      Math.max(
+        1,
+        Math.trunc(
+          requestedPage,
+        ) ||
+          1,
+      ) -
+      1
+    ) *
+    pageSize;
 
-  const matchingStories =
-    storedStories.filter(
-      (story) =>
-        storyMatchesQuery(
-          story,
-          normalizedQuery,
+  const firstPage =
+    await searchStoredStories(
+      {
+        query,
+
+        countryCodes:
           matchingCountryCodes,
-        ),
+
+        take:
+          pageSize,
+
+        skip:
+          requestedOffset,
+      },
     );
 
   const total =
-    matchingStories.length;
+    firstPage.total;
 
   const totalPages =
     Math.ceil(
@@ -208,23 +226,41 @@ export async function searchStories(
           totalPages,
         );
 
-  const offset =
+  /*
+   * Página pedida além do fim volta para a última
+   * página existente, como antes.
+   */
+  const pageResult =
     (
       page -
       1
     ) *
-    pageSize;
+      pageSize ===
+    requestedOffset
+      ? firstPage
+      : await searchStoredStories(
+          {
+            query,
+
+            countryCodes:
+              matchingCountryCodes,
+
+            take:
+              pageSize,
+
+            skip:
+              (
+                page -
+                1
+              ) *
+              pageSize,
+          },
+        );
 
   const items =
-    matchingStories
-      .slice(
-        offset,
-        offset +
-          pageSize,
-      )
-      .flatMap(
-        toStoryDiscoveryItem,
-      );
+    pageResult.stories.flatMap(
+      toStoryDiscoveryItem,
+    );
 
   return {
     query:
@@ -265,9 +301,6 @@ export async function getTrendingStories(
       12,
     );
 
-  const storedStories =
-    await findStoredStories();
-
   const currentTime =
     Date.now();
 
@@ -277,22 +310,24 @@ export async function getTrendingStories(
       MILLISECONDS_PER_DAY;
 
   const recentStories =
-    storedStories.filter(
-      (story) =>
-        getTimestamp(
-          story.publishedAtISO,
-        ) >=
-        recentCutoff,
-    );
+    await findStoredStories({
+      publishedAfter:
+        new Date(
+          recentCutoff,
+        ),
+
+      take:
+        TRENDING_CANDIDATE_POOL,
+    });
 
   const candidates =
     recentStories.length >=
     limit
       ? recentStories
-      : storedStories.slice(
-          0,
-          100,
-        );
+      : await findStoredStories({
+          take:
+            100,
+        });
 
   return candidates
     .map(
@@ -362,25 +397,16 @@ export async function getCountryStoryPage(
     return null;
   }
 
-  const storedStories =
-    await findStoredStories();
-
   const stories =
-    storedStories
-      .filter(
-        (story) =>
-          story.countryCode ===
-            countryMetadata.code &&
-          (
-            !category ||
-            story.category ===
-              category
-          ),
-      )
-      .slice(
-        0,
+    await findStoredStories({
+      countryCode:
+        countryMetadata.code,
+
+      category,
+
+      take:
         COUNTRY_PAGE_STORY_LIMIT,
-      );
+    });
 
   const sourceIds =
     new Set(
@@ -419,52 +445,6 @@ export async function getCountryStoryPage(
         ?.publishedAtISO ??
       null,
   };
-}
-
-function storyMatchesQuery(
-  story:
-    NewsStory,
-
-  normalizedQuery:
-    string,
-
-  matchingCountryCodes:
-    Set<
-      NewsStory["countryCode"]
-    >,
-): boolean {
-  if (
-    matchingCountryCodes.has(
-      story.countryCode,
-    )
-  ) {
-    return true;
-  }
-
-  const searchableValues = [
-    story.headline,
-    story.summary,
-    story.category,
-    story.categoryLabel,
-
-    ...story.articles.flatMap(
-      (article) => [
-        article.title,
-        article.excerpt,
-        article.sourceName,
-        article.language,
-      ],
-    ),
-  ];
-
-  return searchableValues.some(
-    (value) =>
-      normalizeSearchText(
-        value,
-      ).includes(
-        normalizedQuery,
-      ),
-  );
 }
 
 function toStoryDiscoveryItem(

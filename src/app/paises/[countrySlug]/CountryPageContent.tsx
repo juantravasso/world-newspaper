@@ -37,9 +37,6 @@ const categoryRouteSegments:
     NewsCategory,
     string
   > = {
-  football:
-    "futebol",
-
   politics:
     "politica",
 
@@ -52,9 +49,6 @@ const categoryLabels:
     NewsCategory,
     string
   > = {
-  football:
-    "Futebol",
-
   politics:
     "Política",
 
@@ -67,9 +61,6 @@ const categoryByRouteSegment:
     string,
     NewsCategory
   > = {
-  futebol:
-    "football",
-
   politica:
     "politics",
 

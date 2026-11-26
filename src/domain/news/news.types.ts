@@ -6,7 +6,6 @@ import type {
 } from "./story.types";
 
 export type NewsCategory =
-  | "football"
   | "politics"
   | "economy";
 
@@ -41,13 +40,18 @@ export type CountryCode =
   | "FR"
   | "GB"
   | "IT"
+  | "NL"
+  | "PL"
   | "PT"
+  | "SE"
 
   // África
   | "EG"
+  | "GH"
   | "KE"
   | "MA"
   | "NG"
+  | "TZ"
   | "ZA"
 
   // Ásia
@@ -56,6 +60,9 @@ export type CountryCode =
   | "IN"
   | "JP"
   | "KR"
+  | "PH"
+  | "TH"
+  | "VN"
 
   // Oceania
   | "AU"
@@ -106,11 +113,4 @@ export type CountryWithLatestNews = {
 
   stories:
     NewsStory[];
-};
-
-export type MockNewsSource = {
-  id: string;
-  name: string;
-  websiteUrl: string;
-  rssUrl: string | null;
 };

@@ -4,9 +4,6 @@ import type {
 
 const newsPlaceholderByCategory:
   Record<NewsCategory, string> = {
-    football:
-      "/images/news/football.svg",
-
     politics:
       "/images/news/politics.svg",
 

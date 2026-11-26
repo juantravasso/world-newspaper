@@ -26,7 +26,17 @@ import {
 
 import {
   findStoredStories,
+  findStoredStoriesByIds,
 } from "@/server/stories/story.persistence";
+
+const RECENT_CANDIDATES =
+  60;
+
+const CANDIDATES_PER_FAVORITE =
+  24;
+
+const MAX_FAVORITE_GROUPS =
+  12;
 
 const RECOMMENDATION_LIMIT =
   12;
@@ -42,52 +52,36 @@ export async function getReaderLibraryData(
 ): Promise<
   ReaderLibraryResponse
 > {
-  const stories =
-    await findStoredStories();
+  const [
+    savedStories,
+    historyStories,
+    candidates,
+  ] =
+    await Promise.all(
+      [
+        findStoredStoriesByIds(
+          request.savedStoryIds,
+        ),
 
-  const storiesById =
-    new Map(
-      stories.map(
-        (story) => [
-          story.id,
-          story,
-        ],
-      ),
+        findStoredStoriesByIds(
+          request.historyStoryIds,
+        ),
+
+        findRecommendationCandidates(
+          request,
+        ),
+      ],
     );
 
   const saved =
-    request.savedStoryIds
-      .flatMap(
-        (storyId) => {
-          const story =
-            storiesById.get(
-              storyId,
-            );
-
-          return story
-            ? toLibraryItem(
-                story,
-              )
-            : [];
-        },
-      );
+    savedStories.flatMap(
+      toLibraryItem,
+    );
 
   const history =
-    request.historyStoryIds
-      .flatMap(
-        (storyId) => {
-          const story =
-            storiesById.get(
-              storyId,
-            );
-
-          return story
-            ? toLibraryItem(
-                story,
-              )
-            : [];
-        },
-      );
+    historyStories.flatMap(
+      toLibraryItem,
+    );
 
   const excludedStoryIds =
     new Set([
@@ -96,7 +90,7 @@ export async function getReaderLibraryData(
     ]);
 
   const recommendations =
-    stories
+    candidates
       .filter(
         (story) =>
           !excludedStoryIds.has(
@@ -147,6 +141,73 @@ export async function getReaderLibraryData(
     history,
     recommendations,
   };
+}
+
+/*
+ * O score prioriza país favorito, depois categoria
+ * favorita, depois recência — então as mais recentes
+ * de cada recorte favorito, mais as mais recentes em
+ * geral, cobrem o topo do ranking sem ler a tabela
+ * inteira.
+ */
+async function findRecommendationCandidates(
+  request:
+    ReaderLibraryRequest,
+): Promise<NewsStory[]> {
+  const groups =
+    await Promise.all(
+      [
+        findStoredStories(
+          {
+            take:
+              RECENT_CANDIDATES,
+          },
+        ),
+
+        ...request.favoriteCountryCodes
+          .slice(
+            0,
+            MAX_FAVORITE_GROUPS,
+          )
+          .map(
+            (countryCode) =>
+              findStoredStories(
+                {
+                  countryCode,
+
+                  take:
+                    CANDIDATES_PER_FAVORITE,
+                },
+              ),
+          ),
+
+        ...request.favoriteCategories.map(
+          (category) =>
+            findStoredStories(
+              {
+                category,
+
+                take:
+                  CANDIDATES_PER_FAVORITE,
+              },
+            ),
+        ),
+      ],
+    );
+
+  return [
+    ...new Map(
+      groups
+        .flat()
+        .map(
+          (story) =>
+            [
+              story.id,
+              story,
+            ] as const,
+        ),
+    ).values(),
+  ];
 }
 
 function toLibraryItem(

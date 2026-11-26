@@ -48,15 +48,8 @@ export function SecondaryNewsCard({
         overflow="hidden"
         className="
           group flex h-full flex-col
-          transition-all duration-200
-          before:pointer-events-none
-          before:absolute before:inset-0
-          before:bg-[radial-gradient(circle_at_90%_0%,var(--color-primary-soft),transparent_42%)]
-          before:opacity-0
-          before:transition-opacity
-          hover:-translate-y-0.5
-          hover:shadow-card-hover
-          hover:before:opacity-100
+          transition-colors duration-150
+          hover:border-foreground
         "
       >
         <Box

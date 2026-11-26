@@ -1,4 +1,9 @@
 import {
+  checkPublicRateLimit,
+  rateLimitedResponse,
+} from "@/server/security/public-rate-limit";
+
+import {
   getStoryById,
 } from "@/server/stories/get-story-by-id";
 
@@ -12,6 +17,29 @@ export async function GET(
   request: Request,
   context: RouteContext,
 ) {
+  const rateLimit =
+    checkPublicRateLimit(
+      request,
+      {
+        name:
+          "story-detail",
+
+        maxRequests:
+          120,
+
+        windowMs:
+          60_000,
+      },
+    );
+
+  if (
+    !rateLimit.allowed
+  ) {
+    return rateLimitedResponse(
+      rateLimit.retryAfterSeconds,
+    );
+  }
+
   const {
     storyId,
   } = await context.params;

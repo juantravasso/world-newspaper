@@ -10,9 +10,6 @@ export type CategoryBadgeProps = {
 };
 
 const categoryStyles: Record<NewsCategory, string> = {
-  football:
-    "bg-football-soft text-football-foreground",
-
   politics:
     "bg-politics-soft text-politics-foreground",
 

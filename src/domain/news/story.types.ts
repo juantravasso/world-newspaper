@@ -29,6 +29,13 @@ export type NewsStory = {
   headline: string;
   summary: string;
 
+  /**
+   * true quando headline/summary vieram de uma
+   * tradução automática para português (a story
+   * original não é em português).
+   */
+  translated?: boolean;
+
   category: NewsCategory;
   categoryLabel: string;
 

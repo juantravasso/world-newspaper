@@ -8,31 +8,6 @@
       "language": "en",
       "regions": [
         "africa"
-      ],
-      "sources": [
-        {
-          "id": "za-mail-guardian",
-          "name": "Mail & Guardian",
-          "websiteUrl": "https://mg.co.za/",
-          "feeds": [
-            {
-              "url": "https://mg.co.za/atom/",
-              "enabled": true
-            }
-          ]
-        },
-        {
-          "id": "za-business-day",
-          "name": "Business Day",
-          "websiteUrl": "https://www.businessday.co.za/",
-          "feeds": []
-        },
-        {
-          "id": "za-kick-off",
-          "name": "Kick Off",
-          "websiteUrl": "https://www.kickoff.com/",
-          "feeds": []
-        }
       ]
     },
     {
@@ -43,36 +18,6 @@
       "language": "en",
       "regions": [
         "africa"
-      ],
-      "sources": [
-        {
-          "id": "ng-guardian",
-          "name": "The Guardian Nigeria",
-          "websiteUrl": "https://guardian.ng/",
-          "feeds": []
-        },
-        {
-          "id": "ng-businessday",
-          "name": "BusinessDay Nigeria",
-          "websiteUrl": "https://businessday.ng/",
-          "feeds": [
-            {
-              "url": "https://businessday.ng/feed",
-              "enabled": true
-            }
-          ]
-        },
-        {
-          "id": "ng-complete-sports",
-          "name": "Complete Sports",
-          "websiteUrl": "https://www.completesports.com/",
-          "feeds": [
-            {
-              "url": "https://www.completesports.com/feed/",
-              "enabled": true
-            }
-          ]
-        }
       ]
     },
     {
@@ -83,26 +28,6 @@
       "language": "en",
       "regions": [
         "africa"
-      ],
-      "sources": [
-        {
-          "id": "ke-daily-nation",
-          "name": "Daily Nation",
-          "websiteUrl": "https://nation.africa/",
-          "feeds": []
-        },
-        {
-          "id": "ke-business-daily",
-          "name": "Business Daily Africa",
-          "websiteUrl": "https://www.businessdailyafrica.com/",
-          "feeds": []
-        },
-        {
-          "id": "ke-goal",
-          "name": "Goal Kenya",
-          "websiteUrl": "https://www.goal.com/en-ke",
-          "feeds": []
-        }
       ]
     },
     {
@@ -113,31 +38,6 @@
       "language": "ar",
       "regions": [
         "africa"
-      ],
-      "sources": [
-        {
-          "id": "ma-morocco-world-news",
-          "name": "Morocco World News",
-          "websiteUrl": "https://www.moroccoworldnews.com/",
-          "feeds": []
-        },
-        {
-          "id": "ma-le-matin",
-          "name": "Le Matin",
-          "websiteUrl": "https://lematin.ma/",
-          "feeds": []
-        },
-        {
-          "id": "ma-hespress",
-          "name": "Hespress",
-          "websiteUrl": "https://www.hespress.com/",
-          "feeds": [
-            {
-              "url": "https://www.hespress.com/feed",
-              "enabled": true
-            }
-          ]
-        }
       ]
     },
     {
@@ -149,31 +49,26 @@
       "regions": [
         "africa",
         "oriente-medio"
-      ],
-      "sources": [
-        {
-          "id": "eg-al-ahram",
-          "name": "Al-Ahram",
-          "websiteUrl": "https://english.ahram.org.eg/",
-          "feeds": []
-        },
-        {
-          "id": "eg-daily-news-egypt",
-          "name": "Daily News Egypt",
-          "websiteUrl": "https://www.dailynewsegypt.com/",
-          "feeds": [
-            {
-              "url": "https://www.dailynewsegypt.com/feed/",
-              "enabled": true
-            }
-          ]
-        },
-        {
-          "id": "eg-kingfut",
-          "name": "KingFut",
-          "websiteUrl": "https://www.kingfut.com/",
-          "feeds": []
-        }
+      ]
+    },
+    {
+      "code": "GH",
+      "name": "Gana",
+      "slug": "gana",
+      "flag": "🇬🇭",
+      "language": "en",
+      "regions": [
+        "africa"
+      ]
+    },
+    {
+      "code": "TZ",
+      "name": "Tanzânia",
+      "slug": "tanzania",
+      "flag": "🇹🇿",
+      "language": "en",
+      "regions": [
+        "africa"
       ]
     }
   ]

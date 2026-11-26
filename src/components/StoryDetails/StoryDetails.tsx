@@ -16,10 +16,6 @@ import {
   Text,
 } from "@/components/Text";
 
-import {
-  formatRelativeTime,
-} from "@/server/news/story-presentation";
-
 import type {
   StoryReaderData,
   StoryReaderNavigationItem,
@@ -44,9 +40,6 @@ export type StoryDetailsProps = {
 
 const categoryRoutes =
   {
-    football:
-      "/futebol",
-
     politics:
       "/politica",
 
@@ -175,7 +168,7 @@ export function StoryDetails({
               preset="display"
               wrap="balance"
               className="
-                text-4xl
+                text-[1.875rem]
                 sm:text-5xl
                 lg:text-[3.5rem]
               "
@@ -321,12 +314,6 @@ export function StoryDetails({
         </Box>
       </Box>
 
-      <SourceComparison
-        data={
-          data
-        }
-      />
-
       {isFullPage && (
         <>
           <RelatedStories
@@ -427,192 +414,6 @@ function StoryBreadcrumbs({
         </>
       )}
     </nav>
-  );
-}
-
-type SourceComparisonProps = {
-  data:
-    StoryReaderData;
-};
-
-function SourceComparison({
-  data,
-}: SourceComparisonProps) {
-  return (
-    <Box
-      as="section"
-      aria-labelledby="source-comparison-title"
-      className="mt-12"
-    >
-      <Box
-        preset="stack"
-        gap="xs"
-      >
-        <Text
-          id="source-comparison-title"
-          preset="sectionTitle"
-        >
-          Compare as fontes
-        </Text>
-
-        <Text
-          tone="muted"
-          className="max-w-3xl"
-        >
-          A mesma história pode receber
-          títulos, recortes e níveis de
-          detalhe diferentes. Abra as
-          matérias originais para comparar
-          a cobertura diretamente.
-        </Text>
-      </Box>
-
-      <Box
-        as="ol"
-        className="
-          mt-6 grid grid-cols-1
-          gap-5
-          lg:grid-cols-2
-        "
-      >
-        {data.story.articles.map(
-          (
-            article,
-            index,
-          ) => (
-            <Box
-              as="li"
-              key={
-                article.id
-              }
-              background="card"
-              border="default"
-              radius="card"
-              padding="lg"
-              className="min-w-0"
-            >
-              <Box
-                display="flex"
-                align="start"
-                justify="between"
-                gap="md"
-              >
-                <Box
-                  display="flex"
-                  align="center"
-                  gap="sm"
-                  className="min-w-0"
-                >
-                  <span
-                    className="
-                      inline-flex h-9 w-9
-                      shrink-0 items-center
-                      justify-center
-                      rounded-full
-                      bg-primary-soft
-                      text-sm font-bold
-                      text-primary
-                    "
-                  >
-                    {index + 1}
-                  </span>
-
-                  <Box className="min-w-0">
-                    <Text
-                      preset="label"
-                      clamp={1}
-                    >
-                      {
-                        article.sourceName
-                      }
-                    </Text>
-
-                    <Text
-                      preset="metadata"
-                      tone="subtle"
-                      className="mt-1"
-                    >
-                      {
-                        article.language
-                          .toUpperCase()
-                      }
-                      {" · "}
-                      {
-                        formatRelativeTime(
-                          article.publishedAtISO,
-                        )
-                      }
-                    </Text>
-                  </Box>
-                </Box>
-
-                <Text
-                  as="span"
-                  preset="categoryLabel"
-                  tone="accent"
-                  className="shrink-0"
-                >
-                  {
-                    article.category ===
-                    "football"
-                      ? "Futebol"
-                      : article.category ===
-                          "politics"
-                        ? "Política"
-                        : "Economia"
-                  }
-                </Text>
-              </Box>
-
-              <Text
-                preset="articleTitle"
-                wrap="pretty"
-                className="mt-5"
-              >
-                {
-                  article.title
-                }
-              </Text>
-
-              <Text
-                preset="bodySmall"
-                tone="muted"
-                wrap="pretty"
-                className="mt-3"
-              >
-                {
-                  article.excerpt
-                }
-              </Text>
-
-              <a
-                href={
-                  article.url
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  mt-6 inline-flex
-                  min-h-10 items-center
-                  rounded-button
-                  bg-brand px-4
-                  text-sm font-semibold
-                  text-white
-                  outline-none
-                  transition-opacity
-                  hover:opacity-85
-                  focus-visible:ring-2
-                  focus-visible:ring-ring
-                  focus-visible:ring-offset-2
-                "
-              >
-                Ler na fonte original ↗
-              </a>
-            </Box>
-          ),
-        )}
-      </Box>
-    </Box>
   );
 }
 

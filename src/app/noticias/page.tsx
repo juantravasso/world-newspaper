@@ -45,7 +45,7 @@ export const metadata:
     "Últimas notícias",
 
   description:
-    "Acompanhe as notícias mais recentes por país, categoria e período no World Newspaper.",
+    "Acompanhe as notícias mais recentes por país, categoria e período no Paralelo.",
 };
 
 type LatestNewsPageProps = {
@@ -70,9 +70,6 @@ const categoryLabels:
     NewsCategory,
     string
   > = {
-  football:
-    "Futebol",
-
   politics:
     "Política",
 
@@ -760,8 +757,6 @@ function isNewsCategory(
     string | undefined,
 ): value is NewsCategory {
   return (
-    value ===
-      "football" ||
     value ===
       "politics" ||
     value ===

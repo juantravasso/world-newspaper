@@ -1,9 +1,25 @@
+import "server-only";
+
+import type {
+  AdminSyncRunTrigger,
+} from "@/domain/admin/admin.types";
+
 import type {
   NewsStory,
 } from "@/domain/news/story.types";
 
 import {
-  buildWorldCountriesWithNews,
+  completeSyncRun,
+  failSyncRun,
+  startSyncRun,
+} from "@/server/monitoring/sync-run.repository";
+
+import {
+  fillMissingStoryImages,
+} from "@/server/images/story-image-fallback";
+
+import {
+  collectWorldCountriesWithNews,
 } from "@/server/news/build-world-countries";
 
 import {
@@ -27,22 +43,51 @@ let synchronizationInProgress:
   Promise<SynchronizeStoriesResult> | null =
   null;
 
+export type SynchronizeStoriesOptions = {
+  trigger?:
+    AdminSyncRunTrigger;
+
+  requestId?:
+    string;
+};
+
 export type SynchronizeStoriesResult = {
-  startedAtISO: string;
-  finishedAtISO: string;
-  durationMs: number;
+  syncRunId:
+    string;
 
-  countriesProcessed: number;
-  storiesCollected: number;
-  articlesCollected: number;
+  startedAtISO:
+    string;
 
-  storiesSaved: number;
-  articlesSaved: number;
+  finishedAtISO:
+    string;
+
+  durationMs:
+    number;
+
+  countriesProcessed:
+    number;
+
+  storiesCollected:
+    number;
+
+  articlesCollected:
+    number;
+
+  storiesSaved:
+    number;
+
+  articlesSaved:
+    number;
 
   maintenance: {
-    retentionDays: number;
-    storiesDeleted: number;
-    cutoffISO: string;
+    retentionDays:
+      number;
+
+    storiesDeleted:
+      number;
+
+    cutoffISO:
+      string;
   };
 };
 
@@ -53,8 +98,12 @@ export type SynchronizeStoriesResult = {
  * nesta instância, novas chamadas reutilizam a
  * mesma Promise.
  */
-export async function synchronizeStories():
-  Promise<SynchronizeStoriesResult> {
+export async function synchronizeStories(
+  options:
+    SynchronizeStoriesOptions = {},
+): Promise<
+  SynchronizeStoriesResult
+> {
   if (
     synchronizationInProgress
   ) {
@@ -62,7 +111,9 @@ export async function synchronizeStories():
   }
 
   synchronizationInProgress =
-    performStorySynchronization()
+    performStorySynchronization(
+      options,
+    )
       .finally(
         () => {
           synchronizationInProgress =
@@ -73,142 +124,247 @@ export async function synchronizeStories():
   return synchronizationInProgress;
 }
 
-async function performStorySynchronization():
-  Promise<SynchronizeStoriesResult> {
+async function performStorySynchronization({
+  trigger =
+    "manual",
+  requestId,
+}: SynchronizeStoriesOptions):
+  Promise<
+    SynchronizeStoriesResult
+  > {
   const startedAt =
     new Date();
 
-  const countries =
-    await buildWorldCountriesWithNews();
+  const syncRunId =
+    await startSyncRun({
+      trigger,
+      requestId,
+      startedAt,
+    });
 
-  const storiesById =
-    new Map<
-      string,
-      NewsStory
-    >();
+  try {
+    const countries =
+      await collectWorldCountriesWithNews();
 
-  for (
-    const country of
-    countries
-  ) {
+    const storiesById =
+      new Map<
+        string,
+        NewsStory
+      >();
+
     for (
-      const story of
-      country.stories
+      const country of
+      countries
     ) {
-      const existingStory =
-        storiesById.get(
-          story.id,
-        );
+      for (
+        const story of
+        country.stories
+      ) {
+        const existingStory =
+          storiesById.get(
+            story.id,
+          );
 
-      if (!existingStory) {
+        if (
+          !existingStory
+        ) {
+          storiesById.set(
+            story.id,
+            story,
+          );
+
+          continue;
+        }
+
+        const articlesById =
+          new Map(
+            [
+              ...existingStory.articles,
+              ...story.articles,
+            ].map(
+              (article) => [
+                article.id,
+                article,
+              ],
+            ),
+          );
+
         storiesById.set(
           story.id,
-          story,
-        );
+          {
+            ...existingStory,
 
-        continue;
-      }
-
-      const articlesById =
-        new Map(
-          [
-            ...existingStory.articles,
-            ...story.articles,
-          ].map(
-            (article) => [
-              article.id,
-              article,
+            articles: [
+              ...articlesById.values(),
             ],
-          ),
+          },
         );
+      }
+    }
 
-      storiesById.set(
-        story.id,
+    const collectedStories = [
+      ...storiesById.values(),
+    ];
+
+    const stories =
+      await fillMissingStoryImages(
+        collectedStories,
+      );
+
+    const articleIds =
+      new Set(
+        stories.flatMap(
+          (story) =>
+            story.articles.map(
+              (article) =>
+                article.id,
+            ),
+        ),
+      );
+
+    const persistenceResult =
+      await saveStories(
+        stories,
+      );
+
+    const retentionDays =
+      getStoryRetentionDays();
+
+    const cutoff =
+      new Date(
+        startedAt.getTime() -
+        retentionDays *
+          MILLISECONDS_PER_DAY,
+      );
+
+    const maintenanceResult =
+      await deleteStoriesNotSeenSince(
+        cutoff,
+      );
+
+    const finishedAt =
+      new Date();
+
+    const result:
+      SynchronizeStoriesResult = {
+      syncRunId,
+
+      startedAtISO:
+        startedAt
+          .toISOString(),
+
+      finishedAtISO:
+        finishedAt
+          .toISOString(),
+
+      durationMs:
+        finishedAt.getTime() -
+        startedAt.getTime(),
+
+      countriesProcessed:
+        countries.length,
+
+      storiesCollected:
+        stories.length,
+
+      articlesCollected:
+        articleIds.size,
+
+      storiesSaved:
+        persistenceResult
+          .storiesSaved,
+
+      articlesSaved:
+        persistenceResult
+          .articlesSaved,
+
+      maintenance: {
+        retentionDays,
+
+        storiesDeleted:
+          maintenanceResult
+            .storiesDeleted,
+
+        cutoffISO:
+          maintenanceResult
+            .cutoffISO,
+      },
+    };
+
+    await completeSyncRun(
+      syncRunId,
+      {
+        finishedAt,
+
+        durationMs:
+          result.durationMs,
+
+        countriesProcessed:
+          result
+            .countriesProcessed,
+
+        storiesCollected:
+          result
+            .storiesCollected,
+
+        articlesCollected:
+          result
+            .articlesCollected,
+
+        storiesSaved:
+          result
+            .storiesSaved,
+
+        articlesSaved:
+          result
+            .articlesSaved,
+
+        retentionDays:
+          result
+            .maintenance
+            .retentionDays,
+
+        storiesDeleted:
+          result
+            .maintenance
+            .storiesDeleted,
+      },
+    );
+
+    return result;
+  } catch (
+    error
+  ) {
+    const finishedAt =
+      new Date();
+
+    try {
+      await failSyncRun(
+        syncRunId,
         {
-          ...existingStory,
+          finishedAt,
 
-          articles: [
-            ...articlesById.values(),
-          ],
+          durationMs:
+            finishedAt.getTime() -
+            startedAt.getTime(),
+
+          errorMessage:
+            getErrorMessage(
+              error,
+            ),
         },
       );
+    } catch (
+      monitoringError
+    ) {
+      console.error(
+        "[SYNC MONITORING FAILURE]",
+        monitoringError,
+      );
     }
+
+    throw error;
   }
-
-  const stories = [
-    ...storiesById.values(),
-  ];
-
-  const articleIds =
-    new Set(
-      stories.flatMap(
-        (story) =>
-          story.articles.map(
-            (article) =>
-              article.id,
-          ),
-      ),
-    );
-
-  const persistenceResult =
-    await saveStories(
-      stories,
-    );
-
-  const retentionDays =
-    getStoryRetentionDays();
-
-  const cutoff =
-    new Date(
-      startedAt.getTime() -
-      retentionDays *
-        MILLISECONDS_PER_DAY,
-    );
-
-  const maintenanceResult =
-    await deleteStoriesNotSeenSince(
-      cutoff,
-    );
-
-  const finishedAt =
-    new Date();
-
-  return {
-    startedAtISO:
-      startedAt.toISOString(),
-
-    finishedAtISO:
-      finishedAt.toISOString(),
-
-    durationMs:
-      finishedAt.getTime() -
-      startedAt.getTime(),
-
-    countriesProcessed:
-      countries.length,
-
-    storiesCollected:
-      stories.length,
-
-    articlesCollected:
-      articleIds.size,
-
-    storiesSaved:
-      persistenceResult.storiesSaved,
-
-    articlesSaved:
-      persistenceResult.articlesSaved,
-
-    maintenance: {
-      retentionDays,
-
-      storiesDeleted:
-        maintenanceResult.storiesDeleted,
-
-      cutoffISO:
-        maintenanceResult.cutoffISO,
-    },
-  };
 }
 
 function getStoryRetentionDays():
@@ -217,7 +373,9 @@ function getStoryRetentionDays():
     process.env
       .STORY_RETENTION_DAYS;
 
-  if (!configuredValue) {
+  if (
+    !configuredValue
+  ) {
     return DEFAULT_STORY_RETENTION_DAYS;
   }
 
@@ -239,5 +397,20 @@ function getStoryRetentionDays():
   return Math.min(
     parsedValue,
     MAX_STORY_RETENTION_DAYS,
+  );
+}
+
+function getErrorMessage(
+  error:
+    unknown,
+): string {
+  if (
+    error instanceof Error
+  ) {
+    return error.message;
+  }
+
+  return String(
+    error,
   );
 }

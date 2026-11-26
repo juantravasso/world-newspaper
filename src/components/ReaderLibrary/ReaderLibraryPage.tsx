@@ -67,9 +67,6 @@ const categoryLabels:
     NewsCategory,
     string
   > = {
-  football:
-    "Futebol",
-
   politics:
     "Política",
 

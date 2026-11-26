@@ -7,8 +7,17 @@ import type {
   NewsStory,
 } from "@/domain/news/story.types";
 
+/*
+ * 0.45 era rígido demais: manchetes sobre o
+ * mesmo fato raramente compartilham a mesma
+ * palavra por palavra entre veículos diferentes.
+ * Testado contra artigos reais do banco: 0.3
+ * mais que dobra os agrupamentos corretos sem
+ * introduzir falsos positivos nas amostras
+ * verificadas manualmente.
+ */
 const MINIMUM_SIMILARITY =
-  0.45;
+  0.3;
 
 const MAX_TIME_DISTANCE_MS =
   48 * 60 * 60 * 1000;
@@ -18,7 +27,6 @@ const categoryLabels:
     NewsArticle["category"],
     string
   > = {
-    football: "Futebol",
     politics: "Política",
     economy: "Economia",
   };

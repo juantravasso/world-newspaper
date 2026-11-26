@@ -1,102 +1,111 @@
 @import "tailwindcss";
 
+/*
+ * Paralelo — atlas editorial.
+ * Papel e tinta como base, Oceano para ação/link,
+ * Ocre só como sinal (em desenvolvimento, lacuna
+ * no Brasil). Hierarquia por tipo e fio, não por
+ * sombra ou cor.
+ */
 @theme {
-  --color-background: #f6f7fa;
+  --color-background: #f3efe6;
 
-  --color-card: #ffffff;
-  --color-card-foreground: #0f1b33;
+  --color-card: #f8f5ee;
+  --color-card-foreground: #191814;
 
-  --color-popover: #ffffff;
-  --color-popover-foreground: #0f1b33;
+  --color-popover: #fbf9f4;
+  --color-popover-foreground: #191814;
 
-  --color-surface: #ffffff;
-  --color-surface-muted: #f8fafc;
-  --color-surface-strong: #eef2f7;
+  --color-surface: #f8f5ee;
+  --color-surface-muted: #efeadf;
+  --color-surface-strong: #e6dfd0;
 
-  --color-foreground: #0f1b33;
-  --color-muted-foreground: #687492;
-  --color-subtle-foreground: #94a3b8;
-  --color-inverse-foreground: #ffffff;
+  --color-foreground: #191814;
+  --color-muted-foreground: #5e5a52;
+  --color-subtle-foreground: #635d53;
+  --color-inverse-foreground: #f8f5ee;
 
-  --color-brand: #0f1b33;
-  --color-brand-emphasis: #19305d;
-  --color-brand-hover: #14284d;
-  --color-brand-foreground: #ffffff;
+  --color-brand: #191814;
+  --color-brand-emphasis: #2c2a25;
+  --color-brand-hover: #2c2a25;
+  --color-brand-foreground: #f8f5ee;
 
-  --color-primary: #ea5a10;
-  --color-primary-hover: #cf4706;
-  --color-primary-active: #ad3904;
-  --color-primary-foreground: #ffffff;
-  --color-primary-soft: #fff0e7;
-  --color-primary-soft-foreground: #d94b08;
+  --color-primary: #134e4a;
+  --color-primary-hover: #0f3f3c;
+  --color-primary-active: #0b302e;
+  --color-primary-foreground: #f8f5ee;
+  --color-primary-soft: #dbe8e4;
+  --color-primary-soft-foreground: #134e4a;
 
-  --color-secondary: #eef2f7;
-  --color-secondary-hover: #e4e9f0;
-  --color-secondary-foreground: #0f1b33;
+  --color-signal: #b5651d;
+  --color-signal-soft: #f1e1cd;
+  --color-signal-foreground: #8a4a12;
 
-  --color-muted: #edf1f6;
+  --color-secondary: #e6dfd0;
+  --color-secondary-hover: #ddd5c3;
+  --color-secondary-foreground: #191814;
 
-  --color-border: #dde5ef;
-  --color-border-strong: #c8d2df;
-  --color-input: #edf1f6;
-  --color-ring: #ea5a10;
+  --color-muted: #e6dfd0;
 
-  --color-info: #1a56db;
-  --color-info-soft: #eaf0ff;
-  --color-info-foreground: #ffffff;
+  --color-border: #d9d2c3;
+  --color-border-strong: #b9b09e;
+  --color-input: #efeadf;
+  --color-ring: #134e4a;
 
-  --color-success: #16845b;
-  --color-success-soft: #e9f8ee;
-  --color-success-foreground: #ffffff;
+  --color-info: #134e4a;
+  --color-info-soft: #dbe8e4;
+  --color-info-foreground: #f8f5ee;
 
-  --color-warning: #f59e0b;
-  --color-warning-soft: #fff7df;
-  --color-warning-foreground: #0f1b33;
+  --color-success: #2f5d3a;
+  --color-success-soft: #dfe8dc;
+  --color-success-foreground: #f8f5ee;
 
-  --color-danger: #dc2626;
-  --color-danger-soft: #fef2f2;
-  --color-danger-foreground: #ffffff;
+  --color-warning: #8a4a12;
+  --color-warning-soft: #f1e1cd;
+  --color-warning-foreground: #f8f5ee;
 
-  --color-football: #ea5a10;
-  --color-football-soft: #fff0e7;
-  --color-football-foreground: #d94b08;
+  --color-danger: #a12a1f;
+  --color-danger-soft: #f3dcd6;
+  --color-danger-foreground: #f8f5ee;
 
-  --color-politics: #1a56db;
-  --color-politics-soft: #eaf0ff;
-  --color-politics-foreground: #1e40af;
+  --color-politics: #7a2e2e;
+  --color-politics-soft: #efdcd7;
+  --color-politics-foreground: #7a2e2e;
 
-  --color-economy: #16845b;
-  --color-economy-soft: #e9f8ee;
-  --color-economy-foreground: #166534;
+  --color-economy: #2f5d3a;
+  --color-economy-soft: #dfe8dc;
+  --color-economy-foreground: #2f5d3a;
 
-  --shadow-card:
-    0 2px 8px rgb(15 27 51 / 0.03),
-    0 16px 40px rgb(15 27 51 / 0.08);
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --shadow-header: 0 1px 0 var(--color-border);
+  --shadow-floating: 0 12px 32px rgb(25 24 20 / 0.14);
 
-  --shadow-card-hover:
-    0 4px 12px rgb(15 27 51 / 0.05),
-    0 22px 50px rgb(15 27 51 / 0.12);
-
-  --shadow-header:
-    0 1px 0 rgb(15 27 51 / 0.06);
-
-  --shadow-floating:
-    0 10px 30px rgb(15 27 51 / 0.12);
-
-  --radius-card: 1.5rem;
-  --radius-card-small: 1.125rem;
-  --radius-control: 1rem;
-  --radius-button: 0.875rem;
-  --radius-pill: 9999px;
+  --radius-card: 0.25rem;
+  --radius-card-small: 0.125rem;
+  --radius-control: 0.25rem;
+  --radius-button: 0.125rem;
+  --radius-pill: 0.25rem;
 
   --font-sans:
-    var(--font-inter),
-    "Inter",
+    var(--font-ui),
     system-ui,
     -apple-system,
-    BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+
+  --font-serif:
+    var(--font-editorial),
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  --font-mono:
+    var(--font-data),
+    ui-monospace,
+    "SFMono-Regular",
+    Menlo,
+    monospace;
 }
 
 @layer base {
@@ -144,8 +153,8 @@
     textarea,
     select
   ):focus-visible {
-    outline: 3px solid var(--color-ring);
-    outline-offset: 3px;
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
   }
 
   ::selection {
@@ -191,7 +200,7 @@
   }
 
   .news-card:hover {
-    border-color: var(--color-border-strong);
+    border-color: var(--color-foreground);
     box-shadow: var(--shadow-card-hover);
   }
 

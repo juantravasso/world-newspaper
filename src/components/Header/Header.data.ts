@@ -21,14 +21,6 @@ export const navigationItems = [
 
   {
     label:
-      "Futebol",
-
-    href:
-      "/futebol",
-  },
-
-  {
-    label:
       "Política",
 
     href:
