@@ -1610,6 +1610,9 @@ function SourceHealthTable({
             vez em que artigos da fonte foram
             observados: ativa até 6 h, silenciosa
             até 48 h e desatualizada depois disso.
+            “Sem artigos” tem RSS cadastrado, mas
+            nenhum artigo no período de retenção;
+            “Sem RSS” depende da extração por IA.
           </p>
         </div>
 
@@ -1646,6 +1649,36 @@ function SourceHealthTable({
             }
           >
             Desatualizadas ({summary.stale})
+          </SourceFilterButton>
+
+          <SourceFilterButton
+            active={
+              filter ===
+              "empty"
+            }
+            onClick={
+              () =>
+                setFilter(
+                  "empty",
+                )
+            }
+          >
+            Sem artigos ({summary.empty})
+          </SourceFilterButton>
+
+          <SourceFilterButton
+            active={
+              filter ===
+              "no_feed"
+            }
+            onClick={
+              () =>
+                setFilter(
+                  "no_feed",
+                )
+            }
+          >
+            Sem RSS ({summary.no_feed})
           </SourceFilterButton>
 
           <SourceFilterButton
@@ -1906,6 +1939,58 @@ function RunStatusBadge({
   );
 }
 
+const sourceStatusBadges:
+  Record<
+    AdminSourceHealthItem["status"],
+    {
+      label:
+        string;
+
+      className:
+        string;
+    }
+  > = {
+  active: {
+    label:
+      "Ativa",
+
+    className:
+      "border-emerald-200 bg-emerald-50 text-emerald-800",
+  },
+
+  quiet: {
+    label:
+      "Silenciosa",
+
+    className:
+      "border-amber-200 bg-amber-50 text-amber-800",
+  },
+
+  stale: {
+    label:
+      "Desatualizada",
+
+    className:
+      "border-red-200 bg-red-50 text-red-800",
+  },
+
+  empty: {
+    label:
+      "Sem artigos",
+
+    className:
+      "border-red-200 bg-red-50 text-red-800",
+  },
+
+  no_feed: {
+    label:
+      "Sem RSS",
+
+    className:
+      "border-border bg-surface-muted text-muted-foreground",
+  },
+};
+
 function SourceStatusBadge({
   status,
 }: {
@@ -1915,31 +2000,9 @@ function SourceStatusBadge({
     ];
 }) {
   const configuration =
-    status ===
-    "active"
-      ? {
-          label:
-            "Ativa",
-
-          className:
-            "border-emerald-200 bg-emerald-50 text-emerald-800",
-        }
-      : status ===
-          "quiet"
-        ? {
-            label:
-              "Silenciosa",
-
-            className:
-              "border-amber-200 bg-amber-50 text-amber-800",
-          }
-        : {
-            label:
-              "Desatualizada",
-
-            className:
-              "border-red-200 bg-red-50 text-red-800",
-          };
+    sourceStatusBadges[
+      status
+    ];
 
   return (
     <span

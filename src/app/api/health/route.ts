@@ -5,22 +5,80 @@ import {
 export const maxDuration =
   30;
 
-export async function GET() {
+const MAX_COLLECTION_AGE_MINUTES =
+  120;
+
+export async function GET(
+  request: Request,
+) {
   const checkedAtISO =
     new Date()
       .toISOString();
+
+  /*
+   * Sem `?freshness=1`, "saudável" = banco
+   * conectado: o workflow de sincronização checa
+   * este endpoint antes de coletar, e falhar por
+   * coleta atrasada impediria justamente a coleta
+   * que resolve o atraso.
+   */
+  const enforceFreshness =
+    new URL(
+      request.url,
+    ).searchParams.get(
+      "freshness",
+    ) ===
+    "1";
 
   try {
     const storage =
       await getStoryStorageStats();
 
+    const collectionAgeMinutes =
+      storage.latestSeenAtISO
+        ? Math.round(
+            (
+              Date.now() -
+              new Date(
+                storage.latestSeenAtISO,
+              ).getTime()
+            ) /
+              60_000,
+          )
+        : null;
+
+    /*
+     * A coleta roda a cada 30 min, mas o agendador
+     * do GitHub atrasa — 2 h evita alarme falso e
+     * ainda pega uma coleta parada no mesmo dia.
+     */
+    const collectionStale =
+      collectionAgeMinutes ===
+        null ||
+      collectionAgeMinutes >
+        MAX_COLLECTION_AGE_MINUTES;
+
+    const failing =
+      enforceFreshness &&
+      collectionStale;
+
     return Response.json(
       {
         ok:
-          true,
+          !failing,
 
         status:
-          "healthy",
+          collectionStale
+            ? "stale"
+            : "healthy",
+
+        collection: {
+          ageMinutes:
+            collectionAgeMinutes,
+
+          maxAgeMinutes:
+            MAX_COLLECTION_AGE_MINUTES,
+        },
 
         services: {
           application:
@@ -48,7 +106,9 @@ export async function GET() {
       },
       {
         status:
-          200,
+          failing
+            ? 503
+            : 200,
 
         headers: {
           "Cache-Control":
