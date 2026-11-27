@@ -13,10 +13,20 @@ export type AdminSyncRunTrigger =
   | "admin"
   | "manual";
 
+/**
+ * `empty`: tem feed RSS cadastrado, mas nenhum
+ * artigo dela está no banco (que guarda só o
+ * período de retenção) — feed quebrado, bloqueio
+ * ou classificação descartando tudo.
+ * `no_feed`: cadastrada sem RSS — só entra pela
+ * extração por IA.
+ */
 export type AdminSourceStatus =
   | "active"
   | "quiet"
-  | "stale";
+  | "stale"
+  | "empty"
+  | "no_feed";
 
 export type AdminSyncRunItem = {
   id:
@@ -217,16 +227,11 @@ export type AdminDashboardData = {
       number | null;
   };
 
-  sourceSummary: {
-    active:
-      number;
-
-    quiet:
-      number;
-
-    stale:
-      number;
-  };
+  sourceSummary:
+    Record<
+      AdminSourceStatus,
+      number
+    >;
 
   recentRuns:
     AdminSyncRunItem[];

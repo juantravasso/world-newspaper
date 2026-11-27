@@ -287,6 +287,7 @@ export async function getAdminDashboardData():
     sourceGroups,
     categoryGroups,
     countryGroups,
+    registeredSources,
   ] =
     await Promise.all([
       getStoryStorageStats(),
@@ -338,8 +339,6 @@ export async function getAdminDashboardData():
         .groupBy({
           by: [
             "sourceId",
-            "sourceName",
-            "countryCode",
           ],
 
           _count: {
@@ -381,6 +380,29 @@ export async function getAdminDashboardData():
               true,
           },
         }),
+
+      prisma
+        .newsSource
+        .findMany({
+          where: {
+            enabled:
+              true,
+          },
+
+          select: {
+            id:
+              true,
+
+            name:
+              true,
+
+            countryCode:
+              true,
+
+            feedUrl:
+              true,
+          },
+        }),
     ]);
 
   const countryNames =
@@ -398,22 +420,44 @@ export async function getAdminDashboardData():
         ),
     );
 
+  const articleStatsBySource =
+    new Map(
+      sourceGroups.map(
+        (group) =>
+          [
+            group.sourceId,
+            group,
+          ] as const,
+      ),
+    );
+
+  /*
+   * A lista parte das fontes cadastradas, não dos
+   * artigos — senão fonte que nunca trouxe nada
+   * simplesmente não aparece.
+   */
   const sourceHealth =
-    sourceGroups
+    registeredSources
       .map(
         (
           source,
         ): AdminSourceHealthItem => {
+          const stats =
+            articleStatsBySource.get(
+              source.id,
+            );
+
           const latestSeenAt =
-            source._max
-              .lastSeenAt;
+            stats?._max
+              .lastSeenAt ??
+            null;
 
           return {
             sourceId:
-              source.sourceId,
+              source.id,
 
             sourceName:
-              source.sourceName,
+              source.name,
 
             countryCode:
               source.countryCode,
@@ -425,11 +469,12 @@ export async function getAdminDashboardData():
               source.countryCode,
 
             articles:
-              source._count
-                ._all,
+              stats?._count
+                ._all ??
+              0,
 
             newestPublishedAtISO:
-              source._max
+              stats?._max
                 .publishedAt
                 ?.toISOString() ??
               null,
@@ -440,10 +485,13 @@ export async function getAdminDashboardData():
               null,
 
             status:
-              getSourceStatus(
-                latestSeenAt,
-                generatedAt,
-              ),
+              !source.feedUrl &&
+              !latestSeenAt
+                ? "no_feed"
+                : getSourceStatus(
+                    latestSeenAt,
+                    generatedAt,
+                  ),
           };
         },
       )
@@ -522,6 +570,12 @@ export async function getAdminDashboardData():
       0,
 
     stale:
+      0,
+
+    empty:
+      0,
+
+    no_feed:
       0,
   };
 
@@ -862,7 +916,7 @@ function getSourceStatus(
     "status"
   ] {
   if (!latestSeenAt) {
-    return "stale";
+    return "empty";
   }
 
   const ageInHours =
@@ -895,22 +949,36 @@ function getSourceStatusWeight(
       "status"
     ],
 ): number {
-  if (
-    status ===
-    "stale"
-  ) {
-    return 0;
-  }
-
-  if (
-    status ===
-    "quiet"
-  ) {
-    return 1;
-  }
-
-  return 2;
+  return sourceStatusWeights[
+    status
+  ];
 }
+
+/*
+ * Ordem da tabela: primeiro o que parou de
+ * funcionar (exige ação), depois o que nunca
+ * funcionou, por último o que está bem.
+ */
+const sourceStatusWeights:
+  Record<
+    AdminSourceHealthItem["status"],
+    number
+  > = {
+  stale:
+    0,
+
+  empty:
+    1,
+
+  quiet:
+    2,
+
+  no_feed:
+    3,
+
+  active:
+    4,
+};
 
 function getTimestamp(
   value:

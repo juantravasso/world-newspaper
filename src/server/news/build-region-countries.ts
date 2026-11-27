@@ -26,6 +26,10 @@ import {
 } from "./classify-news";
 
 import {
+  limitPerSource,
+} from "./limit-per-source";
+
+import {
   listEnabledSourcesByCountry,
 } from "./news-source.repository";
 
@@ -46,8 +50,19 @@ import {
   parseSourceFeed,
 } from "./rss/rss-parser";
 
+/*
+ * Limite por fonte antes do limite por país: só
+ * com o corte por país (ordenado por data), a
+ * fonte que publica mais rápido ocupava todas as
+ * vagas e as demais do mesmo país nunca entravam
+ * — e sem várias fontes por país o agrupamento
+ * nunca junta a mesma notícia.
+ */
+const MAX_NEWS_PER_SOURCE =
+  6;
+
 const MAX_NEWS_PER_COUNTRY =
-  18;
+  30;
 
 const COUNTRY_CONCURRENCY =
   4;
@@ -204,12 +219,14 @@ async function buildCountry(
       );
 
   const news =
-    deduplicateNews(
-      normalizedNews,
-    )
-      .sort(
+    limitPerSource(
+      deduplicateNews(
+        normalizedNews,
+      ).sort(
         compareNewsByDateDescending,
-      )
+      ),
+      MAX_NEWS_PER_SOURCE,
+    )
       .slice(
         0,
         MAX_NEWS_PER_COUNTRY,
