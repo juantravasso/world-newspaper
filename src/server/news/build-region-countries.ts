@@ -59,10 +59,10 @@ import {
  * nunca junta a mesma notícia.
  */
 const MAX_NEWS_PER_SOURCE =
-  6;
+  12;
 
 const MAX_NEWS_PER_COUNTRY =
-  30;
+  40;
 
 const COUNTRY_CONCURRENCY =
   4;
